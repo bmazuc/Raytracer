@@ -6,6 +6,10 @@ set(SRCS
 	main.cpp
 	"include/Image.h" 
 	"source/Image.cpp"
+	"include/Vec3.h"
+	"source/Vec3.cpp"
+	"include/Color.h"
+	"source/Color.cpp"
 )
 	
 add_executable(raytracer ${SRCS})

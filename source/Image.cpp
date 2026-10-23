@@ -1,9 +1,10 @@
 #include "Image.h"
+#include "Color.h"
 
 #include <iostream>
 
-Image::Image(int _width, int _height)
-	: width(_width), height(_height)
+Image::Image(int inWidth, int inHeight)
+	: width(inWidth), height(inHeight)
 {
 }
 
@@ -11,18 +12,18 @@ void Image::Render()
 {
     std::cout << "P3\n" << width << ' ' << height << "\n255\n";
 
-    for (int j = 0; j < height; ++j) {
+    for (int j = 0; j < height; ++j) 
+    {
         std::clog << "\rScanlines remaining: " << (height - j) << ' ' << std::flush;
-        for (int i = 0; i < width; ++i) {
-            auto r = double(i) / (width - 1);
-            auto g = double(j) / (height - 1);
-            auto b = 0.0;
+        for (int i = 0; i < width; ++i) 
+        {
+            Color pixelColor = Color(
+                float(i) / (width - 1),
+                float(j) / (height - 1),
+                0.0f
+            );
 
-            int ir = int(255.999 * r);
-            int ig = int(255.999 * g);
-            int ib = int(255.999 * b);
-
-            std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+            pixelColor.Write(std::cout);
         }
     }
 

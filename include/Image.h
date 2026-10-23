@@ -4,7 +4,7 @@
 class Image
 {
 public:
-	Image(int _width, int _height);
+	Image(int inWidth, int inHeight);
 
 	void Render();
 
