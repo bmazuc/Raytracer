@@ -1,9 +1,15 @@
-#include <iostream>
+#include "Image.h"
 
 using namespace std;
 
 int main()
 {
-	cout << "Hello CMake." << endl;
+	Image* image = new Image(256, 256);
+
+	image->Render();
+
+	delete image;
+	image = nullptr;
+
 	return 0;
 }
