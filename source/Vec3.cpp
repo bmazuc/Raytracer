@@ -129,8 +129,3 @@ Vec3 Vec3::Cross(const Vec3& lhs, const Vec3& rhs)
 		lhs.x * rhs.y - lhs.y * rhs.x
 	);
 }
-
-std::ostream& operator<<(std::ostream& os, const Vec3& vec)
-{
-	return os << vec.x << ' ' << vec.y << ' ' << vec.z;
-}

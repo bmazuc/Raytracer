@@ -38,6 +38,19 @@ public:
 	static Vec3 Cross(const Vec3& lhs, const Vec3& rhs);
 };
 
-inline std::ostream& operator<<(std::ostream& os, const Vec3& vec);
+inline std::ostream& operator<<(std::ostream& os, const Vec3& vec)
+{
+	return os << vec.x << ' ' << vec.y << ' ' << vec.z;
+}
+
+inline Vec3 operator*(float f, const Vec3& rhs)
+{
+	return rhs * f;
+}
+
+inline Vec3 operator/(float f, const Vec3& rhs)
+{
+	return rhs / f;
+}
 
 #endif // __VEC3_H_INCLUDED__

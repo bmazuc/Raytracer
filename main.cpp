@@ -1,15 +1,16 @@
-#include "Image.h"
+#include "Raytracer.h"
 
 using namespace std;
 
 int main()
 {
-	Image* image = new Image(256, 256);
+	Raytracer* raytracer = new Raytracer();
 
-	image->Render();
+	raytracer->Init(400, 16.0f / 9.0f);
+	raytracer->Run();
 
-	delete image;
-	image = nullptr;
+	delete raytracer;
+	raytracer = nullptr;
 
 	return 0;
 }

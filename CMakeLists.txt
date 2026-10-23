@@ -4,13 +4,18 @@ project(Raytracer)
 
 set(SRCS
 	main.cpp
-	"include/Image.h" 
-	"source/Image.cpp"
+	"include/Raytracer.h" 
+	"source/Raytracer.cpp"
 	"include/Vec3.h"
 	"source/Vec3.cpp"
 	"include/Color.h"
 	"source/Color.cpp"
-)
+	"include/Ray.h" 
+	"source/Ray.cpp" 
+	"include/Camera.h" 
+	"source/Camera.cpp" 
+	"include/Viewport.h" 
+	"source/Viewport.cpp")
 	
 add_executable(raytracer ${SRCS})
 

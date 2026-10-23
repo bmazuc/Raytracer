@@ -30,4 +30,14 @@ public:
 	void Write(std::ostream& os);
 };
 
+inline Color operator*(float f, const Color& rhs)
+{
+	return rhs * f;
+}
+
+inline Color operator/(float f, const Color& rhs)
+{
+	return rhs / f;
+}
+
 #endif
