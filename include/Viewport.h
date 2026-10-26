@@ -1,7 +1,7 @@
 #ifndef __VIEWPORT_H_INCLUDED__
 #define __VIEWPORT_H_INCLUDED__
 
-#include "Vec3.h"
+#include "Maths/Vec3.h"
 
 class Camera;
 

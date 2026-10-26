@@ -6,8 +6,8 @@ set(SRCS
 	main.cpp
 	"include/Raytracer.h" 
 	"source/Raytracer.cpp"
-	"include/Vec3.h"
-	"source/Vec3.cpp"
+	"include/Maths/Vec3.h"
+	"source/Maths/Vec3.cpp"
 	"include/Color.h"
 	"source/Color.cpp"
 	"include/Ray.h" 
@@ -18,7 +18,15 @@ set(SRCS
 	"source/Viewport.cpp" 
 	"include/Sphere.h" 
 	"source/Sphere.cpp"
-)
+	"include/Hittable.h" 
+	"source/Hittable.cpp" 
+	"include/Scene.h" 
+	"source/Scene.cpp" 
+	"include/Maths/Maths.h" 
+	"include/Maths/Interval.h" 
+	"source/Maths/Interval.cpp" 
+	"include/ExampleScene.h" 
+	"source/ExampleScene.cpp")
 	
 add_executable(raytracer ${SRCS})
 

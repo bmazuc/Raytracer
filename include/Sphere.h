@@ -1,12 +1,12 @@
 #ifndef __SPHERE_H_INCLUDED__
 #define __SPHERE_H_INCLUDED__
 
-#include "Vec3.h"
+#include "Hittable.h"
 #include "Color.h"
 
 struct Ray;
 
-class Sphere
+class Sphere : public Hittable
 {
 public:
 	Sphere(Vec3 inCenter = Vec3(0, 0, 0), float inRadius = 0.0f, Color inColor = Color::white);
@@ -22,7 +22,7 @@ public:
 	/**
 	 * Checks whether a ray intersects a sphere.
 	 */
-	bool IsHit(const Ray& ray);
+	bool Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const override;
 
 private:
 	Vec3 center;
