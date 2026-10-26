@@ -15,7 +15,10 @@ set(SRCS
 	"include/Camera.h" 
 	"source/Camera.cpp" 
 	"include/Viewport.h" 
-	"source/Viewport.cpp")
+	"source/Viewport.cpp" 
+	"include/Sphere.h" 
+	"source/Sphere.cpp"
+)
 	
 add_executable(raytracer ${SRCS})
 

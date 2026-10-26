@@ -5,6 +5,7 @@ class Camera;
 class Viewport;
 struct Color;
 struct Ray;
+class Sphere;
 
 class Raytracer
 {
@@ -25,6 +26,8 @@ private:
 
 	Camera* camera;
 	Viewport* viewport;
+
+	Sphere* sphere;
 };
 
 #endif // __RAYTRACER_H_INCLUDED__

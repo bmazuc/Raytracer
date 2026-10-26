@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Viewport.h"
 #include "Ray.h"
+#include "Sphere.h"
 
 #include <iostream>
 
@@ -33,6 +34,8 @@ void Raytracer::Run()
         return;
     }
 
+    sphere = new Sphere(Vec3(0, 0, -1), 0.5, Color::red);
+
     std::cout << "P3\n" << width << ' ' << height << "\n255\n";
 
     for (int j = 0; j < height; ++j) 
@@ -42,19 +45,25 @@ void Raytracer::Run()
         {
             Vec3 rayDirection = viewport->GetPixelCenter(i, j) - camera->GetCenter();
             Ray ray(camera->GetCenter(), rayDirection);
-            
-            
+                   
             Color pixelColor = GetRayColor(ray);
-
             pixelColor.Write(std::cout);
         }
     }
 
     std::clog << "\rDone.                 \n";
+
+    delete sphere;
+    sphere = nullptr;
 }
 
 Color Raytracer::GetRayColor(Ray ray)
 {
+    if (sphere && sphere->IsHit(ray))
+    {
+        return sphere->GetColor();
+    }
+
     Vec3 normalizeDirection = ray.direction.GetNormal();
     float a = 0.5f * (normalizeDirection.y + 1.0f);
     return (1.0f - a) * Color(1.0f, 1.0f, 1.0f) + a * Color(0.5f, 0.7f, 1.0f);

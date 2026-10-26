@@ -28,6 +28,18 @@ public:
 	Color& operator/=(float f);
 
 	void Write(std::ostream& os);
+
+	//shorthands
+	static const Color black;
+	static const Color blue;
+	static const Color cyan;
+	static const Color gray;
+	static const Color green;
+	static const Color grey;
+	static const Color magenta;
+	static const Color red;
+	static const Color white;
+	static const Color yellow;
 };
 
 inline Color operator*(float f, const Color& rhs)
