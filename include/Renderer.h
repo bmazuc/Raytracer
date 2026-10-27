@@ -8,7 +8,7 @@ class Camera;
 class Raytracer
 {
 public:
-	void Render(Camera* camera, Scene* scene);
+	void Render(Camera* camera, Scene* scene, bool useAntiAliasing = true);
 
 private:
 	void WriteColor(Color color);

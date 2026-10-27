@@ -4,8 +4,8 @@ project(Raytracer)
 
 set(SRCS
 	main.cpp
-	"include/Raytracer.h" 
-	"source/Raytracer.cpp"
+	"include/Renderer.h" 
+	"source/Renderer.cpp"
 	"include/Maths/Vec3.h"
 	"source/Maths/Vec3.cpp"
 	"include/Color.h"

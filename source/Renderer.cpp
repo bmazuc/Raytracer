@@ -1,4 +1,4 @@
-#include "Raytracer.h"
+#include "Renderer.h"
 #include "Color.h"
 #include "Camera.h"
 #include "Viewport.h"
@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-void Raytracer::Render(Camera* camera, Scene* scene)
+void Raytracer::Render(Camera* camera, Scene* scene, bool useAntiAliasing)
 {
     if (!camera || !scene)
     {
@@ -25,9 +25,23 @@ void Raytracer::Render(Camera* camera, Scene* scene)
         std::clog << "\rScanlines remaining: " << (height - y) << ' ' << std::flush;
         for (int x = 0; x < width; ++x)
         {
-            Ray ray = camera->ViewportPointToRay(x, y);
-            Color pixelColor = scene->GetPixelColor(ray);
-            WriteColor(pixelColor);
+           Color pixelColor(0.0f, 0.0f, 0.0f);
+
+           if (useAntiAliasing)
+           {
+               std::vector<Ray> samples = camera->GetRaySamplesForPixel(x, y);
+               for (Ray& sample : samples)
+               {
+                   pixelColor += scene->GetPixelColor(sample);
+               }
+           }
+           else
+           {
+               Ray ray = camera->ViewportPointToRay(x, y);
+               pixelColor = scene->GetPixelColor(ray);
+           }
+
+           WriteColor(camera->GetPixelSamplesScale() * pixelColor);
         }
     }
 

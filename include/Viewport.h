@@ -10,12 +10,13 @@ class Viewport
 public:
 	Viewport(const Camera* camera, int imageWidth, int imageHeight);
 
+	Vec3 GetPixelSample(int x, int y, const Vec3& offset);
 	Vec3 GetPixelCenter(int x, int y);
 
 private:
-	Vec3 pixelDeltaU;
-	Vec3 pixelDeltaV;
-	Vec3 pixel00;
+	Vec3 pixelDeltaU; // Offset to pixel to the right
+	Vec3 pixelDeltaV; // Offset to pixel below
+	Vec3 pixel00; // Location of pixel 0, 0
 };
 
 #endif // __VIEWPORT_H_INCLUDED__
