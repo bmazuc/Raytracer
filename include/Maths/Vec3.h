@@ -31,7 +31,7 @@ public:
 	float Length() const;
 	float LengthSquared() const;
 
-	Vec3 GetNormal();
+	Vec3 GetNormal() const;
 	void Normalize();
 
 	static float Dot(const Vec3& lhs, const Vec3& rhs);

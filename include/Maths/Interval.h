@@ -16,6 +16,7 @@ public:
 	float Size() const;
 	bool Contains(float x) const;
 	bool Surrounds(float x) const;
+	float Clamp(float x) const;
 
 private:
 	float min;

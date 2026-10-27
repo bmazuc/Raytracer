@@ -1,15 +1,25 @@
 #include "Raytracer.h"
+#include "Camera.h"
 #include "ExampleScene.h"
 
 using namespace std;
 
 int main()
 {
-	Raytracer* raytracer = new Raytracer(400, 16.0f / 9.0f);
+	Raytracer* raytracer = new Raytracer();
 
-	raytracer->SetScene(new ExampleScene());
+	Camera* camera = new Camera(400, 16.0f / 9.0f);
 
-	raytracer->Run();
+	ExampleScene* exampleScene = new ExampleScene();
+	exampleScene->Create();
+
+	raytracer->Render(camera, exampleScene);
+
+	delete exampleScene;
+	exampleScene = nullptr;
+
+	delete camera;
+	camera = nullptr;
 
 	delete raytracer;
 	raytracer = nullptr;

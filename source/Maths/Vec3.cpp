@@ -103,7 +103,7 @@ float Vec3::LengthSquared() const
 	return x * x + y * y + z * z;
 }
 
-Vec3 Vec3::GetNormal()
+Vec3 Vec3::GetNormal() const
 {
 	return *this / Length();
 }

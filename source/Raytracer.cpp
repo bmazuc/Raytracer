@@ -8,100 +8,40 @@
 
 #include <iostream>
 
-Raytracer::Raytracer(int inImageWidth, int inImageHeight)
-    : width(inImageWidth), height(inImageHeight)
+void Raytracer::Render(Camera* camera, Scene* scene)
 {
-}
-
-Raytracer::Raytracer(int inImageWidth, float aspectRatio)
-    : width(inImageWidth)
-{
-    int computedImageHeight = int(inImageWidth / aspectRatio);
-    if (computedImageHeight < 1)
-    {
-        computedImageHeight = 1;
-    }
-
-    height = computedImageHeight;
-}
-
-void Raytracer::Run()
-{
-    if (!scene)
+    if (!camera || !scene)
     {
         return;
     }
 
-    viewport = new Viewport(scene->GetCamera(), width, height);
-
-    scene->Create();
-
-    Render();
-}
-
-void Raytracer::Render()
-{
-    Camera* camera = scene->GetCamera();
+    int width = camera->GetImageWidth();
+    int height = camera->GetImageHeight();
 
     std::cout << "P3\n" << width << ' ' << height << "\n255\n";
 
-    for (int j = 0; j < height; ++j)
+    for (int y = 0; y < height; ++y)
     {
-        std::clog << "\rScanlines remaining: " << (height - j) << ' ' << std::flush;
-        for (int i = 0; i < width; ++i)
+        std::clog << "\rScanlines remaining: " << (height - y) << ' ' << std::flush;
+        for (int x = 0; x < width; ++x)
         {
-            Vec3 rayDirection = viewport->GetPixelCenter(i, j) - camera->GetCenter();
-            Ray ray(camera->GetCenter(), rayDirection);
-
-            Color pixelColor = GetRayColor(ray);
-            pixelColor.Write(std::cout);
+            Ray ray = camera->ViewportPointToRay(x, y);
+            Color pixelColor = scene->GetPixelColor(ray);
+            WriteColor(pixelColor);
         }
     }
 
     std::clog << "\rDone.                 \n";
 }
 
-Color Raytracer::GetRayColor(Ray ray)
+void Raytracer::WriteColor(Color color)
 {
-    if (scene)
-    {
-        HitInfo hitInfo;
-        if (scene->Hit(ray, Interval(0, maths::infinity), hitInfo))
-        {
-            return 0.5f * (
-                Color(hitInfo.normal.x,
-                    hitInfo.normal.y,
-                    hitInfo.normal.z)
-                + Color::white);
-        }
-    }
+    // Translate the [0,1] component values to the byte range [0,255].
+    const Interval intensity(0.000f, 0.999f);
+    int rbyte = int(255.999f * intensity.Clamp(color.r));
+    int gbyte = int(255.999f * intensity.Clamp(color.g));
+    int bbyte = int(255.999f * intensity.Clamp(color.b));
 
-    Vec3 normalizeDirection = ray.direction.GetNormal();
-    float a = 0.5f * (normalizeDirection.y + 1.0f);
-    return (1.0f - a) * Color(1.0f, 1.0f, 1.0f) + a * Color(0.5f, 0.7f, 1.0f);
-}
-
-void Raytracer::SetScene(Scene* inScene)
-{
-    if (scene)
-    {
-        delete scene;
-    }
-
-    scene = inScene;
-}
-
-Raytracer::~Raytracer()
-{
-    if (viewport)
-    {
-        delete viewport;
-        viewport = nullptr;
-    }
-
-    if (scene)
-    {
-        delete scene;
-        scene = nullptr;
-    }
+    // Write out the pixel color components.
+    std::cout << rbyte << ' ' << gbyte << ' ' << bbyte << '\n';
 }

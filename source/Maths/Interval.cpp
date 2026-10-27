@@ -25,3 +25,19 @@ bool Interval::Surrounds(float x) const
 {
 	return min < x && x < max;
 }
+
+float Interval::Clamp(float x) const
+{
+	if (x < min)
+	{
+		return min;
+	}
+	else if (x > max)
+	{ 
+		return max;
+	}
+	else
+	{
+		return x;
+	}
+}

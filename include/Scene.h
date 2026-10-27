@@ -7,25 +7,27 @@
 #include <vector>
 
 class Camera;
+struct Color;
 
 class Scene
 {
 public:
-	Scene();
 	~Scene();
 
-	virtual void Create() {};
-
-	Camera* GetCamera() { return camera; }
-	const Camera* GetCamera() const { return camera; }
+	void Create();
 
 	void Add(std::shared_ptr<Hittable> object);
 	void Clear();
 
 	bool Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const;
 
+	Color GetPixelColor(const Ray& ray) const;
+
+protected:
+	virtual void InternalCreate() {}
+
 private:
-	Camera* camera;
+	bool isCreated = false;
 
 	std::vector<std::shared_ptr<Hittable>> objects;
 };

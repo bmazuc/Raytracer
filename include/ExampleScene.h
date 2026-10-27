@@ -6,7 +6,7 @@
 class ExampleScene : public Scene
 {
 public:
-	void Create() override;
+	void InternalCreate() override;
 };
 
 #endif // __EXAMPLE_SCENE_H_INCLUDED__

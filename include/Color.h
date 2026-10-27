@@ -1,8 +1,6 @@
 #ifndef __COLOR_H_INCLUDED__
 #define __COLOR_H_INCLUDED__
 
-#include <iostream>
-
 struct Color
 {
 public:
@@ -26,8 +24,6 @@ public:
 	Color& operator*=(float f);
 	Color& operator/=(const Color& rhs);
 	Color& operator/=(float f);
-
-	void Write(std::ostream& os);
 
 	//shorthands
 	static const Color black;

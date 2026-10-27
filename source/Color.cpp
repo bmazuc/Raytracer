@@ -1,4 +1,5 @@
 #include "Color.h"
+#include "Maths/Interval.h"
 
 const Color Color::black = Color(0.f, 0.f, 0.f);
 const Color Color::blue = Color(0.f, 0.f, 1.f);
@@ -97,15 +98,4 @@ Color& Color::operator/=(float f)
 	g /= f;
 	b /= f;
 	return *this;
-}
-
-void Color::Write(std::ostream& os)
-{
-	// Translate the [0,1] component values to the byte range [0,255].
-	int rbyte = int(255.999 * r);
-	int gbyte = int(255.999 * g);
-	int bbyte = int(255.999 * b);
-
-	// Write out the pixel color components.
-	os << rbyte << ' ' << gbyte << ' ' << bbyte << '\n';
 }
