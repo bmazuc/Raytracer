@@ -4,6 +4,7 @@
 #include "Material/Metal.h"
 #include "Material/Dielectric.h"
 #include "Color.h"
+#include "Maths/Maths.h"
 
 void ExampleScene::InternalCreate()
 {

@@ -8,7 +8,7 @@ class Camera;
 class Viewport
 {
 public:
-	Viewport(const Camera* camera, int imageWidth, int imageHeight);
+	void ComputeViewportData(const Camera* camera);
 
 	Vec3 GetPixelSample(int x, int y, const Vec3& offset);
 	Vec3 GetPixelCenter(int x, int y);

@@ -38,7 +38,7 @@ bool Dielectric::Scatter(const Ray& rayIn, const HitInfo& hitInfo, Color& attenu
 
 float Dielectric::Reflectance(float cos, float eta) const
 {
-	// Use schlick's approximation for reflectance.
+	// Use Schlick's approximation for reflectance.
 	float r0 = (1.0f - eta) / (1.0f + eta);
 	r0 = r0 * r0;
 	return r0 + (1 - r0) * std::pow((1 - cos), 5.0f);

@@ -9,12 +9,12 @@ class Material;
 class Sphere : public Hittable
 {
 public:
-	Sphere(Vec3 inCenter = Vec3(0, 0, 0), float inRadius = 0.0f, std::shared_ptr<Material> inMaterial = nullptr);
+	Sphere(Vec3 inPosition = Vec3(0, 0, 0), float inRadius = 0.0f, std::shared_ptr<Material> inMaterial = nullptr);
 
-	void SetCenter(Vec3 inCenter) { center = inCenter; }
+	void SetPosition(Vec3 inPosition) { position = inPosition; }
 	void SetRadius(float inRadius) { radius = inRadius; }
 
-	Vec3 GetCenter() const { return center; }
+	Vec3 GetCenter() const { return position; }
 	float GetRadius() const { return radius; }
 	std::shared_ptr<Material> GetMaterial() { return material; }
 	const std::shared_ptr<Material> GetMaterial() const { return material; }
@@ -25,7 +25,7 @@ public:
 	bool Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const override;
 
 private:
-	Vec3 center;
+	Vec3 position;
 	float radius;
 
 	std::shared_ptr<Material> material;

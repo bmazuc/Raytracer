@@ -1,15 +1,15 @@
 #include "Sphere.h"
 #include "Ray.h"
 
-Sphere::Sphere(Vec3 inCenter, float inRadius, std::shared_ptr<Material> inMaterial)
-	: center(inCenter), radius(inRadius), material(inMaterial)
+Sphere::Sphere(Vec3 inPosition, float inRadius, std::shared_ptr<Material> inMaterial)
+	: position(inPosition), radius(inRadius), material(inMaterial)
 {
 }
 
 bool Sphere::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
 {
-	// Vector from the ray origin to the sphere center.
-	Vec3 oc = center - ray.origin;
+	// Vector from the ray origin to the sphere position.
+	Vec3 oc = position - ray.origin;
 
 	/**
 	 * Expand the sphere equation along the ray into a quadratic equation:
@@ -42,7 +42,7 @@ bool Sphere::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
 
 	hitInfo.t = root;
 	hitInfo.point = ray.At(hitInfo.t);
-	Vec3 outwardNormal = ((hitInfo.point - center) / radius).GetNormal();
+	Vec3 outwardNormal = ((hitInfo.point - position) / radius).GetNormal();
 	SetFaceNormal(ray, outwardNormal, hitInfo);
 	hitInfo.material = material;
 

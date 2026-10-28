@@ -10,12 +10,15 @@ struct Ray;
 struct CameraConfiguration
 {
 public:
-	Vec3 center = Vec3(0, 0, 0);
-
 	int imageWidth;
 	float aspectRatio;
 
-	float focalLength = 1.0f;
+	float fov = 90.0f; // Vertical view angle (field of view)
+
+	Vec3 position = Vec3(0.0f, 0.0f, 0.0f); // Point camera is looking from
+	Vec3 lookAt = Vec3(0.0f, 0.0f, -1.0f); // Point camera is looking at
+	Vec3 up = Vec3(0.0f, 1.0f, 0.0f); // Camera-relative "up" direction
+
 	int samplesPerPixel = 10;
 	int maxDepth = 10;
 };
@@ -25,16 +28,30 @@ class Camera
 public:
 	Camera(const CameraConfiguration& config);
 
-	Vec3 GetCenter() const { return center; }
 	float GetFocalLength() const { return focalLength; }
+	float GetFov() const { return fov; }
+
 	int GetImageWidth() const { return imageWidth; }
 	int GetImageHeight() const { return imageHeight; }
 
+	Vec3 GetPosition() const { return position; }
+	Vec3 GetLookAt() const { return lookAt; }
+	Vec3 GetUp() const { return up; }
+
+	void SetImageWidth(int inImageWidth);
+	void SetAspectRatio(float inAspectRatio);
+	
+	void SetFov(float inFov);
+	void SetSamplesPerPixel(int inSamplesPerPixel);
+
+	void SetPosition(Vec3 inPosition);
+	void SetLookAt(Vec3 inLookAt);
+	void SetUp(Vec3 inUp);
+
+	void SetMaxDepth(int inMaxDepth) { maxDepth = inMaxDepth; }
+
 	float GetPixelSamplesScale() const { return pixelSamplesScale; }
 	int GetMaxDepth() const { return maxDepth; }
-
-	void SetCenter(Vec3 inCenter) { center = inCenter; }
-	void SetFocalLength(float inFocalLength) { focalLength = inFocalLength; }
 
 	std::vector<Ray> GetRaySamplesForPixel(int x, int y) const;
 	Ray ViewportPointToRay(int x, int y) const;
@@ -45,8 +62,12 @@ private:
 	// Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
 	Vec3 SampleSquare() const;
 
-	Vec3 center;
 	float focalLength;
+	float fov;
+
+	Vec3 position;
+	Vec3 lookAt;
+	Vec3 up;
 
 	float aspectRatio;
 
