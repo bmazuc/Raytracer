@@ -170,13 +170,28 @@ Vec3 Vec3::RandomOnHemisphere(const Vec3& normal)
 	}
 }
 
-Vec3 Vec3::Reflect(const Vec3& v, const Vec3& n)
-{
-	return v - 2 * Dot(v, n) * n;
-}
-
 bool Vec3::IsNearZero() const
 {
 	float s = 1e-8f;
 	return (std::fabs(x) < s) && (std::fabs(y) < s) && (std::fabs(z) < s);
+}
+
+Vec3 Vec3::Reflect(const Vec3& incident, const Vec3& normal)
+{
+	return incident - 2.0f * Dot(incident, normal) * normal;
+}
+
+Vec3 Vec3::Refract(const Vec3& incident, const Vec3& normal, float eta)
+{
+	float nDotI = Dot(normal, incident);
+	float k = 1.0f - eta * eta * (1.0f - nDotI * nDotI);
+	
+	if (k < 0.0f) // internal reflection
+	{
+		return Vec3(0.0f, 0.0f, 0.0f);
+	}
+	else
+	{
+		return eta * incident - (eta * nDotI + std::sqrtf(k)) * normal;
+	}
 }

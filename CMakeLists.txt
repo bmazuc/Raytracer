@@ -26,7 +26,14 @@ set(SRCS
 	"include/Maths/Interval.h" 
 	"source/Maths/Interval.cpp" 
 	"include/ExampleScene.h" 
-	"source/ExampleScene.cpp" "include/Material/Material.h" "include/Material/Lambertian.h" "source/Material/Lambertian.cpp" "include/Material/Metal.h" "source/Material/Metal.cpp")
+	"source/ExampleScene.cpp" 
+	"include/Material/Material.h" 
+	"include/Material/Lambertian.h" 
+	"source/Material/Lambertian.cpp" 
+	"include/Material/Metal.h" 
+	"source/Material/Metal.cpp" 
+	"include/Material/Dielectric.h" 
+	"source/Material/Dielectric.cpp")
 	
 add_executable(raytracer ${SRCS})
 

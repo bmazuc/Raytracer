@@ -43,7 +43,12 @@ public:
 	static Vec3 RandomUnitVector();
 	static Vec3 RandomOnHemisphere(const Vec3& normal);
 
-	static Vec3 Reflect(const Vec3& v, const Vec3& n);
+	static Vec3 Reflect(const Vec3& incident, const Vec3& normal);
+
+	/**
+	 * @param eta : ratio of indices of refraction
+	 */
+	static Vec3 Refract(const Vec3& incident, const Vec3& normal, float eta);
 
 	// return true if the vector is close to zero in all dimensions.
 	bool IsNearZero() const;
