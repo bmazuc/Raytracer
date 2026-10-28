@@ -42,16 +42,17 @@ bool Scene::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
 	return hasHitAnything;
 }
 
-Color Scene::GetPixelColor(const Ray& ray) const
+Color Scene::GetPixelColor(const Ray& ray, int depth) const
 {
+	// If we've exceeded the ray bounce limit, no more light is gathered.
+	if (depth <= 0)
+		return Color(0.0f, 0.0f, 0.0f);
+
 	HitInfo hitInfo;
-	if (Hit(ray, Interval(0, maths::infinity), hitInfo))
+	if (Hit(ray, Interval(0.001f, maths::infinity), hitInfo))
 	{
-		return 0.5f * (
-			Color(hitInfo.normal.x,
-				hitInfo.normal.y,
-				hitInfo.normal.z)
-			+ Color::white);
+		Vec3 direction = hitInfo.normal + Vec3::RandomUnitVector();//Vec3::RandomOnHemisphere(hitInfo.normal);
+		return 0.5f * GetPixelColor(Ray(hitInfo.point, direction), depth-1);
 	}
 
 	Vec3 normalizeDirection = ray.direction.GetNormal();

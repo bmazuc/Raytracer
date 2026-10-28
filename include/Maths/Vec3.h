@@ -36,6 +36,12 @@ public:
 
 	static float Dot(const Vec3& lhs, const Vec3& rhs);
 	static Vec3 Cross(const Vec3& lhs, const Vec3& rhs);
+
+	static Vec3 Random();
+	static Vec3 Random(float min, float max);
+
+	static Vec3 RandomUnitVector();
+	static Vec3 RandomOnHemisphere(const Vec3& normal);
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Vec3& vec)

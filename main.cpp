@@ -8,7 +8,7 @@ int main()
 {
 	Raytracer* raytracer = new Raytracer();
 
-	Camera* camera = new Camera(400, 16.0f / 9.0f, Vec3(0,0,0), 1.0f, 100);
+	Camera* camera = new Camera(400, 16.0f / 9.0f, Vec3(0,0,0), 1.0f, 100, 50);
 
 	ExampleScene* exampleScene = new ExampleScene();
 	exampleScene->Create();

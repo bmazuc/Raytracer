@@ -1,4 +1,5 @@
 #include "Maths/Vec3.h"
+#include "Maths/Maths.h"
 
 Vec3::Vec3()
 	: x(0), y(0), z(0)
@@ -128,4 +129,43 @@ Vec3 Vec3::Cross(const Vec3& lhs, const Vec3& rhs)
 		lhs.z * rhs.x - lhs.x * rhs.z,
 		lhs.x * rhs.y - lhs.y * rhs.x
 	);
+}
+
+Vec3 Vec3::Random()
+{
+	return Vec3(maths::Random(), maths::Random(), maths::Random());
+}
+
+Vec3 Vec3::Random(float min, float max)
+{
+	return Vec3(maths::Random(min, max), 
+		maths::Random(min, max),
+		maths::Random(min, max));
+}
+
+Vec3 Vec3::RandomUnitVector()
+{
+	Vec3 p = Vec3::Random(-1.0f, 1.0f);
+	float lensq = p.LengthSquared();
+	if (1e-160 < lensq && lensq <= 1.0f)
+	{
+		return p / sqrt(lensq);
+	}
+	else
+	{
+		return RandomUnitVector();
+	}
+}
+
+Vec3 Vec3::RandomOnHemisphere(const Vec3& normal)
+{
+	Vec3 onUnitSphere = RandomUnitVector();
+	if (Dot(onUnitSphere, normal) > 0.0f) //  In the same hemisphere as the normal
+	{
+		return onUnitSphere;
+	}
+	else
+	{
+		return -onUnitSphere;
+	}
 }

@@ -10,8 +10,8 @@ struct Ray;
 class Camera
 {
 public:
-	Camera(int inImageWidth, int inImageHeight, Vec3 inCenter = Vec3(0,0,0), float inFocalLength = 1.0f, int inSamplesPerPixel = 10);
-	Camera(int inImageWidth, float aspectRatio, Vec3 inCenter = Vec3(0, 0, 0), float inFocalLength = 1.0f, int inSamplesPerPixel = 10);
+	Camera(int inImageWidth, int inImageHeight, Vec3 inCenter = Vec3(0,0,0), float inFocalLength = 1.0f, int inSamplesPerPixel = 10, int inMaxDepth = 10);
+	Camera(int inImageWidth, float aspectRatio, Vec3 inCenter = Vec3(0, 0, 0), float inFocalLength = 1.0f, int inSamplesPerPixel = 10, int inMaxDepth = 10);
 
 	Vec3 GetCenter() const { return center; }
 	float GetFocalLength() const { return focalLength; }
@@ -19,6 +19,7 @@ public:
 	int GetImageHeight() const { return imageHeight; }
 
 	float GetPixelSamplesScale() const { return pixelSamplesScale; }
+	int GetMaxDepth() const { return maxDepth; }
 
 	void SetCenter(Vec3 inCenter) { center = inCenter; }
 	void SetFocalLength(float inFocalLength) { focalLength = inFocalLength; }
@@ -35,6 +36,7 @@ private:
 	int samplesPerPixel; // Count of random samples for each pixel
 	float pixelSamplesScale;  // Color scale factor for a sum of pixel samples
 
+	int maxDepth; // Maximum number of ray bounces into scene
 
 	int imageWidth;
 	int imageHeight;

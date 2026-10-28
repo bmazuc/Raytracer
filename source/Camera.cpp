@@ -3,16 +3,20 @@
 #include "Ray.h"
 #include "Maths/Maths.h"
 
-Camera::Camera(int inImageWidth, int inImageHeight, Vec3 inCenter, float inFocalLength, int inSamplesPerPixel)
-	: center(inCenter), focalLength(inFocalLength), imageWidth(inImageWidth), imageHeight(inImageHeight), samplesPerPixel(inSamplesPerPixel)
+Camera::Camera(int inImageWidth, int inImageHeight, Vec3 inCenter, float inFocalLength, int inSamplesPerPixel, int inMaxDepth)
+	: center(inCenter), focalLength(inFocalLength), 
+	imageWidth(inImageWidth), imageHeight(inImageHeight), 
+	samplesPerPixel(inSamplesPerPixel),maxDepth(inMaxDepth)
 {
 	pixelSamplesScale = 1.0f / samplesPerPixel;
 
 	viewport = new Viewport(this, imageWidth, imageHeight);
 }
 
-Camera::Camera(int inImageWidth, float aspectRatio, Vec3 inCenter, float inFocalLength, int inSamplesPerPixel)
-	: center(inCenter), focalLength(inFocalLength), imageWidth(inImageWidth), samplesPerPixel(inSamplesPerPixel)
+Camera::Camera(int inImageWidth, float aspectRatio, Vec3 inCenter, float inFocalLength, int inSamplesPerPixel, int inMaxDepth)
+	: center(inCenter), focalLength(inFocalLength), 
+	imageWidth(inImageWidth), 
+	samplesPerPixel(inSamplesPerPixel), maxDepth(inMaxDepth)
 {
 	int computedImageHeight = int(inImageWidth / aspectRatio);
 	if (computedImageHeight < 1)

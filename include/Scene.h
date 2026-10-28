@@ -21,7 +21,7 @@ public:
 
 	bool Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const;
 
-	Color GetPixelColor(const Ray& ray) const;
+	Color GetPixelColor(const Ray& ray, int depth) const;
 
 protected:
 	virtual void InternalCreate() {}

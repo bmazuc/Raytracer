@@ -11,6 +11,7 @@ public:
 	void Render(Camera* camera, Scene* scene, bool useAntiAliasing = true);
 
 private:
+	float LinearToGamma(float linear);
 	void WriteColor(Color color);
 };
 
