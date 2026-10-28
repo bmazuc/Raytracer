@@ -7,11 +7,23 @@
 class Viewport;
 struct Ray;
 
+struct CameraConfiguration
+{
+public:
+	Vec3 center = Vec3(0, 0, 0);
+
+	int imageWidth;
+	float aspectRatio;
+
+	float focalLength = 1.0f;
+	int samplesPerPixel = 10;
+	int maxDepth = 10;
+};
+
 class Camera
 {
 public:
-	Camera(int inImageWidth, int inImageHeight, Vec3 inCenter = Vec3(0,0,0), float inFocalLength = 1.0f, int inSamplesPerPixel = 10, int inMaxDepth = 10);
-	Camera(int inImageWidth, float aspectRatio, Vec3 inCenter = Vec3(0, 0, 0), float inFocalLength = 1.0f, int inSamplesPerPixel = 10, int inMaxDepth = 10);
+	Camera(const CameraConfiguration& config);
 
 	Vec3 GetCenter() const { return center; }
 	float GetFocalLength() const { return focalLength; }
@@ -28,11 +40,16 @@ public:
 	Ray ViewportPointToRay(int x, int y) const;
 
 private:
+	void ComputeImageHeight();
+
 	// Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
 	Vec3 SampleSquare() const;
 
 	Vec3 center;
 	float focalLength;
+
+	float aspectRatio;
+
 	int samplesPerPixel; // Count of random samples for each pixel
 	float pixelSamplesScale;  // Color scale factor for a sum of pixel samples
 

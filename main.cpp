@@ -8,7 +8,14 @@ int main()
 {
 	Raytracer* raytracer = new Raytracer();
 
-	Camera* camera = new Camera(400, 16.0f / 9.0f, Vec3(0,0,0), 1.0f, 100, 50);
+	CameraConfiguration cameraConfig;
+	cameraConfig.imageWidth = 400;
+	cameraConfig.aspectRatio = 16.0f / 9.0f;
+	cameraConfig.samplesPerPixel = 100;
+	cameraConfig.maxDepth = 50;
+
+
+	Camera* camera = new Camera(cameraConfig);
 
 	ExampleScene* exampleScene = new ExampleScene();
 	exampleScene->Create();
