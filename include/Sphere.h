@@ -2,22 +2,22 @@
 #define __SPHERE_H_INCLUDED__
 
 #include "Hittable.h"
-#include "Color.h"
 
 struct Ray;
+class Material;
 
 class Sphere : public Hittable
 {
 public:
-	Sphere(Vec3 inCenter = Vec3(0, 0, 0), float inRadius = 0.0f, Color inColor = Color::white);
+	Sphere(Vec3 inCenter = Vec3(0, 0, 0), float inRadius = 0.0f, std::shared_ptr<Material> inMaterial = nullptr);
 
 	void SetCenter(Vec3 inCenter) { center = inCenter; }
 	void SetRadius(float inRadius) { radius = inRadius; }
-	void SetColor(Color inColor) { color = inColor; }
 
 	Vec3 GetCenter() const { return center; }
 	float GetRadius() const { return radius; }
-	Color GetColor() const { return color; }
+	std::shared_ptr<Material> GetMaterial() { return material; }
+	const std::shared_ptr<Material> GetMaterial() const { return material; }
 
 	/**
 	 * Checks whether a ray intersects a sphere.
@@ -28,7 +28,7 @@ private:
 	Vec3 center;
 	float radius;
 
-	Color color;
+	std::shared_ptr<Material> material;
 };
 
 #endif // __SPHERE_H_INCLUDED__

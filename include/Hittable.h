@@ -5,12 +5,15 @@
 #include "Maths/Interval.h"
 
 struct Ray;
+class Material;
+
 
 struct HitInfo
 {
 public:
 	Vec3 point;
 	Vec3 normal;
+	std::shared_ptr<Material> material;
 	float t;
 	bool frontFace;
 };

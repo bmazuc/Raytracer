@@ -1,8 +1,8 @@
 #include "Sphere.h"
 #include "Ray.h"
 
-Sphere::Sphere(Vec3 inCenter, float inRadius, Color inColor)
-	: center(inCenter), radius(inRadius), color(inColor)
+Sphere::Sphere(Vec3 inCenter, float inRadius, std::shared_ptr<Material> inMaterial)
+	: center(inCenter), radius(inRadius), material(inMaterial)
 {
 }
 
@@ -44,6 +44,7 @@ bool Sphere::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
 	hitInfo.point = ray.At(hitInfo.t);
 	Vec3 outwardNormal = ((hitInfo.point - center) / radius).GetNormal();
 	SetFaceNormal(ray, outwardNormal, hitInfo);
+	hitInfo.material = material;
 
 	return true;
 }

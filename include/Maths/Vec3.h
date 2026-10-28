@@ -42,6 +42,11 @@ public:
 
 	static Vec3 RandomUnitVector();
 	static Vec3 RandomOnHemisphere(const Vec3& normal);
+
+	static Vec3 Reflect(const Vec3& v, const Vec3& n);
+
+	// return true if the vector is close to zero in all dimensions.
+	bool IsNearZero() const;
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Vec3& vec)

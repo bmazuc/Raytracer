@@ -169,3 +169,14 @@ Vec3 Vec3::RandomOnHemisphere(const Vec3& normal)
 		return -onUnitSphere;
 	}
 }
+
+Vec3 Vec3::Reflect(const Vec3& v, const Vec3& n)
+{
+	return v - 2 * Dot(v, n) * n;
+}
+
+bool Vec3::IsNearZero() const
+{
+	float s = 1e-8f;
+	return (std::fabs(x) < s) && (std::fabs(y) < s) && (std::fabs(z) < s);
+}
