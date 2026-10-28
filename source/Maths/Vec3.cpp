@@ -170,6 +170,19 @@ Vec3 Vec3::RandomOnHemisphere(const Vec3& normal)
 	}
 }
 
+Vec3 Vec3::RandomInUnitDisk()
+{
+	Vec3 p = Vec3(maths::Random(-1.0f, 1.0f), maths::Random(-1.0f, 1.0f), 0.0f);
+	if (p.LengthSquared() < 1.0f)
+	{
+		return p;
+	}
+	else
+	{
+		return RandomInUnitDisk();
+	}
+}
+
 bool Vec3::IsNearZero() const
 {
 	float s = 1e-8f;

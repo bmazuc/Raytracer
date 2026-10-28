@@ -42,6 +42,7 @@ public:
 
 	static Vec3 RandomUnitVector();
 	static Vec3 RandomOnHemisphere(const Vec3& normal);
+	static Vec3 RandomInUnitDisk();
 
 	static Vec3 Reflect(const Vec3& incident, const Vec3& normal);
 

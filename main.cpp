@@ -17,7 +17,10 @@ int main()
 	cameraConfig.fov = 20;
 	cameraConfig.position = Vec3(-2.0f, 2.0f, 1.0f);
 	cameraConfig.lookAt = Vec3(0.0f, 0.0f, -1.0f);
-	cameraConfig.up = Vec3(0.0f, 1.0f, 0.0f);
+	cameraConfig.vUp = Vec3(0.0f, 1.0f, 0.0f);
+
+	cameraConfig.defocusAngle = 10.0f;
+	cameraConfig.focusDistance = 3.4f;
 
 	Camera* camera = new Camera(cameraConfig);
 
