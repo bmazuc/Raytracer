@@ -4,7 +4,6 @@
 #include "Color.h"
 #include "Maths/Maths.h"
 #include "Material/Material.h"
-#include "Scene/Sky/Sky.h"
 
 void Scene::Add(std::shared_ptr<Hittable> object)
 {
@@ -14,21 +13,12 @@ void Scene::Add(std::shared_ptr<Hittable> object)
 void Scene::Clear()
 {
 	objects.clear();
-	if (sky)
-	{
-		delete sky;
-		sky = nullptr;
-	}
+	sky.reset();
 }
 
-void Scene::SetSky(Sky* newSky) 
+void Scene::SetSky(std::unique_ptr<Sky> newSky)
 { 
-	if (sky)
-	{
-		delete sky;
-		sky = nullptr;
-	}
-	sky = newSky; 
+	sky = std::move(newSky); 
 }
 
 bool Scene::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
@@ -72,9 +62,4 @@ Color Scene::GetPixelColor(const Ray& ray, int depth) const
 	}
 
 	return Color(0.0f, 0.0f, 0.0f);
-}
-
-Scene::~Scene()
-{
-	Clear();
 }

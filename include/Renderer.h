@@ -14,8 +14,6 @@ public:
 	void UseAntialising(bool newState) { useAntiAliasing = newState; }
 
 private:
-	void WriteColor(Color color) const;
-
 	bool useAntiAliasing = true;
 };
 

@@ -34,7 +34,7 @@ set(SRCS
 	"source/Material/Dielectric.cpp" 
 	"include/Scene/Sky/Sky.h" 
 	"include/Scene/Sky/GradientSky.h" 
-	"source/Scene/Sky/GradientSky.cpp" "include/PPMWriter.h" "source/PPMWriter.cpp")
+	"source/Scene/Sky/GradientSky.cpp" "include/PPMWriter.h" "source/PPMWriter.cpp" "include/Raytracer.h" "source/Raytracer.cpp" "include/ExampleScenes/BasicScene.h" "include/ExampleScenes/ComplexScene.h")
 	
 add_executable(raytracer ${SRCS})
 

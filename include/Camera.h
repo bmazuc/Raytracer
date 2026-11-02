@@ -10,8 +10,8 @@ struct Ray;
 struct CameraConfiguration
 {
 public:
-	int imageWidth;
-	float aspectRatio;
+	int imageWidth = 255;
+	float aspectRatio = 16.0f/9.0f;
 
 	float fov = 90.0f; // Vertical view angle (field of view)
 
