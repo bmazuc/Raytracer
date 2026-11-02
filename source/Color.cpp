@@ -1,5 +1,5 @@
 #include "Color.h"
-#include "Maths/Interval.h"
+#include "Maths/Maths.h"
 
 const Color Color::black = Color(0.f, 0.f, 0.f);
 const Color Color::blue = Color(0.f, 0.f, 1.f);
@@ -98,4 +98,30 @@ Color& Color::operator/=(float f)
 	g /= f;
 	b /= f;
 	return *this;
+}
+
+Color Color::Lerp(const Color& colorA, const Color& colorB, float t)
+{
+	return (1.0f - t)* Color(1.0f, 1.0f, 1.0f) + t * Color(0.5f, 0.7f, 1.0f);
+}
+
+Color Color::Random()
+{
+	return Color(maths::Random(), maths::Random(), maths::Random());
+}
+
+Color Color::Random(float min, float max)
+{
+	return Color(maths::Random(min, max),
+		maths::Random(min, max),
+		maths::Random(min, max));
+}
+
+Color Color::LinearToGamma(const Color& color)
+{
+	return Color(
+		(color.r > 0) ? std::sqrt(color.r) : 0,
+		(color.g > 0) ? std::sqrt(color.g) : 0,
+		(color.b > 0) ? std::sqrt(color.b) : 0
+	);
 }

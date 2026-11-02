@@ -1,5 +1,5 @@
 #include "Material/Dielectric.h"
-#include "Hittable.h"
+#include "Scene/Hittable.h"
 #include "Ray.h"
 #include "Maths/Maths.h"
 

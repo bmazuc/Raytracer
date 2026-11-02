@@ -10,8 +10,8 @@ class Viewport
 public:
 	void ComputeViewportData(const Camera* camera);
 
-	Vec3 GetPixelSample(int x, int y, const Vec3& offset);
-	Vec3 GetPixelCenter(int x, int y);
+	Vec3 GetPixelSample(int x, int y, const Vec3& offset) const;
+	Vec3 GetPixelCenter(int x, int y) const;
 
 private:
 	Vec3 pixelDeltaU; // Offset to pixel to the right

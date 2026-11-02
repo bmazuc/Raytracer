@@ -5,15 +5,9 @@
 
 Camera::Camera(const CameraConfiguration& config)
 {
-	position = config.position;
-	lookAt = config.lookAt;
-	vUp = config.vUp;
-
 	imageWidth = config.imageWidth;
 	aspectRatio = config.aspectRatio;
 	ComputeImageHeight();
-
-	focalLength = (position - lookAt).Length();
 
 	fov = config.fov;
 
@@ -25,17 +19,14 @@ Camera::Camera(const CameraConfiguration& config)
 	defocusAngle = config.defocusAngle;
 	focusDistance = config.focusDistance;
 
-	float defocusRadius = focusDistance * std::tan(maths::DegreesToRadians(defocusAngle / 2.0f));
+	position = config.position;
+	lookAt = config.lookAt;
+	vUp = config.vUp;
+	ComputeCameraBasis();
 	
-	backward = (position - lookAt).GetNormal();
-	right = Vec3::Cross(vUp, backward).GetNormal();
-	up = Vec3::Cross(backward, right);
-	
-	defocusDiskU = right * defocusRadius;
-	defocusDiskV = up * defocusRadius;
+	ComputeDefocusDisk();
 
-	viewport = new Viewport();
-	viewport->ComputeViewportData(this);
+	viewport.ComputeViewportData(this);
 }
 
 std::vector<Ray> Camera::GetRaySamplesForPixel(int x, int y) const
@@ -45,7 +36,7 @@ std::vector<Ray> Camera::GetRaySamplesForPixel(int x, int y) const
 	for (int sample = 0; sample < samplesPerPixel; ++sample)
 	{
 		Vec3 offset = SampleSquare();
-		Vec3 pixelSample = viewport->GetPixelSample(x, y, offset);
+		Vec3 pixelSample = viewport.GetPixelSample(x, y, offset);
 
 		Vec3 rayOrigin = (defocusAngle <= 0) ? position : DefocusDiskSample();
 		Vec3 rayDirection = pixelSample - rayOrigin;
@@ -59,7 +50,7 @@ std::vector<Ray> Camera::GetRaySamplesForPixel(int x, int y) const
 Ray Camera::ViewportPointToRay(int x, int y) const
 {
 	Vec3 rayOrigin = (defocusAngle <= 0) ? position : DefocusDiskSample();
-	Vec3 rayDirection = viewport->GetPixelCenter(x, y) - rayOrigin;
+	Vec3 rayDirection = viewport.GetPixelCenter(x, y) - rayOrigin;
 
 	return Ray(rayOrigin, rayDirection);
 }
@@ -75,11 +66,25 @@ void Camera::ComputeImageHeight()
 	imageHeight = computedImageHeight;
 }
 
+void Camera::ComputeCameraBasis()
+{
+	backward = (position - lookAt).GetNormal();
+	right = Vec3::Cross(vUp, backward).GetNormal();
+	up = Vec3::Cross(backward, right);
+}
+
+void Camera::ComputeDefocusDisk()
+{
+	float defocusRadius = focusDistance * std::tan(maths::DegreesToRadians(defocusAngle / 2.0f));
+
+	defocusDiskU = right * defocusRadius;
+	defocusDiskV = up * defocusRadius;
+}
+
 Vec3 Camera::DefocusDiskSample() const
 {
 	Vec3 p = Vec3::RandomInUnitDisk();
-	return position + 
-		(p.x * defocusDiskU) + (p.y * defocusDiskV);
+	return position + (p.x * defocusDiskU) + (p.y * defocusDiskV);
 }
 
 Vec3 Camera::SampleSquare() const
@@ -91,20 +96,20 @@ void Camera::SetImageWidth(int inImageWidth)
 {
 	imageWidth = inImageWidth;
 	ComputeImageHeight();
-	viewport->ComputeViewportData(this);
+	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetAspectRatio(float inAspectRatio)
 {
 	aspectRatio = inAspectRatio;
 	ComputeImageHeight();
-	viewport->ComputeViewportData(this);
+	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetFov(float inFov)
 {
 	fov = inFov;
-	viewport->ComputeViewportData(this);
+	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetSamplesPerPixel(int inSamplesPerPixel)
@@ -116,56 +121,34 @@ void Camera::SetSamplesPerPixel(int inSamplesPerPixel)
 void Camera::SetPosition(Vec3 inPosition)
 {
 	position = inPosition;
-	focalLength = (position - lookAt).Length();
-
-	backward = (position - lookAt).GetNormal();
-	right = Vec3::Cross(vUp, backward).GetNormal();
-	up = Vec3::Cross(backward, right);
-
-	viewport->ComputeViewportData(this);
+	ComputeCameraBasis();
+	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetLookAt(Vec3 inLookAt)
 {
 	lookAt = inLookAt;
-	focalLength = (position - lookAt).Length();
-
-	backward = (position - lookAt).GetNormal();
-	right = Vec3::Cross(vUp, backward).GetNormal();
-	up = Vec3::Cross(backward, right);
-
-	viewport->ComputeViewportData(this);
+	ComputeCameraBasis();
+	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetVUp(Vec3 inVUp)
 {
 	vUp = inVUp;
-
-	backward = (position - lookAt).GetNormal();
-	right = Vec3::Cross(vUp, backward).GetNormal();
-	up = Vec3::Cross(backward, right);
-
-	viewport->ComputeViewportData(this);
+	ComputeCameraBasis();
+	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetDefocusAngle(float inDefocusAngle)
 {
 	defocusAngle = inDefocusAngle;
-
-	float defocusRadius = focusDistance * std::tan(maths::DegreesToRadians(defocusAngle / 2.0f));
-
-	defocusDiskU = right * defocusRadius;
-	defocusDiskV = up * defocusRadius;
+	ComputeDefocusDisk();
+	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetFocusDistance(float inFocusDistance)
 {
 	focusDistance = inFocusDistance;
-
-	float defocusRadius = focusDistance * std::tan(maths::DegreesToRadians(defocusAngle / 2.0f));
-
-	defocusDiskU = right * defocusRadius;
-	defocusDiskV = up * defocusRadius;
-
-	viewport->ComputeViewportData(this);
+	ComputeDefocusDisk();
+	viewport.ComputeViewportData(this);
 }

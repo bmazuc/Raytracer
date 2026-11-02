@@ -1,18 +1,10 @@
-#include "Scene.h"
+#include "Scene/Scene.h"
 #include "Camera.h"
 #include "Ray.h"
 #include "Color.h"
 #include "Maths/Maths.h"
 #include "Material/Material.h"
-
-void Scene::Create()
-{
-	if (!isCreated)
-	{
-		InternalCreate();
-		isCreated = true;
-	}
-}
+#include "Scene/Sky/Sky.h"
 
 void Scene::Add(std::shared_ptr<Hittable> object)
 {
@@ -22,6 +14,21 @@ void Scene::Add(std::shared_ptr<Hittable> object)
 void Scene::Clear()
 {
 	objects.clear();
+	if (sky)
+	{
+		delete sky;
+		sky = nullptr;
+	}
+}
+
+void Scene::SetSky(Sky* newSky) 
+{ 
+	if (sky)
+	{
+		delete sky;
+		sky = nullptr;
+	}
+	sky = newSky; 
 }
 
 bool Scene::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
@@ -46,24 +53,25 @@ bool Scene::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
 Color Scene::GetPixelColor(const Ray& ray, int depth) const
 {
 	// If we've exceeded the ray bounce limit, no more light is gathered.
-	if (depth <= 0)
-		return Color(0.0f, 0.0f, 0.0f);
-
-	HitInfo hitInfo;
-	if (Hit(ray, Interval(0.001f, maths::infinity), hitInfo))
+	if (depth > 0)
 	{
-		Ray scattered;
-		Color attenuation;
-		if (hitInfo.material->Scatter(ray, hitInfo, attenuation, scattered))
+		HitInfo hitInfo;
+		if (Hit(ray, Interval(0.001f, maths::infinity), hitInfo))
 		{
-			return attenuation * GetPixelColor(scattered, depth - 1);
+			Ray scattered;
+			Color attenuation;
+			if (hitInfo.material->Scatter(ray, hitInfo, attenuation, scattered))
+			{
+				return attenuation * GetPixelColor(scattered, depth - 1);
+			}
 		}
-		return Color(0.0f, 0.0f, 0.0f);
+		else if (sky)
+		{
+			return sky->GetPixelColor(ray);
+		}
 	}
 
-	Vec3 normalizeDirection = ray.direction.GetNormal();
-	float a = 0.5f * (normalizeDirection.y + 1.0f);
-	return (1.0f - a) * Color(1.0f, 1.0f, 1.0f) + a * Color(0.5f, 0.7f, 1.0f);
+	return Color(0.0f, 0.0f, 0.0f);
 }
 
 Scene::~Scene()

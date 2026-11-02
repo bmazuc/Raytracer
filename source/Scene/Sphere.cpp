@@ -1,4 +1,4 @@
-#include "Sphere.h"
+#include "Scene/Sphere.h"
 #include "Ray.h"
 
 Sphere::Sphere(Vec3 inPosition, float inRadius, std::shared_ptr<Material> inMaterial)

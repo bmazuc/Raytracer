@@ -33,12 +33,12 @@ void Viewport::ComputeViewportData(const Camera* camera)
 	pixel00 = viewport_upper_left + 0.5f * (pixelDeltaU + pixelDeltaV);
 }
 
-Vec3 Viewport::GetPixelSample(int x, int y, const Vec3& offset)
+Vec3 Viewport::GetPixelSample(int x, int y, const Vec3& offset) const
 {
 	return pixel00 + ((x + offset.x) * pixelDeltaU) + ((y + offset.y) * pixelDeltaV);
 }
 
-Vec3 Viewport::GetPixelCenter(int x, int y)
+Vec3 Viewport::GetPixelCenter(int x, int y) const
 {
 	return pixel00 
 		+ (static_cast<float>(x) * pixelDeltaU) 

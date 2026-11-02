@@ -8,13 +8,14 @@
 
 class Camera;
 struct Color;
+class Sky;
 
 class Scene
 {
 public:
 	~Scene();
 
-	void Create();
+	void SetSky(Sky* newSky);
 
 	void Add(std::shared_ptr<Hittable> object);
 	void Clear();
@@ -23,13 +24,9 @@ public:
 
 	Color GetPixelColor(const Ray& ray, int depth) const;
 
-protected:
-	virtual void InternalCreate() {}
-
 private:
-	bool isCreated = false;
-
 	std::vector<std::shared_ptr<Hittable>> objects;
+	Sky* sky;
 };
 
 #endif // __HITTABLE_LIST_H_INCLUDED__

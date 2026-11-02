@@ -2,7 +2,7 @@
 #include "Color.h"
 #include "Maths/Vec3.h"
 #include "Ray.h"
-#include "Hittable.h"
+#include "Scene/Hittable.h"
 
 Metal::Metal(const Color& inAlbedo, float inRoughness)
 	: albedo(inAlbedo), roughness(inRoughness < 1 ? inRoughness : 1)

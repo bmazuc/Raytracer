@@ -2,9 +2,9 @@
 #define __CAMERA_H_INCLUDED__
 
 #include "Maths/Vec3.h"
+#include "Viewport.h"
 #include <vector>
 
-class Viewport;
 struct Ray;
 
 struct CameraConfiguration
@@ -31,7 +31,6 @@ class Camera
 public:
 	Camera(const CameraConfiguration& config);
 
-	float GetFocalLength() const { return focalLength; }
 	float GetFov() const { return fov; }
 
 	int GetImageWidth() const { return imageWidth; }
@@ -69,14 +68,15 @@ public:
 
 private:
 	void ComputeImageHeight();
+	void ComputeCameraBasis();
+	void ComputeDefocusDisk();
 
 	// Returns a random point in the camera defocus disk.
 	Vec3 DefocusDiskSample() const;
 	// Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
 	Vec3 SampleSquare() const;
 
-	float focalLength;
-	float fov;
+	float fov = 90.0f;
 
 	Vec3 position;
 	Vec3 lookAt;
@@ -101,8 +101,7 @@ private:
 	Vec3 defocusDiskU; // Defocus disk horizontal radius
 	Vec3 defocusDiskV; // Defocus disk vertical radius
 
-
-	Viewport* viewport = nullptr;
+	Viewport viewport;
 };
 
 #endif

@@ -36,6 +36,13 @@ public:
 	static const Color red;
 	static const Color white;
 	static const Color yellow;
+
+	static Color Lerp(const Color& colorA, const Color& colorB, float t);
+	
+	static Color Random();
+	static Color Random(float min, float max);
+
+	static Color LinearToGamma(const Color& color);
 };
 
 inline Color operator*(float f, const Color& rhs)

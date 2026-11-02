@@ -1,5 +1,5 @@
 #include "Material/Lambertian.h"
-#include "Hittable.h"
+#include "Scene/Hittable.h"
 #include "Ray.h"
 #include "Color.h"
 

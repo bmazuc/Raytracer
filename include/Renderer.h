@@ -1,18 +1,22 @@
-#ifndef __RAYTRACER_H_INCLUDED__
-#define __RAYTRACER_H_INCLUDED__
+#ifndef __RENDERER_H_INCLUDED__
+#define __RENDERER_H_INCLUDED__
 
 struct Color;
 class Scene;
 class Camera;
+class PPMWriter;
 
-class Raytracer
+class Renderer
 {
 public:
-	void Render(Camera* camera, Scene* scene, bool useAntiAliasing = true);
+	void Render(const Camera& camera, const Scene& scene, const PPMWriter& ppmWriter) const;
+
+	void UseAntialising(bool newState) { useAntiAliasing = newState; }
 
 private:
-	float LinearToGamma(float linear);
-	void WriteColor(Color color);
+	void WriteColor(Color color) const;
+
+	bool useAntiAliasing = true;
 };
 
-#endif // __RAYTRACER_H_INCLUDED__
+#endif // __RENDERER_H_INCLUDED__
