@@ -1,0 +1,36 @@
+#ifndef __THREAD_POOL_H_INCLUDED__
+#define __THREAD_POOL_H_INCLUDED__
+
+#include <vector>
+#include <queue>
+#include <thread>
+#include <mutex>
+#include <functional>
+
+class ThreadPool
+{
+public:
+	ThreadPool(size_t threadCount = std::thread::hardware_concurrency());
+	~ThreadPool();
+
+	template<typename F>
+	auto Enqueue(F&& task);
+
+private:
+	// Vector to store worker threads
+	std::vector<std::thread> threads;
+
+	std::queue<std::function<void()>> tasks;
+
+	// Mutex to synchronize access to shared data
+	std::mutex queueMutex;
+	// Condition variable to signal changes in the state of the tasks queue
+	std::condition_variable condition;
+
+	// Flag to indicate whether the thread pool should stop or not
+	bool stop = false;
+};
+
+#include "ThreadPool.inl"
+
+#endif // __THREAD_POOL_H_INCLUDED__

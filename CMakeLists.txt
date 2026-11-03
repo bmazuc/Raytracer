@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 3.8)
 
 project(Raytracer)
 
+find_package(Threads REQUIRED)
+
 set(SRCS
 	main.cpp
 	"include/Renderer.h" 
@@ -34,9 +36,23 @@ set(SRCS
 	"source/Material/Dielectric.cpp" 
 	"include/Scene/Sky/Sky.h" 
 	"include/Scene/Sky/GradientSky.h" 
-	"source/Scene/Sky/GradientSky.cpp" "include/PPMWriter.h" "source/PPMWriter.cpp" "include/Raytracer.h" "source/Raytracer.cpp" "include/ExampleScenes/BasicScene.h" "include/ExampleScenes/ComplexScene.h")
+	"source/Scene/Sky/GradientSky.cpp" 
+	"include/PPMWriter.h" 
+	"source/PPMWriter.cpp" 
+	"include/Raytracer.h" 
+	"source/Raytracer.cpp" 
+	"include/ExampleScenes/BasicScene.h" 
+	"include/ExampleScenes/ComplexScene.h" 
+	"include/FrameBuffer.h" 
+	"include/ThreadPool.h" 
+	"source/ThreadPool.cpp" 
+	"include/Tile.h")
 	
 add_executable(raytracer ${SRCS})
 
 target_include_directories(raytracer
 	PRIVATE "${PROJECT_SOURCE_DIR}/include")
+
+target_link_libraries(raytracer
+	PRIVATE Threads::Threads
+)

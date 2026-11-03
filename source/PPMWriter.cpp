@@ -1,10 +1,29 @@
 #include "PPMWriter.h"
 #include "Color.h"
 #include "Maths/Interval.h"
+#include "FrameBuffer.h"
 
 PPMWriter::PPMWriter(std::ostream& inOutput)
 	: output(inOutput)
 {
+}
+
+void PPMWriter::Write(const FrameBuffer& frameBuffer) const
+{
+    int width = frameBuffer.GetWidth();
+    int height = frameBuffer.GetHeight();
+
+    WriteHeader(width, height);
+
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            WritePixel(frameBuffer.GetPixel(x, y));
+        }
+    }
+
+    output.flush();
 }
 
 void PPMWriter::WriteHeader(int width, int height) const
