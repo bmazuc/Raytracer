@@ -49,7 +49,7 @@ std::unique_ptr<Raytracer> CreateComplexScene()
 
 int main()
 {
-    std::unique_ptr<Raytracer> raytracer = CreateComplexScene();//CreateBasicScene();
+    std::unique_ptr<Raytracer> raytracer = CreateBasicScene();
 	
     raytracer->Render();
 

@@ -59,11 +59,12 @@ void Renderer::Render(const Camera& camera, const Scene& scene, const PPMWriter&
         future.get();
     }
 
+    renderingDone.store(true, std::memory_order_relaxed);
+    progressThread.join();
+
     // Write ppm
     ppmWriter.Write(framebuffer);
 
-    renderingDone.store(true);
-    progressThread.join();
     std::clog << "\rDone.                 \n";
 
     std::clog << "\033[?25h" << std::flush; // Show command prompt cursor
@@ -96,16 +97,16 @@ void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& s
         }
     }
 
-    completedTiles.fetch_add(1);
+    completedTiles.fetch_add(1, std::memory_order_relaxed);
 }
 
 void Renderer::ProgressMonitor() const
 {
-    while (!renderingDone.load())
+    while (!renderingDone.load(std::memory_order_relaxed))
     {
         std::unique_lock<std::mutex> lock(progressMutex);
         
-        std::clog << "\rProgress: " << ((completedTiles.load()*100) / tileCount) << '%' << std::flush;
+        std::clog << "\rRendering: " << ((completedTiles.load(std::memory_order_relaxed)*100) / tileCount) << '%' << std::flush;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(progressMonitorFrequency));
     }

@@ -3,6 +3,8 @@
 #include "Maths/Interval.h"
 #include "FrameBuffer.h"
 
+#include <iostream>
+
 PPMWriter::PPMWriter(std::ostream& inOutput)
 	: output(inOutput)
 {
@@ -13,13 +15,24 @@ void PPMWriter::Write(const FrameBuffer& frameBuffer) const
     int width = frameBuffer.GetWidth();
     int height = frameBuffer.GetHeight();
 
+    const int pixelCount = width * height;
+
     WriteHeader(width, height);
+
+    int lastProgress = -1;
 
     for (int y = 0; y < height; ++y)
     {
         for (int x = 0; x < width; ++x)
         {
             WritePixel(frameBuffer.GetPixel(x, y));
+            const int pixel = y * width + x + 1;
+            const int progress = (pixel * 100) / pixelCount;
+            if (progress != lastProgress)
+            {
+                lastProgress = progress;
+                std::clog << "\rWriting .ppm: " << progress << '%' << std::flush;
+            }
         }
     }
 
