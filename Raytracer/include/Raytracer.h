@@ -3,21 +3,22 @@
 
 #include "Renderer.h"
 #include "Camera.h"
-#include "PPMWriter.h"
+#include "Image/PPMWriter.h"
 
 #include <memory>
 
 class Scene;
 struct CameraConfiguration;
+struct RendererConfig;
 
 class Raytracer
 {
 public:
-    Raytracer(const CameraConfiguration& config);
+    Raytracer(const CameraConfiguration& cameraConfig, const RendererConfig& rendererConfig);
 
     void SetScene(std::unique_ptr<Scene> newScene);
 
-    void Render();
+    void Render(std::string fileName);
 
 private:
     Renderer renderer;

@@ -5,27 +5,31 @@
 #include "Ray.h"
 #include "Scene/Scene.h"
 #include "Maths/Maths.h"
-#include "PPMWriter.h"
-#include "FrameBuffer.h"
+#include "Image/ImageBuffer.h"
 #include "ThreadPool.h"
 #include "Tile.h"
+#include "Image/PPMWriter.h"
+#include "Image/PngWriter.h"
+#include "Image/JpgWriter.h"
 
 #include <iostream>
 #include <future>
 
-Renderer::Renderer(int inTileSize, size_t inThreadCount, int inProgressMonitorFrequency)
-    : tileSize(inTileSize), threadCount(inThreadCount), progressMonitorFrequency(inProgressMonitorFrequency)
+Renderer::Renderer(const RendererConfig& config)
 {
+    tileSize = config.tileSize;
+    threadCount = config.threadCount;
+    progressMonitorFrequency = config.progressMonitorFrequency;
 }
 
-void Renderer::Render(const Camera& camera, const Scene& scene, const PPMWriter& ppmWriter) const
+void Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName) const
 {
     std::clog << "\033[?25l" << std::flush; // Hide command prompt cursor
 
     int width = camera.GetImageWidth();
     int height = camera.GetImageHeight();
 
-    FrameBuffer framebuffer(width, height);
+    ImageBuffer framebuffer(width, height);
 
     ThreadPool threadPool(std::max<size_t>(1, threadCount - 1));
 
@@ -62,15 +66,32 @@ void Renderer::Render(const Camera& camera, const Scene& scene, const PPMWriter&
     renderingDone.store(true, std::memory_order_relaxed);
     progressThread.join();
 
-    // Write ppm
-    ppmWriter.Write(framebuffer);
+    if (fileName.size() >= 4)
+    {
+        std::string suffix = fileName.substr(fileName.size() - 4);
+        if (suffix == ".png")
+        {
+            PngWriter pngWriter;
+            pngWriter.Write(fileName, framebuffer);
+        }
+        else if (suffix == ".jpg")
+        {
+            JpgWriter jpgWriter;
+            jpgWriter.Write(fileName, framebuffer);
+        }
+        else if (suffix == ".ppm")
+        {
+            PPMWriter ppmWriter;
+            ppmWriter.Write(fileName, framebuffer);
+        }
+    }
 
     std::clog << "\rDone.                 \n";
 
     std::clog << "\033[?25h" << std::flush; // Show command prompt cursor
 }
 
-void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, FrameBuffer& frameBuffer) const
+void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& frameBuffer) const
 {
     for (int y = tile.y; y < tile.y + tile.height; ++y)
     {

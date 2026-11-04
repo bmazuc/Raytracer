@@ -3,7 +3,7 @@
 #include "ExampleScenes/ComplexScene.h"
 #include "Camera.h"
 
-std::unique_ptr<Raytracer> CreateBasicScene()
+std::unique_ptr<Raytracer> CreateBasicScene(const RendererConfig& rendererConfig)
 {
     CameraConfiguration cameraConfig;
     cameraConfig.imageWidth = 400;
@@ -19,13 +19,13 @@ std::unique_ptr<Raytracer> CreateBasicScene()
     cameraConfig.defocusAngle = 0.0f;
     cameraConfig.focusDistance = 10.0f;
 
-    std::unique_ptr<Raytracer> raytracer = std::make_unique<Raytracer>(cameraConfig);
+    std::unique_ptr<Raytracer> raytracer = std::make_unique<Raytracer>(cameraConfig, rendererConfig);
     raytracer->SetScene(BasicScene::Create());
 
     return raytracer;
 }
 
-std::unique_ptr<Raytracer> CreateComplexScene()
+std::unique_ptr<Raytracer> CreateComplexScene(const RendererConfig& rendererConfig)
 {
     CameraConfiguration cameraConfig;
     cameraConfig.imageWidth = 1200;
@@ -41,17 +41,20 @@ std::unique_ptr<Raytracer> CreateComplexScene()
     cameraConfig.defocusAngle = 0.6f;
     cameraConfig.focusDistance = 10.0f;
 
-    std::unique_ptr<Raytracer> raytracer = std::make_unique<Raytracer>(cameraConfig);
+    std::unique_ptr<Raytracer> raytracer = std::make_unique<Raytracer>(cameraConfig, rendererConfig);
     raytracer->SetScene(ComplexScene::Create());
 
     return raytracer;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    std::unique_ptr<Raytracer> raytracer = CreateBasicScene();
+    const char* outputFile = (argc > 1) ? argv[1] : "image.png";
+
+    RendererConfig rendererConfig;
+    std::unique_ptr<Raytracer> raytracer = CreateBasicScene(rendererConfig);
 	
-    raytracer->Render();
+    raytracer->Render(outputFile);
 
 	return 0;
 }

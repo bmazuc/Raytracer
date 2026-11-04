@@ -5,10 +5,10 @@
 
 #include <vector>
 
-class FrameBuffer
+class ImageBuffer
 {
 public:
-	FrameBuffer(int inWidth, int inHeight)
+	ImageBuffer(int inWidth, int inHeight)
 		: width(inWidth), height(inHeight), pixels(width* height)
 	{
 	}
@@ -25,6 +25,10 @@ public:
 
 	int GetWidth() const { return width; }
 	int GetHeight() const { return height; }
+
+	bool IsValid() const;
+
+	std::vector<unsigned char> GetImageData() const;
 
 private:
 	int width;

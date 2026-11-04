@@ -6,25 +6,34 @@ class Scene;
 class Camera;
 class PPMWriter;
 struct Tile;
-class FrameBuffer;
+class ImageBuffer;
 
 #include <thread>
 #include <atomic>
 #include <mutex>
+#include <string>
+
+struct RendererConfig
+{
+public:
+	int tileSize = 32;
+	size_t threadCount = std::thread::hardware_concurrency();
+	int progressMonitorFrequency = 100;
+};
 
 class Renderer
 {
 public:
 	// For the thread count, if using the max hardware concurrency, one of them will be use for progress monitoring and if not using max, we will use one more.
 	// To improve, manage this cases
-	Renderer(int inTileSize = 32, size_t inThreadCount = std::thread::hardware_concurrency(), int inProgressMonitorFrequency = 100);
+	Renderer(const RendererConfig& config);
 
-	void Render(const Camera& camera, const Scene& scene, const PPMWriter& ppmWriter) const;
+	void Render(const Camera& camera, const Scene& scene, const std::string fileName) const;
 
 	void UseAntialising(bool newState) { useAntiAliasing = newState; }
 
 private:
-	void RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, FrameBuffer& frameBuffer) const;
+	void RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& frameBuffer) const;
 	void ProgressMonitor() const;
 
 	bool useAntiAliasing = true;
@@ -34,7 +43,7 @@ private:
 
 	mutable std::mutex progressMutex;
 
-	mutable unsigned int tileCount;
+	mutable unsigned int tileCount = 0;
 	mutable std::atomic<unsigned int> completedTiles = 0;
 
 	mutable std::atomic<bool> renderingDone = false;
