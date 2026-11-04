@@ -33,7 +33,14 @@ bool PPMWriter::Write(const std::string& filename, const ImageBuffer& frameBuffe
     }
 
     output.flush();
-    return output.good();
+    if (!output.good())
+    {
+        return false;
+    }
+
+    output.close();
+
+    return !output.fail();
 }
 
 void PPMWriter::WriteHeader(std::ofstream& output, int width, int height) const

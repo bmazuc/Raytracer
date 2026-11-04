@@ -38,7 +38,7 @@ Vec3 Vec3::operator*(float f) const
 
 Vec3 Vec3::operator/(const Vec3& rhs)
 {
-	return Vec3(x + rhs.x, y + rhs.y, z + rhs.z);
+	return Vec3(x / rhs.x, y / rhs.y, z / rhs.z);
 }
 
 Vec3 Vec3::operator/(float f) const
@@ -112,9 +112,9 @@ Vec3 Vec3::GetNormal() const
 void Vec3::Normalize()
 {
 	float length = Length();
-	x *= length;
-	y *= length;
-	z *= length;
+	x /= length;
+	y /= length;
+	z /= length;
 }
 
 float Vec3::Dot(const Vec3& lhs, const Vec3& rhs)

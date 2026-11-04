@@ -12,6 +12,14 @@ class ImageBuffer;
 #include <atomic>
 #include <mutex>
 #include <string>
+#include <vector>
+
+struct RenderProgress
+{
+public:
+	unsigned int tileCount = 0;
+	std::atomic<unsigned int> completedTiles = { 0 };
+};
 
 struct RendererConfig
 {
@@ -28,25 +36,21 @@ public:
 	// To improve, manage this cases
 	Renderer(const RendererConfig& config);
 
-	void Render(const Camera& camera, const Scene& scene, const std::string fileName) const;
+	ImageBuffer Render(const Camera& camera, const Scene& scene, const std::string fileName) const;
 
 	void UseAntialising(bool newState) { useAntiAliasing = newState; }
 
 private:
-	void RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& frameBuffer) const;
-	void ProgressMonitor() const;
+	void RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles) const;
+	void RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, unsigned int threadCount) const;
+
+	void RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer) const;
+	void DisplayProgress(const RenderProgress& progress) const;
 
 	bool useAntiAliasing = true;
 
 	int tileSize;
 	size_t threadCount;
-
-	mutable std::mutex progressMutex;
-
-	mutable unsigned int tileCount = 0;
-	mutable std::atomic<unsigned int> completedTiles = 0;
-
-	mutable std::atomic<bool> renderingDone = false;
 
 	int progressMonitorFrequency;
 };

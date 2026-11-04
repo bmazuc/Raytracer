@@ -41,10 +41,11 @@ ThreadPool::ThreadPool(size_t threadCount)
 
 ThreadPool::~ThreadPool()
 {
-	// Lock the queue to update the stop flag safely
-	std::unique_lock<std::mutex> lock(queueMutex);
-	stop = true;
-
+	{
+		// Lock the queue to update the stop flag safely
+		std::lock_guard<std::mutex> lock(queueMutex);
+		stop = true;
+	}
 	// Notify all threads
 	condition.notify_all();
 

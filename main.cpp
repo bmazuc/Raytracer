@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
     RendererConfig rendererConfig;
     std::unique_ptr<Raytracer> raytracer = CreateBasicScene(rendererConfig);
 	
-    raytracer->Render(outputFile);
+    raytracer->RenderToFile(outputFile);
 
 	return 0;
 }

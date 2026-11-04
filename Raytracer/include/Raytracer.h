@@ -18,7 +18,7 @@ public:
 
     void SetScene(std::unique_ptr<Scene> newScene);
 
-    void Render(std::string fileName);
+    void RenderToFile(std::string fileName);
 
 private:
     Renderer renderer;

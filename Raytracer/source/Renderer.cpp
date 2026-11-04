@@ -8,12 +8,10 @@
 #include "Image/ImageBuffer.h"
 #include "ThreadPool.h"
 #include "Tile.h"
-#include "Image/PPMWriter.h"
-#include "Image/PngWriter.h"
-#include "Image/JpgWriter.h"
 
 #include <iostream>
 #include <future>
+#include <iomanip>
 
 Renderer::Renderer(const RendererConfig& config)
 {
@@ -22,22 +20,49 @@ Renderer::Renderer(const RendererConfig& config)
     progressMonitorFrequency = config.progressMonitorFrequency;
 }
 
-void Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName) const
+ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName) const
 {
-    std::clog << "\033[?25l" << std::flush; // Hide command prompt cursor
-
     int width = camera.GetImageWidth();
     int height = camera.GetImageHeight();
 
-    ImageBuffer framebuffer(width, height);
-
-    ThreadPool threadPool(std::max<size_t>(1, threadCount - 1));
+    ImageBuffer imageBuffer(width, height);
 
     std::vector<Tile> tiles = GenerateTiles(width, height, tileSize);
-    tileCount = static_cast<unsigned int>(tiles.size());
 
-    std::thread progressThread = std::thread(&Renderer::ProgressMonitor, this);
+    if (threadCount <= 1)
+    {
+        RenderSingleThread(camera, scene, imageBuffer, tiles);
+    }
+    else
+    {
+        RenderMultiThread(camera, scene, imageBuffer, tiles, threadCount);
+    }
 
+    return imageBuffer;
+}
+
+void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles) const
+{
+    RenderProgress renderProgress;
+    renderProgress.tileCount = static_cast<unsigned int>(tiles.size());
+
+    for (const Tile& tile : tiles)
+    {
+        RenderTile(tile, camera, scene, imageBuffer);
+
+        ++renderProgress.completedTiles;
+
+        DisplayProgress(renderProgress);
+    }
+}
+
+void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, unsigned int threadCount) const
+{
+    RenderProgress renderProgress;
+    renderProgress.tileCount = static_cast<unsigned int>(tiles.size());
+
+    ThreadPool threadPool(std::max<size_t>(1, threadCount - 1));
+    
     std::vector<std::future<void>> futures;
     futures.reserve(tiles.size());
 
@@ -51,47 +76,31 @@ void Renderer::Render(const Camera& camera, const Scene& scene, const std::strin
                         tile,
                         camera,
                         scene,
-                        framebuffer
+                        imageBuffer
                     );
+
+                    renderProgress.completedTiles.fetch_add(1, std::memory_order_relaxed);
                 })
-            );
+        );
     }
 
-    // Wait for render end
-    for (auto& future : futures)
+    while (renderProgress.completedTiles.load(std::memory_order_relaxed) < renderProgress.tileCount)
+    {
+        DisplayProgress(renderProgress);
+
+       std::this_thread::sleep_for(std::chrono::milliseconds(progressMonitorFrequency));
+    }
+
+    // Get eventual exceptions
+    for (std::future<void>& future : futures)
     {
         future.get();
     }
 
-    renderingDone.store(true, std::memory_order_relaxed);
-    progressThread.join();
-
-    if (fileName.size() >= 4)
-    {
-        std::string suffix = fileName.substr(fileName.size() - 4);
-        if (suffix == ".png")
-        {
-            PngWriter pngWriter;
-            pngWriter.Write(fileName, framebuffer);
-        }
-        else if (suffix == ".jpg")
-        {
-            JpgWriter jpgWriter;
-            jpgWriter.Write(fileName, framebuffer);
-        }
-        else if (suffix == ".ppm")
-        {
-            PPMWriter ppmWriter;
-            ppmWriter.Write(fileName, framebuffer);
-        }
-    }
-
-    std::clog << "\rDone.                 \n";
-
-    std::clog << "\033[?25h" << std::flush; // Show command prompt cursor
+    DisplayProgress(renderProgress);
 }
 
-void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& frameBuffer) const
+void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer) const
 {
     for (int y = tile.y; y < tile.y + tile.height; ++y)
     {
@@ -114,21 +123,15 @@ void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& s
                 pixelColor = scene.GetPixelColor(ray, camera.GetMaxDepth());
             }
 
-            frameBuffer.SetPixel(x, y, pixelColor);
+            imageBuffer.SetPixel(x, y, pixelColor);
         }
     }
-
-    completedTiles.fetch_add(1, std::memory_order_relaxed);
 }
 
-void Renderer::ProgressMonitor() const
+void Renderer::DisplayProgress(const RenderProgress& progress) const
 {
-    while (!renderingDone.load(std::memory_order_relaxed))
-    {
-        std::unique_lock<std::mutex> lock(progressMutex);
-        
-        std::clog << "\rRendering: " << ((completedTiles.load(std::memory_order_relaxed)*100) / tileCount) << '%' << std::flush;
+    const unsigned int completed = progress.completedTiles.load(std::memory_order_relaxed);
+    const float percentage = progress.tileCount > 0 ? 100.0f * completed / progress.tileCount : 100.0f;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(progressMonitorFrequency));
-    }
+    std::clog << "\rRendering: " << std::fixed << std::setprecision(1) << percentage << '%' << std::flush;
 }

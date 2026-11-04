@@ -44,7 +44,7 @@ Color Color::operator*(float f) const
 
 Color Color::operator/(const Color& rhs)
 {
-	return Color(r + rhs.r, g + rhs.g, b + rhs.b);
+	return Color(r / rhs.r, g / rhs.g, b / rhs.b);
 }
 
 Color Color::operator/(float f) const
@@ -102,7 +102,7 @@ Color& Color::operator/=(float f)
 
 Color Color::Lerp(const Color& colorA, const Color& colorB, float t)
 {
-	return (1.0f - t)* Color(1.0f, 1.0f, 1.0f) + t * Color(0.5f, 0.7f, 1.0f);
+	return (1.0f - t) * colorA + t * colorB;
 }
 
 Color Color::Random()
