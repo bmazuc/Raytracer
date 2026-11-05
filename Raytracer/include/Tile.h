@@ -10,23 +10,23 @@ public:
 	int x;
 	int y;
 
-	int width;
-	int height;
+	size_t width;
+	size_t height;
 };
 
 // Generate rectangle tiles
-static std::vector<Tile> GenerateTiles(int imageWidth, int imageHeight,
-	int tileSizeX, int tileSizeY)
+static std::vector<Tile> GenerateTiles(size_t imageWidth, size_t imageHeight,
+	size_t tileSizeX, size_t tileSizeY)
 {
 	std::vector<Tile> tiles;
 
-	for (int y = 0; y < imageHeight; y += tileSizeY)
+	for (size_t y = 0; y < imageHeight; y += tileSizeY)
 	{
-		for (int x = 0; x < imageWidth; x += tileSizeX)
+		for (size_t x = 0; x < imageWidth; x += tileSizeX)
 		{
 			tiles.push_back({
-					x,
-					y,
+					static_cast<int>(x),
+					static_cast<int>(y),
 					std::min(tileSizeX, imageWidth - x),
 					std::min(tileSizeY, imageHeight - y)
 				});
@@ -37,8 +37,8 @@ static std::vector<Tile> GenerateTiles(int imageWidth, int imageHeight,
 }
 
 // Generate square tiles
-static std::vector<Tile> GenerateTiles(int imageWidth, int imageHeight,
-	int tileSize)
+static std::vector<Tile> GenerateTiles(size_t imageWidth, size_t imageHeight,
+	size_t tileSize)
 {
 	return GenerateTiles(imageWidth, imageHeight, tileSize, tileSize);
 }

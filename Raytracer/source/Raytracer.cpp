@@ -18,22 +18,29 @@ void Raytracer::RenderToFile(std::string fileName)
 {
     if (!scene)
     {
-        return;
+        throw std::logic_error("Cannot render: no scene has been configured");
+    }
+
+    const std::size_t dotPosition = fileName.find_last_of('.');
+    if (dotPosition == std::string::npos)
+    {
+        throw std::invalid_argument("Output filename must have a supported extension");
+    }
+
+    const std::string extension = fileName.substr(dotPosition);
+    std::unique_ptr<ImageWriter> writer = ImageWriterFactory::CreateImageWriter(extension);
+    if (!writer)
+    {
+        throw std::invalid_argument("Unsupported image format: " + extension);
     }
 
     ImageBuffer imageBuffer = renderer.Render(camera, *scene, fileName);
 
     std::clog << "\rWriting image.                 " << std::flush;
 
-    if (fileName.size() >= 4)
+    if (!writer->Write(fileName, imageBuffer))
     {
-        std::string extension = fileName.substr(fileName.size() - 4);
-        std::unique_ptr<ImageWriter> writer = ImageWriterFactory::CreateImageWriter(extension);
-
-        if (writer)
-        {
-            writer->Write(fileName, imageBuffer);
-        }
+        throw std::runtime_error("Failed to write image: " + fileName);
     }
 
     std::clog << "\rDone.                 \n";

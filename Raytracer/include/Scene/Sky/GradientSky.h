@@ -11,8 +11,8 @@ public:
 
 	Color GetPixelColor(const Ray& ray) const override;
 
-	Color GetHorizonColor() { return horizonColor; }
-	Color GetZenithColor() { return zenithColor; }
+	Color GetHorizonColor() const { return horizonColor; }
+	Color GetZenithColor() const { return zenithColor; }
 
 	void SetHorizonColor(Color inHorizonColor) { horizonColor = inHorizonColor; }
 	void SetZenithColor(Color inZenithColor) { zenithColor = inZenithColor; }

@@ -1,5 +1,62 @@
 #include "Image/ImageBuffer.h"
 #include "Maths/Interval.h"
+#include "Utils/Log.h"
+
+ImageBuffer::ImageBuffer(size_t inWidth, size_t inHeight)
+	: width(inWidth), height(inHeight)
+{
+	if (!std::isfinite(width) || width == 0)
+	{
+		Log::Warning("ImageBuffer : Image created with width == " + std::to_string(width) + ". Using 1 instead.");
+		width = 1;
+	}
+
+	if (!std::isfinite(height) || height == 0)
+	{
+		Log::Warning("ImageBuffer : Image created with height == " + std::to_string(height) + ". Using 1 instead.");
+		height = 1;
+	}
+
+	if (height > SIZE_MAX / width)
+	{
+		throw std::overflow_error("Image dimensions are too large");
+	}
+
+	const size_t pixelCount = width * height;
+
+	if (pixelCount > SIZE_MAX / 3)
+	{
+		throw std::overflow_error("Image data size overflow");
+	}
+
+	pixels.resize(width * height);
+}
+
+void ImageBuffer::SetPixel(int x, int y, const Color& color)
+{
+	if (x < 0 || y < 0 ||
+		x >= static_cast<int>(width) ||
+		y >= static_cast<int>(height))
+	{
+		return;
+	}
+
+	const size_t idx = static_cast<size_t>(y) * width + static_cast<size_t>(x);
+	pixels[idx] = color;
+}
+
+const Color& ImageBuffer::GetPixel(int x, int y) const
+{
+	if (x < 0 || y < 0 ||
+		x >= static_cast<int>(width) ||
+		y >= static_cast<int>(height))
+	{
+		return Color::black;
+	}
+
+	const size_t idx = static_cast<size_t>(y) * width + static_cast<size_t>(x);
+	return pixels[idx];
+}
 
 bool ImageBuffer::IsValid() const
 {

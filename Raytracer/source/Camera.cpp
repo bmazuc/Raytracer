@@ -2,16 +2,34 @@
 #include "Viewport.h"
 #include "Ray.h"
 #include "Maths/Maths.h"
+#include "Utils/Log.h"
 
 Camera::Camera(const CameraConfiguration& config)
 {
 	imageWidth = config.imageWidth;
+	if (!std::isfinite(imageWidth) || imageWidth == 0)
+	{
+		Log::Warning("Camera : Image width == " + std::to_string(imageWidth) + " is invalid. Using 1 instead.");
+		imageWidth = 1;
+	}
+
 	aspectRatio = config.aspectRatio;
+	if (!std::isfinite(aspectRatio) || aspectRatio <= 0)
+	{
+		Log::Warning("Camera : Aspect ratio == " + std::to_string(aspectRatio) + " is invalid. Using 16:9 instead.");
+		aspectRatio = 16.0f/9.0f;
+	}
+
 	ComputeImageHeight();
 
 	fov = config.fov;
 
-	samplesPerPixel = std::max(config.samplesPerPixel, 1);
+	samplesPerPixel = config.samplesPerPixel;
+	if (!std::isfinite(samplesPerPixel) || samplesPerPixel == 0)
+	{
+		Log::Warning("Camera : Samples per pixel == " + std::to_string(samplesPerPixel) + " is invalid. Using 1 instead.");
+		samplesPerPixel = 1;
+	}
 	pixelSamplesScale = 1.0f / samplesPerPixel;
 
 	maxDepth = config.maxDepth;
@@ -33,7 +51,7 @@ std::vector<Ray> Camera::GetRaySamplesForPixel(int x, int y) const
 {
 	std::vector<Ray> samples;
 
-	for (int sample = 0; sample < samplesPerPixel; ++sample)
+	for (unsigned int sample = 0; sample < samplesPerPixel; ++sample)
 	{
 		Vec3 offset = SampleSquare();
 		Vec3 pixelSample = viewport.GetPixelSample(x, y, offset);

@@ -9,8 +9,8 @@ void Viewport::ComputeViewportData(const Camera* camera)
 		return;
 	}
 
-	int imageWidth = camera->GetImageWidth();
-	int imageHeight = camera->GetImageHeight();
+	size_t imageWidth = camera->GetImageWidth();
+	size_t imageHeight = camera->GetImageHeight();
 
 	float theta = maths::DegreesToRadians(camera->GetFov());
 	float h = std::tan(theta / 2.0f);

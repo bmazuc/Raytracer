@@ -16,8 +16,6 @@ auto ThreadPool::Enqueue(F&& function)
 		throw std::runtime_error("ThreadPool stopped");
 	}
 
-	/*tasks.emplace(std::move(task));*/
-
 	tasks.emplace([task]()
 		{
 			(*task)();

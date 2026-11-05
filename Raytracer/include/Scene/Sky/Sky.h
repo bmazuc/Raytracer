@@ -7,7 +7,7 @@ struct Ray;
 class Sky
 {
 public:
-	~Sky() = default;
+	virtual ~Sky() = default;
 
 	virtual Color GetPixelColor(const Ray& ray) const = 0;
 };

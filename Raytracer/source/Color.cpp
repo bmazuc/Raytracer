@@ -42,7 +42,7 @@ Color Color::operator*(float f) const
 	return Color(r * f, g * f, b * f);
 }
 
-Color Color::operator/(const Color& rhs)
+Color Color::operator/(const Color& rhs) const
 {
 	return Color(r / rhs.r, g / rhs.g, b / rhs.b);
 }

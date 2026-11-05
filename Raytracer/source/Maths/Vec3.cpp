@@ -36,7 +36,7 @@ Vec3 Vec3::operator*(float f) const
 	return Vec3(x * f, y * f, z * f);
 }
 
-Vec3 Vec3::operator/(const Vec3& rhs)
+Vec3 Vec3::operator/(const Vec3& rhs) const
 {
 	return Vec3(x / rhs.x, y / rhs.y, z / rhs.z);
 }

@@ -17,6 +17,9 @@ public:
 	auto Enqueue(F&& task);
 
 private:
+	void WorkerLoop();
+	void Stop();
+
 	// Vector to store worker threads
 	std::vector<std::thread> threads;
 

@@ -10,7 +10,7 @@ struct Ray;
 struct CameraConfiguration
 {
 public:
-	int imageWidth = 255;
+	size_t imageWidth = 255;
 	float aspectRatio = 16.0f/9.0f;
 
 	float fov = 90.0f; // Vertical view angle (field of view)
@@ -19,8 +19,8 @@ public:
 	Vec3 lookAt = Vec3(0.0f, 0.0f, -1.0f); // Point camera is looking at
 	Vec3 vUp = Vec3(0.0f, 1.0f, 0.0f); // Camera-relative "vUp" direction
 
-	int samplesPerPixel = 10;
-	int maxDepth = 10;
+	unsigned int samplesPerPixel = 10;
+	unsigned int maxDepth = 10;
 
 	float defocusAngle = 0.0f; // Variation angle of rays through each pixel
 	float focusDistance = 10.0f; // Distance from camera lookfrom point to plane of perfect focus
@@ -33,8 +33,8 @@ public:
 
 	float GetFov() const { return fov; }
 
-	int GetImageWidth() const { return imageWidth; }
-	int GetImageHeight() const { return imageHeight; }
+	size_t GetImageWidth() const { return imageWidth; }
+	size_t GetImageHeight() const { return imageHeight; }
 
 	Vec3 GetPosition() const { return position; }
 	Vec3 GetLookAt() const { return lookAt; }
@@ -88,13 +88,13 @@ private:
 
 	float aspectRatio;
 
-	int samplesPerPixel; // Count of random samples for each pixel
+	unsigned int samplesPerPixel; // Count of random samples for each pixel
 	float pixelSamplesScale;  // Color scale factor for a sum of pixel samples
 
-	int maxDepth; // Maximum number of ray bounces into scene
+	unsigned int maxDepth; // Maximum number of ray bounces into scene
 
-	int imageWidth;
-	int imageHeight;
+	size_t imageWidth;
+	size_t imageHeight;
 
 	float defocusAngle;
 	float focusDistance;

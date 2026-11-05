@@ -8,22 +8,34 @@
 #include "Image/ImageBuffer.h"
 #include "ThreadPool.h"
 #include "Tile.h"
+#include "Utils/Log.h"
 
 #include <iostream>
 #include <future>
 #include <iomanip>
 
 Renderer::Renderer(const RendererConfig& config)
+    : tileSize(config.tileSize),
+    threadCount(config.threadCount),
+    progressMonitorFrequency(config.progressMonitorFrequency)
 {
-    tileSize = config.tileSize;
-    threadCount = config.threadCount;
-    progressMonitorFrequency = config.progressMonitorFrequency;
+    if (!std::isfinite(tileSize) || tileSize == 0)
+    {
+        Log::Warning("Renderer : Tile size == " + std::to_string(tileSize) + " is invalid. Using 1 instead.");
+        tileSize = 1;
+    }
+
+    if (!std::isfinite(threadCount) || threadCount == 0)
+    {
+        Log::Warning("Renderer : Thread count == " + std::to_string(tileSize) + " is invalid. Using 1 instead.");
+        threadCount = 1;
+    }
 }
 
 ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName) const
 {
-    int width = camera.GetImageWidth();
-    int height = camera.GetImageHeight();
+    size_t width = camera.GetImageWidth();
+    size_t height = camera.GetImageHeight();
 
     ImageBuffer imageBuffer(width, height);
 
@@ -72,12 +84,19 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
         futures.emplace_back(
             threadPool.Enqueue([&, tile]()
                 {
-                    RenderTile(
-                        tile,
-                        camera,
-                        scene,
-                        imageBuffer
-                    );
+                    try
+                    {
+                        RenderTile(tile, camera, scene, imageBuffer);
+                    }
+                    catch (...)
+                    {
+                        /*
+                         * Every submitted tile must be accounted for, even on failure,
+                         * otherwise the progress loop could wait forever.
+                         */
+                        renderProgress.completedTiles.fetch_add(1, std::memory_order_relaxed);
+                        throw; // packaged_task stores the exception in its future.
+                    }
 
                     renderProgress.completedTiles.fetch_add(1, std::memory_order_relaxed);
                 })
@@ -86,18 +105,37 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
 
     while (renderProgress.completedTiles.load(std::memory_order_relaxed) < renderProgress.tileCount)
     {
-        DisplayProgress(renderProgress);
+       DisplayProgress(renderProgress);
 
        std::this_thread::sleep_for(std::chrono::milliseconds(progressMonitorFrequency));
     }
 
-    // Get eventual exceptions
+    /**
+     * Retrieve every future so all tasks are joined and all stored exceptions
+     * are observed. Rethrow the first failure after checking the remaining tasks.
+     */
+    std::exception_ptr firstException;
     for (std::future<void>& future : futures)
     {
-        future.get();
+        try
+        {
+            future.get();
+        }
+        catch (...)
+        {
+            if (!firstException)
+            {
+                firstException = std::current_exception();
+            }
+        }
     }
 
     DisplayProgress(renderProgress);
+
+    if (firstException)
+    {
+        std::rethrow_exception(firstException);
+    }
 }
 
 void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer) const
@@ -130,7 +168,7 @@ void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& s
 
 void Renderer::DisplayProgress(const RenderProgress& progress) const
 {
-    const unsigned int completed = progress.completedTiles.load(std::memory_order_relaxed);
+    const size_t completed = progress.completedTiles.load(std::memory_order_relaxed);
     const float percentage = progress.tileCount > 0 ? 100.0f * completed / progress.tileCount : 100.0f;
 
     std::clog << "\rRendering: " << std::fixed << std::setprecision(1) << percentage << '%' << std::flush;

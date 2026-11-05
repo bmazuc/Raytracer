@@ -18,7 +18,7 @@ struct RenderProgress
 {
 public:
 	size_t tileCount = 0;
-	std::atomic<unsigned int> completedTiles = { 0 };
+	std::atomic<size_t> completedTiles = { 0 };
 };
 
 struct RendererConfig
@@ -26,7 +26,7 @@ struct RendererConfig
 public:
 	int tileSize = 32;
 	size_t threadCount = std::thread::hardware_concurrency();
-	int progressMonitorFrequency = 100;
+	unsigned int progressMonitorFrequency = 100;
 };
 
 class Renderer
@@ -49,7 +49,7 @@ private:
 
 	bool useAntiAliasing = true;
 
-	int tileSize;
+	unsigned int tileSize;
 	size_t threadCount;
 
 	int progressMonitorFrequency;

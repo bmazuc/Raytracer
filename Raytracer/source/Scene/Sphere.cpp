@@ -1,9 +1,15 @@
 #include "Scene/Sphere.h"
 #include "Ray.h"
+#include "Utils/Log.h"
 
 Sphere::Sphere(Vec3 inPosition, float inRadius, std::shared_ptr<Material> inMaterial)
 	: position(inPosition), radius(inRadius), material(inMaterial)
 {
+	if (!std::isfinite(radius) || radius <= 0.0f)
+	{
+		radius = 0.001f;
+		Log::Warning("Sphere : Radius is invalid. Using 0.001f instead of " + std::to_string(inRadius));
+	}
 }
 
 bool Sphere::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
