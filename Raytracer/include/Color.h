@@ -1,5 +1,5 @@
-#ifndef __COLOR_H_INCLUDED__
-#define __COLOR_H_INCLUDED__
+#ifndef RAYTRACER_COLOR_H
+#define RAYTRACER_COLOR_H
 
 struct Color
 {
@@ -55,4 +55,4 @@ inline Color operator/(float f, const Color& rhs)
 	return rhs / f;
 }
 
-#endif
+#endif // RAYTRACER_COLOR_H

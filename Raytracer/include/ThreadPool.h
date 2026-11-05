@@ -1,5 +1,5 @@
-#ifndef __THREAD_POOL_H_INCLUDED__
-#define __THREAD_POOL_H_INCLUDED__
+#ifndef RAYTRACER_THREAD_POOL_H
+#define RAYTRACER_THREAD_POOL_H
 
 #include <vector>
 #include <queue>
@@ -33,4 +33,4 @@ private:
 
 #include "ThreadPool.inl"
 
-#endif // __THREAD_POOL_H_INCLUDED__
+#endif // RAYTRACER_THREAD_POOL_H

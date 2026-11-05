@@ -1,5 +1,5 @@
-#ifndef __GRADIENT_SKY_H_INCLUDED__
-#define __GRADIENT_SKY_H_INCLUDED__
+#ifndef RAYTRACER_GRADIENT_SKY_H
+#define RAYTRACER_GRADIENT_SKY_H
 
 #include "Scene/Sky/Sky.h"
 #include "Color.h"
@@ -22,4 +22,4 @@ private:
 	Color zenithColor;
 };
 
-#endif // __GRADIENT_SKY_H_INCLUDED__
+#endif // RAYTRACER_GRADIENT_SKY_H

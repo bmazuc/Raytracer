@@ -1,5 +1,5 @@
-#ifndef __LAMBERTIAN_H_INCLUDED__
-#define __LAMBERTIAN_H_INCLUDED__
+#ifndef RAYTRACER_LAMBERTIAN_H
+#define RAYTRACER_LAMBERTIAN_H
 
 #include "Material/Material.h"
 
@@ -14,4 +14,4 @@ protected:
 	Color albedo;
 };
 
-#endif // __LAMBERTIAN_H_INCLUDED__
+#endif // RAYTRACER_LAMBERTIAN_H

@@ -1,5 +1,5 @@
-#ifndef __VIEWPORT_H_INCLUDED__
-#define __VIEWPORT_H_INCLUDED__
+#ifndef RAYTRACER_VIEWPORT_H
+#define RAYTRACER_VIEWPORT_H
 
 #include "Maths/Vec3.h"
 
@@ -19,4 +19,4 @@ private:
 	Vec3 pixel00; // Location of pixel 0, 0
 };
 
-#endif // __VIEWPORT_H_INCLUDED__
+#endif // RAYTRACER_VIEWPORT_H

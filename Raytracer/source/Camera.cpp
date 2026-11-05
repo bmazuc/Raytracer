@@ -11,7 +11,7 @@ Camera::Camera(const CameraConfiguration& config)
 
 	fov = config.fov;
 
-	samplesPerPixel = config.samplesPerPixel;
+	samplesPerPixel = std::max(config.samplesPerPixel, 1);
 	pixelSamplesScale = 1.0f / samplesPerPixel;
 
 	maxDepth = config.maxDepth;
@@ -114,7 +114,7 @@ void Camera::SetFov(float inFov)
 
 void Camera::SetSamplesPerPixel(int inSamplesPerPixel)
 {
-	samplesPerPixel = inSamplesPerPixel;
+	samplesPerPixel = std::max(inSamplesPerPixel, 1);
 	pixelSamplesScale = 1.0f / samplesPerPixel;
 }
 

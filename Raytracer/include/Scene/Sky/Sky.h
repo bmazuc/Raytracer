@@ -1,5 +1,5 @@
-#ifndef __SKY_H_INCLUDED__
-#define __SKY_H_INCLUDED__
+#ifndef RAYTRACER_SKY_H
+#define RAYTRACER_SKY_H
 
 struct Color;
 struct Ray;
@@ -12,4 +12,4 @@ public:
 	virtual Color GetPixelColor(const Ray& ray) const = 0;
 };
 
-#endif // __SKY_H_INCLUDED__
+#endif // RAYTRACER_SKY_H

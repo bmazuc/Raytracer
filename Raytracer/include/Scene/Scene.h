@@ -1,5 +1,5 @@
-#ifndef __HITTABLE_LIST_H_INCLUDED__
-#define __HITTABLE_LIST_H_INCLUDED__
+#ifndef RAYTRACER_SCENE_H
+#define RAYTRACER_SCENE_H
 
 #include "Hittable.h"
 #include "Scene/Sky/Sky.h"
@@ -27,4 +27,4 @@ private:
 	std::unique_ptr<Sky> sky;
 };
 
-#endif // __HITTABLE_LIST_H_INCLUDED__
+#endif // RAYTRACER_SCENE_H

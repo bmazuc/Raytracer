@@ -1,5 +1,5 @@
-#ifndef __INTERVAL_H_INCLUDED__
-#define __INTERVAL_H_INCLUDED__
+#ifndef RAYTRACER_INTERVAL_H
+#define RAYTRACER_INTERVAL_H
 
 class Interval
 {
@@ -23,4 +23,4 @@ private:
 	float max;
 };
 
-#endif // __INTERVAL_H_INCLUDED__
+#endif // RAYTRACER_INTERVAL_H

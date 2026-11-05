@@ -2,6 +2,7 @@
 #include "Color.h"
 #include "Maths/Interval.h"
 #include "Image/ImageBuffer.h"
+#include "Utils/NumericUtils.h"
 
 #include <fstream>
 
@@ -19,8 +20,8 @@ bool PPMWriter::Write(const std::string& filename, const ImageBuffer& frameBuffe
         return false;
     }
 
-    int width = frameBuffer.GetWidth();
-    int height = frameBuffer.GetHeight();
+    const int width = NumericUtils::ToInt(frameBuffer.GetWidth());
+    const int height = NumericUtils::ToInt(frameBuffer.GetHeight());
 
     WriteHeader(output, width, height);
 

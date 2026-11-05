@@ -1,5 +1,5 @@
-#ifndef __TILE_H_INCLUDED__
-#define __TILE_H_INCLUDED__
+#ifndef RAYTRACER_TILE_H
+#define RAYTRACER_TILE_H
 
 #include <vector>
 
@@ -43,4 +43,4 @@ static std::vector<Tile> GenerateTiles(int imageWidth, int imageHeight,
 	return GenerateTiles(imageWidth, imageHeight, tileSize, tileSize);
 }
 
-#endif // __TILE_H_INCLUDED__
+#endif // RAYTRACER_TILE_H

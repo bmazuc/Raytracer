@@ -1,5 +1,5 @@
-#ifndef __RAYTRACER_H_INCLUDED__
-#define __RAYTRACER_H_INCLUDED__
+#ifndef RAYTRACER_RAYTRACER_H
+#define RAYTRACER_RAYTRACER_H
 
 #include "Renderer.h"
 #include "Camera.h"
@@ -26,4 +26,4 @@ private:
     std::unique_ptr<Scene> scene;
 };
 
-#endif // __RAYTRACER_H_INCLUDED__
+#endif // RAYTRACER_RAYTRACER_H

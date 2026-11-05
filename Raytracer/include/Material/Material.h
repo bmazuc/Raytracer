@@ -1,5 +1,5 @@
-#ifndef __MATERIAL_H_INCLUDED__
-#define __MATERIAL_H_INCLUDED__
+#ifndef RAYTRACER_MATERIAL_H
+#define RAYTRACER_MATERIAL_H
 
 #include "Color.h"
 
@@ -14,4 +14,4 @@ public:
 	virtual bool Scatter(const Ray& rayIn, const HitInfo& hitInfo, Color& attenuation, Ray& scattered) const = 0;
 };
 
-#endif // __MATERIAL_H_INCLUDED__
+#endif // RAYTRACER_MATERIAL_H

@@ -1,5 +1,5 @@
-#ifndef __PPM_WRITER_H_INCLUDED__
-#define __PPM_WRITER_H_INCLUDED__
+#ifndef RAYTRACER_PPM_WRITER_H
+#define RAYTRACER_PPM_WRITER_H
 
 #include "Image/ImageWriter.h"
 
@@ -18,4 +18,4 @@ private:
 	void WritePixel(std::ofstream& output, const Color& color) const;
 };
 
-#endif // __PPM_WRITER_H_INCLUDED__
+#endif // RAYTRACER_PPM_WRITER_H

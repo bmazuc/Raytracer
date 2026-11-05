@@ -1,39 +1,77 @@
-#ifndef __FRAME_BUFFER_H_INCLUDED__
-#define __FRAME_BUFFER_H_INCLUDED__
+#ifndef RAYTRACER_IMAGE_BUFFER_H
+#define RAYTRACER_IMAGE_BUFFER_H
 
 #include "Color.h"
 
 #include <vector>
+#include <stdexcept>
+#include <cstdint>
+
+constexpr size_t maxSize = SIZE_MAX;
 
 class ImageBuffer
 {
 public:
-	ImageBuffer(int inWidth, int inHeight)
-		: width(inWidth), height(inHeight), pixels(width* height)
+	ImageBuffer(size_t inWidth, size_t inHeight)
+		: width(inWidth), height(inHeight)
 	{
+		if (width == 0 || height == 0)
+		{
+			throw std::invalid_argument("Image dimensions must be greater than zero");
+		}
+
+		if (height > SIZE_MAX / width)
+		{
+			throw std::overflow_error("Image dimensions are too large");
+		}
+
+		const size_t pixelCount = width * height;
+
+		if (pixelCount > SIZE_MAX / 3)
+		{
+			throw std::overflow_error("Image data size overflow");
+		}
+
+		pixels.resize(width * height);
 	}
 
 	void SetPixel(int x, int y, const Color& color)
 	{
-		pixels[y * width + x] = color;
+		if (x < 0 || y < 0 ||
+			x >= static_cast<int>(width) ||
+			y >= static_cast<int>(height))
+		{
+			return;
+		}
+
+		const size_t idx = static_cast<size_t>(y) * width + static_cast<size_t>(x);
+		pixels[idx] = color;
 	}
 
 	const Color& GetPixel(int x, int y) const
 	{
-		return pixels[y * width + x];
+		if (x < 0 || y < 0 ||
+			x >= static_cast<int>(width) ||
+			y >= static_cast<int>(height))
+		{
+			return Color::black;
+		}
+
+		const size_t idx = static_cast<size_t>(y) * width + static_cast<size_t>(x);
+		return pixels[idx];
 	}
 
-	int GetWidth() const { return width; }
-	int GetHeight() const { return height; }
+	size_t GetWidth() const { return width; }
+	size_t GetHeight() const { return height; }
 
 	bool IsValid() const;
 
 	std::vector<unsigned char> GetImageData() const;
 
 private:
-	int width;
-	int height;
+	size_t width;
+	size_t height;
 	std::vector<Color> pixels;
 };
 
-#endif // __FRAME_BUFFER_H_INCLUDED__
+#endif // RAYTRACER_IMAGE_BUFFER_H

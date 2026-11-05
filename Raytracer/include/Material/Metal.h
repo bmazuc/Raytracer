@@ -1,5 +1,5 @@
-#ifndef __METAL_H_INCLUDED__
-#define __METAL_H_INCLUDED__
+#ifndef RAYTRACER_METAL_H
+#define RAYTRACER_METAL_H
 
 #include "Material/Material.h"
 
@@ -14,4 +14,4 @@ private:
 	float roughness;
 };
 
-#endif // __METAL_H_INCLUDED__
+#endif // RAYTRACER_METAL_H

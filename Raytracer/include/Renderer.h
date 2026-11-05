@@ -1,5 +1,5 @@
-#ifndef __RENDERER_H_INCLUDED__
-#define __RENDERER_H_INCLUDED__
+#ifndef RAYTRACER_RENDERER_H
+#define RAYTRACER_RENDERER_H
 
 struct Color;
 class Scene;
@@ -17,7 +17,7 @@ class ImageBuffer;
 struct RenderProgress
 {
 public:
-	unsigned int tileCount = 0;
+	size_t tileCount = 0;
 	std::atomic<unsigned int> completedTiles = { 0 };
 };
 
@@ -42,7 +42,7 @@ public:
 
 private:
 	void RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles) const;
-	void RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, unsigned int threadCount) const;
+	void RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, size_t threadCount) const;
 
 	void RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer) const;
 	void DisplayProgress(const RenderProgress& progress) const;
@@ -55,4 +55,4 @@ private:
 	int progressMonitorFrequency;
 };
 
-#endif // __RENDERER_H_INCLUDED__
+#endif // RAYTRACER_RENDERER_H

@@ -1,5 +1,5 @@
-#ifndef __RAY_H_INCLUDED__
-#define __RAY_H_INCLUDED__
+#ifndef RAYTRACER_RAY_H
+#define RAYTRACER_RAY_H
 
 #include "Maths/Vec3.h"
 
@@ -16,4 +16,4 @@ public:
 	Vec3 direction;
 };
 
-#endif // __RAY_H_INCLUDED__
+#endif // RAYTRACER_RAY_H

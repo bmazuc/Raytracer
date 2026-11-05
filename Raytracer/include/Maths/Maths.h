@@ -1,5 +1,5 @@
-#ifndef __MATHS_H_INCLUDED__
-#define __MATHS_H_INCLUDED__
+#ifndef RAYTRACER_MATHS_H
+#define RAYTRACER_MATHS_H
 
 #include <limits>
 #include <random>
@@ -47,4 +47,4 @@ namespace maths
     }
 }
 
-#endif // __MATHS_H_INCLUDED__
+#endif // RAYTRACER_MATHS_H

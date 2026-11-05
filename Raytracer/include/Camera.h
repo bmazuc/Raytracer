@@ -1,5 +1,5 @@
-#ifndef __CAMERA_H_INCLUDED__
-#define __CAMERA_H_INCLUDED__
+#ifndef RAYTRACER_CAMERA_H
+#define RAYTRACER_CAMERA_H
 
 #include "Maths/Vec3.h"
 #include "Viewport.h"
@@ -104,4 +104,4 @@ private:
 	Viewport viewport;
 };
 
-#endif
+#endif // RAYTRACER_CAMERA_H

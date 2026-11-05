@@ -1,5 +1,5 @@
-#ifndef __SPHERE_H_INCLUDED__
-#define __SPHERE_H_INCLUDED__
+#ifndef RAYTRACER_SPHERE_H
+#define RAYTRACER_SPHERE_H
 
 #include "Hittable.h"
 
@@ -31,4 +31,4 @@ private:
 	std::shared_ptr<Material> material;
 };
 
-#endif // __SPHERE_H_INCLUDED__
+#endif // RAYTRACER_SPHERE_H

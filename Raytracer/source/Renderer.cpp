@@ -44,7 +44,7 @@ ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std
 void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles) const
 {
     RenderProgress renderProgress;
-    renderProgress.tileCount = static_cast<unsigned int>(tiles.size());
+    renderProgress.tileCount = tiles.size();
 
     for (const Tile& tile : tiles)
     {
@@ -56,10 +56,10 @@ void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, Imag
     }
 }
 
-void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, unsigned int threadCount) const
+void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, size_t threadCount) const
 {
     RenderProgress renderProgress;
-    renderProgress.tileCount = static_cast<unsigned int>(tiles.size());
+    renderProgress.tileCount = tiles.size();
 
     ThreadPool threadPool(std::max<size_t>(1, threadCount - 1));
     

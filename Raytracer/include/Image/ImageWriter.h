@@ -1,5 +1,5 @@
-#ifndef __IMAGE_WRITER_INCLUDED__
-#define __IMAGE_WRITER_INCLUDED__
+#ifndef RAYTRACER_IMAGE_WRITER_H
+#define RAYTRACER_IMAGE_WRITER_H
 
 #include <string>
 #include <vector>
@@ -14,4 +14,4 @@ public:
 	virtual bool Write(const std::string& filename, const ImageBuffer& frameBuffer) const = 0;
 };
 
-#endif // __IMAGE_WRITER_INCLUDED__
+#endif // RAYTRACER_IMAGE_WRITER_H

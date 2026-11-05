@@ -1,5 +1,5 @@
-#ifndef __VEC3_H_INCLUDED__
-#define	__VEC3_H_INCLUDED__
+#ifndef RAYTRACER_VEC3_H
+#define	RAYTRACER_VEC3_H
 
 #include <iostream>
 
@@ -70,4 +70,4 @@ inline Vec3 operator/(float f, const Vec3& rhs)
 	return rhs / f;
 }
 
-#endif // __VEC3_H_INCLUDED__
+#endif // RAYTRACER_VEC3_H

@@ -1,5 +1,5 @@
-#ifndef __COMPLEX_SCENE_H_INCLUDED__
-#define __COMPLEX_SCENE_H_INCLUDED__
+#ifndef RAYTRACER_COMPLEX_SCENE_H
+#define RAYTRACER_COMPLEX_SCENE_H
 
 #include "Scene/Scene.h"
 #include "Scene/Sky/GradientSky.h"
@@ -72,4 +72,4 @@ public:
     }
 };
 
-#endif // __COMPLEX_SCENE_H_INCLUDED__
+#endif // RAYTRACER_COMPLEX_SCENE_H

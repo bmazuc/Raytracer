@@ -1,5 +1,5 @@
-#ifndef __IMAGE_WRITER_H_INCLUDED__
-#define __IMAGE_WRITER_H_INCLUDED__
+#ifndef RAYTRACER_IMAGE_WRITER_FACTORY_H
+#define RAYTRACER_IMAGE_WRITER_FACTORY_H
 
 #include <memory>
 #include <string>
@@ -11,4 +11,4 @@ namespace ImageWriterFactory
 	std::unique_ptr<ImageWriter> CreateImageWriter(const std::string& extension);
 }
 
-#endif // __IMAGE_WRITER_H_INCLUDED__
+#endif // RAYTRACER_IMAGE_WRITER_FACTORY_H

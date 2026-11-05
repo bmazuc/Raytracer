@@ -1,7 +1,8 @@
 #include "Image/JpgWriter.h"
 #include "Image/ImageBuffer.h"
+#include "Utils/NumericUtils.h"
 
-#include "stb/stb_image_write.h"
+#include <stb/stb_image_write.h>
 
 bool JpgWriter::Write(const std::string& filename, const ImageBuffer& frameBuffer) const
 {
@@ -12,12 +13,16 @@ bool JpgWriter::Write(const std::string& filename, const ImageBuffer& frameBuffe
 
 	std::vector<unsigned char> imageData = frameBuffer.GetImageData();
 
+	const int width = NumericUtils::ToInt(frameBuffer.GetWidth());
+	const int height = NumericUtils::ToInt(frameBuffer.GetHeight());
+	const int stride = NumericUtils::ToInt(frameBuffer.GetWidth() * 3);
+
 	return stbi_write_jpg(
 		filename.c_str(),
-		frameBuffer.GetWidth(),
-		frameBuffer.GetHeight(),
+		width,
+		height,
 		3,
 		imageData.data(),
-		frameBuffer.GetWidth() * 3
+		stride
 	) != 0;
 }

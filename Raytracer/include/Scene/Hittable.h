@@ -1,5 +1,5 @@
-#ifndef __HITTABLE_H_INCLUDED__
-#define __HITTABLE_H_INCLUDED__
+#ifndef RAYTRACER_HITTABLE_H
+#define RAYTRACER_HITTABLE_H
 
 #include "Maths/Vec3.h"
 #include "Maths/Interval.h"
@@ -29,4 +29,4 @@ protected:
 	void SetFaceNormal(const Ray& ray, const Vec3& outwardNormal, HitInfo& hitInfo) const;
 };
 
-#endif // __HITTABLE_H_INCLUDED__
+#endif // RAYTRACER_HITTABLE_H

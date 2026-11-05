@@ -1,5 +1,5 @@
-#ifndef __PNG_WRITER_H_INCLUDED__
-#define __PNG_WRITER_H_INCLUDED__
+#ifndef RAYTRACER_PNG_WRITER_H
+#define RAYTRACER_PNG_WRITER_H
 
 #include "Image/ImageWriter.h"
 
@@ -9,4 +9,4 @@ public:
 	bool Write(const std::string& filename, const ImageBuffer& frameBuffer) const override;
 };
 
-#endif // __PNG_WRITER_H_INCLUDED__
+#endif // RAYTRACER_PNG_WRITER_H

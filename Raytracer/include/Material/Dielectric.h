@@ -1,5 +1,5 @@
-#ifndef __DIELECTRIC_H_INCLUDED__
-#define __DIELECTRIC_H_INCLUDED__
+#ifndef RAYTRACER_DIELECTRIC_H
+#define RAYTRACER_DIELECTRIC_H
 
 #include "Material/Material.h"
 
@@ -18,4 +18,4 @@ private:
 	float refractionIndex;
 };
 
-#endif // __DIELECTRIC_H_INCLUDED__
+#endif // RAYTRACER_DIELECTRIC_H

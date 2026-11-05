@@ -55,7 +55,7 @@ set(SRCS
 	"Raytracer/include/Image/JpgWriter.h" 
 	"Raytracer/source/Image/JpgWriter.cpp" 
 	"Raytracer/include/Image/ImageWriterFactory.h"
-	"Raytracer/source/Image/ImageWriterFactory.cpp")
+	"Raytracer/source/Image/ImageWriterFactory.cpp" "Raytracer/include/Utils/NumericUtils.h" "Raytracer/source/Utils/NumericUtils.cpp")
 	
 add_executable(raytracer ${SRCS})
 
