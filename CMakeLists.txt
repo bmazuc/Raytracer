@@ -1,5 +1,9 @@
 cmake_minimum_required (VERSION 3.21)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
 project(Raytracer)
 
 find_package(Threads REQUIRED)
@@ -59,7 +63,13 @@ set(SRCS
 	"Raytracer/source/Image/ImageWriterFactory.cpp" 
 	"Raytracer/include/Utils/NumericUtils.h" 
 	"Raytracer/source/Utils/NumericUtils.cpp" 
-	"Raytracer/include/Utils/Log.h")
+	"Raytracer/include/Utils/Log.h" 
+	"Raytracer/include/Application/RaytracerWindow.h" 
+	"Raytracer/source/Application/RaytracerWindow.cpp" 
+	"Raytracer/include/Application/Controller/RaytracerController.h"
+	"Raytracer/source/Application/Controller/RaytracerController.cpp"
+
+ "Raytracer/include/Application/RenderPanel.h" "Raytracer/source/Application/RenderPanel.cpp")
 	
 add_executable(raytracer ${SRCS})
 

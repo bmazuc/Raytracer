@@ -4,6 +4,11 @@
 #include "Image/ImageWriterFactory.h"
 #include "Image/ImageWriter.h"
 
+Raytracer::Raytracer()
+    : camera(CameraConfiguration()), renderer(RendererConfig())
+{
+}
+
 Raytracer::Raytracer(const CameraConfiguration& cameraConfig, const RendererConfig& rendererConfig)
 	: camera(cameraConfig), renderer(rendererConfig)
 {
@@ -14,7 +19,7 @@ void Raytracer::SetScene(std::unique_ptr<Scene> newScene)
     scene = std::move(newScene);
 }
 
-void Raytracer::RenderToFile(std::string fileName)
+void Raytracer::RenderToFile(std::string fileName, const ProgressCallback& callback)
 {
     if (!scene)
     {
@@ -34,11 +39,11 @@ void Raytracer::RenderToFile(std::string fileName)
         throw std::invalid_argument("Unsupported image format: " + extension);
     }
 
-    ImageBuffer imageBuffer = renderer.Render(camera, *scene, fileName);
+    ImageBuffer imageBuffer = renderer.Render(camera, *scene, fileName, callback);
 
     std::clog << "\rWriting image.                 " << std::flush;
 
-    if (!writer->Write(fileName, imageBuffer))
+    if (writer->Write(fileName, imageBuffer))
     {
         throw std::runtime_error("Failed to write image: " + fileName);
     }

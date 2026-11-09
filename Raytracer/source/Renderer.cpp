@@ -32,7 +32,7 @@ Renderer::Renderer(const RendererConfig& config)
     }
 }
 
-ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName) const
+ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName, const ProgressCallback& callback) const
 {
     size_t width = camera.GetImageWidth();
     size_t height = camera.GetImageHeight();
@@ -43,17 +43,17 @@ ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std
 
     if (threadCount <= 1)
     {
-        RenderSingleThread(camera, scene, imageBuffer, tiles);
+        RenderSingleThread(camera, scene, imageBuffer, tiles, callback);
     }
     else
     {
-        RenderMultiThread(camera, scene, imageBuffer, tiles, threadCount);
+        RenderMultiThread(camera, scene, imageBuffer, tiles, threadCount, callback);
     }
 
     return imageBuffer;
 }
 
-void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles) const
+void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, const ProgressCallback& callback) const
 {
     RenderProgress renderProgress;
     renderProgress.tileCount = tiles.size();
@@ -64,11 +64,11 @@ void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, Imag
 
         ++renderProgress.completedTiles;
 
-        DisplayProgress(renderProgress);
+        ReportProgress(renderProgress, callback);
     }
 }
 
-void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, size_t threadCount) const
+void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, size_t threadCount, const ProgressCallback& callback) const
 {
     RenderProgress renderProgress;
     renderProgress.tileCount = tiles.size();
@@ -105,7 +105,7 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
 
     while (renderProgress.completedTiles.load(std::memory_order_relaxed) < renderProgress.tileCount)
     {
-       DisplayProgress(renderProgress);
+       ReportProgress(renderProgress, callback);
 
        std::this_thread::sleep_for(std::chrono::milliseconds(progressMonitorFrequency));
     }
@@ -130,7 +130,7 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
         }
     }
 
-    DisplayProgress(renderProgress);
+    ReportProgress(renderProgress, callback);
 
     if (firstException)
     {
@@ -166,10 +166,15 @@ void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& s
     }
 }
 
-void Renderer::DisplayProgress(const RenderProgress& progress) const
+void Renderer::ReportProgress(const RenderProgress& progress, const ProgressCallback& callback) const
 {
     const size_t completed = progress.completedTiles.load(std::memory_order_relaxed);
     const float percentage = progress.tileCount > 0 ? 100.0f * completed / progress.tileCount : 100.0f;
+
+    if (callback)
+    {
+        callback(percentage);
+    }
 
     std::clog << "\rRendering: " << std::fixed << std::setprecision(1) << percentage << '%' << std::flush;
 }

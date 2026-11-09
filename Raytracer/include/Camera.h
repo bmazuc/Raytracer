@@ -48,6 +48,8 @@ public:
 	float GetPixelSamplesScale() const { return pixelSamplesScale; }
 	int GetMaxDepth() const { return maxDepth; }
 
+	void SetCameraConfig(const CameraConfiguration& config);
+
 	void SetImageWidth(int inImageWidth);
 	void SetAspectRatio(float inAspectRatio);
 	

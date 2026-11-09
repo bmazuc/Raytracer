@@ -14,11 +14,15 @@ struct RendererConfig;
 class Raytracer
 {
 public:
+    Raytracer();
     Raytracer(const CameraConfiguration& cameraConfig, const RendererConfig& rendererConfig);
+
+    Camera* GetCamera() { return &camera; }
+    const Camera* GetCamera() const { return &camera; }
 
     void SetScene(std::unique_ptr<Scene> newScene);
 
-    void RenderToFile(std::string fileName);
+    void RenderToFile(std::string fileName, const ProgressCallback& callback);
 
 private:
     Renderer renderer;

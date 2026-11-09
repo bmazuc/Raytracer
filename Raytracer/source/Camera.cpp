@@ -6,6 +6,11 @@
 
 Camera::Camera(const CameraConfiguration& config)
 {
+	SetCameraConfig(config);
+}
+
+void Camera::SetCameraConfig(const CameraConfiguration& config)
+{
 	imageWidth = config.imageWidth;
 	if (!std::isfinite(imageWidth) || imageWidth == 0)
 	{
@@ -17,7 +22,7 @@ Camera::Camera(const CameraConfiguration& config)
 	if (!std::isfinite(aspectRatio) || aspectRatio <= 0)
 	{
 		Log::Warning("Camera : Aspect ratio == " + std::to_string(aspectRatio) + " is invalid. Using 16:9 instead.");
-		aspectRatio = 16.0f/9.0f;
+		aspectRatio = 16.0f / 9.0f;
 	}
 
 	ComputeImageHeight();
@@ -41,7 +46,7 @@ Camera::Camera(const CameraConfiguration& config)
 	lookAt = config.lookAt;
 	vUp = config.vUp;
 	ComputeCameraBasis();
-	
+
 	ComputeDefocusDisk();
 
 	viewport.ComputeViewportData(this);
