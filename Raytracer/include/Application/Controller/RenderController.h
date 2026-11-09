@@ -7,6 +7,7 @@
 class Raytracer;
 class QThread;
 class RenderWorker;
+struct OutputConfig;
 
 class RenderController : public QObject
 {
@@ -15,9 +16,7 @@ public:
 	explicit RenderController(QObject* parent = nullptr);
 	~RenderController();
 
-	void SetOutputFile(const char* inOutputFile) { outputFile = inOutputFile; }
-
-	void StartRender(int sceneIdx);
+	void StartRender(int sceneIdx, const OutputConfig& outputConfig);
 	void StopRender();
 
 signals: 
@@ -29,8 +28,6 @@ signals:
 private:
 	void SetWorkerAsBasicScene();
 	void SetWorkerAsComplexScene();
-
-	const char* outputFile;
 
 	RenderWorker* worker = nullptr;
 	QPointer<QThread> renderThread;

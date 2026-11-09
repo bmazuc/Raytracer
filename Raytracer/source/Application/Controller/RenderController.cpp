@@ -10,7 +10,7 @@
 #include <filesystem>
 
 RenderController::RenderController(QObject* parent)
-	: QObject(parent), outputFile("")
+	: QObject(parent)
 {
 }
 
@@ -25,7 +25,7 @@ RenderController::~RenderController()
     }
 }
 
-void RenderController::StartRender(int sceneIdx)
+void RenderController::StartRender(int sceneIdx, const OutputConfig& outputConfig)
 {
     if (isRendering)
     {
@@ -36,7 +36,7 @@ void RenderController::StartRender(int sceneIdx)
 
     QThread* thread = new QThread(this);
     worker = new RenderWorker();
-    worker->SetOutputFile(outputFile);
+    worker->SetOutputConfig(outputConfig);
 
     renderThread = thread;
 

@@ -6,6 +6,7 @@
 
 class Raytracer;
 struct CameraConfiguration;
+struct OutputConfig;
 class Scene;
 
 class RenderWorker : public QObject
@@ -16,7 +17,7 @@ public:
 
 	void SetCameraConfig(const CameraConfiguration& config);
 	void SetScene(std::unique_ptr<Scene> scene);
-	void SetOutputFile(std::string inOutputFile) { outputFile = inOutputFile; }
+	void SetOutputConfig(const OutputConfig& outputConfig);
 
 	void RequestCancel();
 

@@ -11,6 +11,15 @@ class Scene;
 struct CameraConfiguration;
 struct RendererConfig;
 
+struct OutputConfig
+{
+public:
+    std::string directory;
+    std::string filename;
+
+    std::string GetPath() { return directory + '/' + filename; }
+};
+
 class Raytracer
 {
 public:
@@ -20,13 +29,17 @@ public:
     Camera* GetCamera() { return &camera; }
     const Camera* GetCamera() const { return &camera; }
 
+    void SetOutputConfig(const OutputConfig& inOutputConfig) { outputConfig = inOutputConfig; }
     void SetScene(std::unique_ptr<Scene> newScene);
 
-    void RenderToFile(std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested);
+    void RenderToFile(const ProgressCallback& callback, const std::atomic_bool& cancelRequested);
 
 private:
     Renderer renderer;
     Camera camera;
+
+    OutputConfig outputConfig;
+
     std::unique_ptr<Scene> scene;
 };
 

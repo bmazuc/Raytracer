@@ -1,6 +1,8 @@
 #include "Application/RaytracerWindow.h"
 #include "Application/Controller/RenderController.h"
 #include "Application/RenderPanel.h"
+#include "Application/Panel/OutputPanel.h"
+#include "Raytracer.h"
 
 #include <QPushButton>
 #include <QHBoxLayout>
@@ -29,7 +31,7 @@ void RaytracerWindow::closeEvent(QCloseEvent* event)
 void RaytracerWindow::SetupUI(std::string name, int w, int h)
 {
     QWidget* centralWidget = new QWidget(this);
-    QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
+    QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
 
     sceneSelector = new QComboBox(centralWidget);
     sceneSelector->addItem("Basic scene", 0);
@@ -42,12 +44,18 @@ void RaytracerWindow::SetupUI(std::string name, int w, int h)
     progressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     renderPanel = new RenderPanel(centralWidget);
+    outputPanel = new OutputPanel(centralWidget);
+
+    QVBoxLayout* sideLayout = new QVBoxLayout();
 
     setCentralWidget(centralWidget);
 
-    mainLayout->addWidget(sceneSelector, 1);
-    mainLayout->addWidget(progressBar, 3);
-    mainLayout->addWidget(renderPanel, 1);
+    sideLayout->addWidget(outputPanel, 1);
+    sideLayout->addWidget(sceneSelector, 1);
+    sideLayout->addWidget(renderPanel, 1);
+
+    mainLayout->addLayout(sideLayout);
+    mainLayout->addWidget(progressBar, 4);
 
     setWindowTitle(name.c_str());
     resize(w, h);
@@ -69,7 +77,7 @@ void RaytracerWindow::SetupConnections()
         [this]()
         {
             progressBar->setValue(0);
-            renderController->StartRender(sceneSelector->currentData().toInt());
+            renderController->StartRender(sceneSelector->currentData().toInt(), outputPanel->GenerateOutputConfig());
         });
 
     connect(renderPanel,
@@ -105,5 +113,10 @@ void RaytracerWindow::ApplyStyle()
         QPushButton:hover {
             background-color: #438FE8;
         }
+
+		QLineEdit {
+			color: black;
+			background-color:white;
+		}
     )");
 }

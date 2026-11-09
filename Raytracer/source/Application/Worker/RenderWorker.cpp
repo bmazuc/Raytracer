@@ -19,7 +19,6 @@ void RenderWorker::Run()
 	try
 	{
 		raytracer->RenderToFile(
-			outputFile,
 			[this](int percentage)
 			{
 				emit ProgressChanged(percentage);
@@ -54,4 +53,9 @@ void RenderWorker::SetCameraConfig(const CameraConfiguration& config)
 void RenderWorker::SetScene(std::unique_ptr<Scene> scene)
 {
 	raytracer->SetScene(std::move(scene));
+}
+
+void RenderWorker::SetOutputConfig(const OutputConfig& outputConfig)
+{
+	raytracer->SetOutputConfig(outputConfig);
 }

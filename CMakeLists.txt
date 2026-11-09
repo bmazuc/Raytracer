@@ -69,7 +69,7 @@ set(SRCS
 	"Raytracer/include/Application/Controller/RenderController.h"
 	"Raytracer/source/Application/Controller/RenderController.cpp"
 
- "Raytracer/include/Application/RenderPanel.h" "Raytracer/source/Application/RenderPanel.cpp" "Raytracer/include/Application/Worker/RenderWorker.h" "Raytracer/source/Application/Worker/RenderWorker.cpp")
+ "Raytracer/include/Application/RenderPanel.h" "Raytracer/source/Application/RenderPanel.cpp" "Raytracer/include/Application/Worker/RenderWorker.h" "Raytracer/source/Application/Worker/RenderWorker.cpp" "Raytracer/include/Application/Panel/OutputPanel.h" "Raytracer/source/Application/Panel/OutputPanel.cpp")
 	
 add_executable(raytracer ${SRCS})
 

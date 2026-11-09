@@ -7,17 +7,9 @@
 
 int main(int argc, char* argv[])
 {
-    const char* outputFile = (argc > 1) ? argv[1] : "image.png";
-
     QApplication app(argc, argv);
 
     RaytracerWindow window(nullptr, "Raytracer", 1280, 720);
- 
-    RenderController* controller = window.GetRaytracerController();
-    if (controller)
-    {
-        controller->SetOutputFile(outputFile);
-    }
 
     window.show();
 

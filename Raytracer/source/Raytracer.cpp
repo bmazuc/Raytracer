@@ -5,7 +5,7 @@
 #include "Image/ImageWriter.h"
 
 Raytracer::Raytracer()
-    : camera(CameraConfiguration()), renderer(RendererConfig())
+    : camera(CameraConfiguration()), renderer(RendererConfig()), outputConfig(OutputConfig())
 {
 }
 
@@ -19,36 +19,37 @@ void Raytracer::SetScene(std::unique_ptr<Scene> newScene)
     scene = std::move(newScene);
 }
 
-void Raytracer::RenderToFile(std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested)
+void Raytracer::RenderToFile(const ProgressCallback& callback, const std::atomic_bool& cancelRequested)
 {
     if (!scene)
     {
         throw std::logic_error("Cannot render: no scene has been configured");
     }
 
-    const std::size_t dotPosition = fileName.find_last_of('.');
+
+    const std::size_t dotPosition = outputConfig.filename.find_last_of('.');
     if (dotPosition == std::string::npos)
     {
         throw std::invalid_argument("Output filename must have a supported extension");
     }
 
-    const std::string extension = fileName.substr(dotPosition);
+    const std::string extension = outputConfig.filename.substr(dotPosition);
     std::unique_ptr<ImageWriter> writer = ImageWriterFactory::CreateImageWriter(extension);
     if (!writer)
     {
         throw std::invalid_argument("Unsupported image format: " + extension);
     }
 
-    ImageBuffer imageBuffer = renderer.Render(camera, *scene, fileName, callback, cancelRequested);
+    ImageBuffer imageBuffer = renderer.Render(camera, *scene, outputConfig.GetPath(), callback, cancelRequested);
 
     if (!cancelRequested)
     {
 
         std::clog << "\rWriting image.                 " << std::flush;
 
-        if (writer->Write(fileName, imageBuffer))
+        if (writer->Write(outputConfig.GetPath(), imageBuffer))
         {
-            throw std::runtime_error("Failed to write image: " + fileName);
+            throw std::runtime_error("Failed to write image: " + outputConfig.GetPath());
         }
 
         std::clog << "\rDone.                 \n";
