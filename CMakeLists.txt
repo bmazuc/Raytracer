@@ -1,8 +1,9 @@
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.21)
 
 project(Raytracer)
 
 find_package(Threads REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 set(SRCS
 	main.cpp
@@ -55,13 +56,12 @@ set(SRCS
 	"Raytracer/include/Image/JpgWriter.h" 
 	"Raytracer/source/Image/JpgWriter.cpp" 
 	"Raytracer/include/Image/ImageWriterFactory.h"
-	"Raytracer/source/Image/ImageWriterFactory.cpp" "Raytracer/include/Utils/NumericUtils.h" "Raytracer/source/Utils/NumericUtils.cpp" "Raytracer/include/Utils/Log.h")
+	"Raytracer/source/Image/ImageWriterFactory.cpp" 
+	"Raytracer/include/Utils/NumericUtils.h" 
+	"Raytracer/source/Utils/NumericUtils.cpp" 
+	"Raytracer/include/Utils/Log.h")
 	
 add_executable(raytracer ${SRCS})
-
-if(MSVC)
-    target_compile_definitions(raytracer PRIVATE _CRT_SECURE_NO_WARNINGS)
-endif()
 
 target_include_directories(raytracer
 	PRIVATE 
@@ -70,4 +70,30 @@ target_include_directories(raytracer
 
 target_link_libraries(raytracer
 	PRIVATE Threads::Threads
+	PRIVATE Qt6::Widgets
 )
+
+if(WIN32)
+    set(VCPKG_ROOT_DIR
+        "${CMAKE_BINARY_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}"
+    )
+
+    add_custom_command(TARGET raytracer POST_BUILD
+
+        # Copier les DLL Qt
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "$<IF:$<CONFIG:Debug>,${VCPKG_ROOT_DIR}/debug/bin,${VCPKG_ROOT_DIR}/bin>"
+            "$<TARGET_FILE_DIR:raytracer>"
+
+        # Copier les plugins de plateforme
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "$<IF:$<CONFIG:Debug>,${VCPKG_ROOT_DIR}/debug/Qt6/plugins/platforms,${VCPKG_ROOT_DIR}/Qt6/plugins/platforms>"
+            "$<TARGET_FILE_DIR:raytracer>/platforms"
+
+        COMMENT "Deploying Qt dependencies..."
+        VERBATIM
+    )
+endif()
+
+
+

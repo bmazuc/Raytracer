@@ -1,0 +1,11 @@
+{
+  "dependencies": [
+    {
+      "name": "qtbase",
+      "default-features": false,
+      "features": [
+        "widgets"
+      ]
+    }
+  ]
+}

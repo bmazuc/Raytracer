@@ -3,6 +3,14 @@
 #include "ExampleScenes/ComplexScene.h"
 #include "Camera.h"
 
+#include <QApplication>
+#include <QWidget>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QDebug>
+
+#include <filesystem>
+
 std::unique_ptr<Raytracer> CreateBasicScene(const RendererConfig& rendererConfig)
 {
     CameraConfiguration cameraConfig;
@@ -51,10 +59,70 @@ int main(int argc, char* argv[])
 {
     const char* outputFile = (argc > 1) ? argv[1] : "image.png";
 
-    RendererConfig rendererConfig;
-    std::unique_ptr<Raytracer> raytracer = CreateBasicScene(rendererConfig);
-	
-    raytracer->RenderToFile(outputFile);
+    QApplication app(argc, argv);
+
+    QWidget window;
+    window.setWindowTitle("Raytracer");
+    window.resize(1280, 720);
+
+    QVBoxLayout* layout = new QVBoxLayout(&window);
+
+    QPushButton* basicSceneRenderButton = new QPushButton("Basic Scene");
+    QPushButton* complexSceneRenderButton = new QPushButton("Complex Scene");
+    std::string deleteButtonText = "Delete " + std::string(outputFile);
+    QPushButton* deleteButton = new QPushButton(deleteButtonText.c_str());
+
+    layout->addWidget(basicSceneRenderButton);
+    layout->addWidget(complexSceneRenderButton);
+    layout->addWidget(deleteButton);
+
+    QObject::connect(basicSceneRenderButton, &QPushButton::clicked, [&]()
+        {
+            basicSceneRenderButton->setEnabled(false);
+            complexSceneRenderButton->setEnabled(false);
+            deleteButton->setEnabled(false);
+
+            RendererConfig rendererConfig;
+            std::unique_ptr<Raytracer> raytracer = CreateBasicScene(rendererConfig);
+
+            raytracer->RenderToFile(outputFile);
+
+            basicSceneRenderButton->setEnabled(true);
+            complexSceneRenderButton->setEnabled(true);
+            deleteButton->setEnabled(true);
+        });
+
+    QObject::connect(complexSceneRenderButton, &QPushButton::clicked, [&]()
+        {
+            basicSceneRenderButton->setEnabled(false);
+            complexSceneRenderButton->setEnabled(false);
+            deleteButton->setEnabled(false);
+
+            RendererConfig rendererConfig;
+            std::unique_ptr<Raytracer> raytracer = CreateComplexScene(rendererConfig);
+
+            raytracer->RenderToFile(outputFile);
+
+            basicSceneRenderButton->setEnabled(true);
+            complexSceneRenderButton->setEnabled(true);
+            deleteButton->setEnabled(true);
+        });
+
+    QObject::connect(deleteButton, &QPushButton::clicked, [&]()
+        {
+            basicSceneRenderButton->setEnabled(false);
+            complexSceneRenderButton->setEnabled(false);
+            deleteButton->setEnabled(false);
+
+            std::filesystem::remove(outputFile);
+
+            basicSceneRenderButton->setEnabled(true);
+            complexSceneRenderButton->setEnabled(true);
+            deleteButton->setEnabled(true);
+        });
+    window.show();
+
+    return app.exec();
 
 	return 0;
 }

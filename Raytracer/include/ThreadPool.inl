@@ -7,6 +7,10 @@ auto ThreadPool::Enqueue(F&& function)
 		std::forward<F>(function)
 	);
 
+#ifdef result
+#error "result already macro"
+#endif
+
 	std::future<ReturnType> result = task->get_future();
 
 	std::unique_lock<std::mutex> lock(queueMutex);

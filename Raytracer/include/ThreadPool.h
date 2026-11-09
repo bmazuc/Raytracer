@@ -6,6 +6,11 @@
 #include <thread>
 #include <mutex>
 #include <functional>
+#include <condition_variable>
+#include <future>
+#include <memory>
+#include <utility>
+#include <stdexcept>
 
 class ThreadPool
 {
