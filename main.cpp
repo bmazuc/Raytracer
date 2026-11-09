@@ -1,10 +1,9 @@
 #include "Raytracer.h"
 
 #include "Application/RaytracerWindow.h"
-#include "Application/Controller/RaytracerController.h"
+#include "Application/Controller/RenderController.h"
 
 #include <QApplication>
-#include <QWidget>
 
 int main(int argc, char* argv[])
 {
@@ -14,7 +13,7 @@ int main(int argc, char* argv[])
 
     RaytracerWindow window(nullptr, "Raytracer", 1280, 720);
  
-    RaytracerController* controller = window.GetRaytracerController();
+    RenderController* controller = window.GetRaytracerController();
     if (controller)
     {
         controller->SetOutputFile(outputFile);

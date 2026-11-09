@@ -19,7 +19,7 @@ void Raytracer::SetScene(std::unique_ptr<Scene> newScene)
     scene = std::move(newScene);
 }
 
-void Raytracer::RenderToFile(std::string fileName, const ProgressCallback& callback)
+void Raytracer::RenderToFile(std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested)
 {
     if (!scene)
     {
@@ -39,14 +39,22 @@ void Raytracer::RenderToFile(std::string fileName, const ProgressCallback& callb
         throw std::invalid_argument("Unsupported image format: " + extension);
     }
 
-    ImageBuffer imageBuffer = renderer.Render(camera, *scene, fileName, callback);
+    ImageBuffer imageBuffer = renderer.Render(camera, *scene, fileName, callback, cancelRequested);
 
-    std::clog << "\rWriting image.                 " << std::flush;
-
-    if (writer->Write(fileName, imageBuffer))
+    if (!cancelRequested)
     {
-        throw std::runtime_error("Failed to write image: " + fileName);
-    }
 
-    std::clog << "\rDone.                 \n";
+        std::clog << "\rWriting image.                 " << std::flush;
+
+        if (writer->Write(fileName, imageBuffer))
+        {
+            throw std::runtime_error("Failed to write image: " + fileName);
+        }
+
+        std::clog << "\rDone.                 \n";
+    }
+    else
+    {
+        std::clog << "\rCancelled.                 \n";
+    }
 }

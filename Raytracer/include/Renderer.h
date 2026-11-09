@@ -39,15 +39,15 @@ public:
 	// To improve, manage this cases
 	Renderer(const RendererConfig& config);
 
-	ImageBuffer Render(const Camera& camera, const Scene& scene, const std::string fileName, const ProgressCallback& callback) const;
+	ImageBuffer Render(const Camera& camera, const Scene& scene, const std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const;
 
 	void UseAntialising(bool newState) { useAntiAliasing = newState; }
 
 private:
-	void RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, const ProgressCallback& callback) const;
-	void RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, size_t threadCount, const ProgressCallback& callback) const;
+	void RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const;
+	void RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, size_t threadCount, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const;
 
-	void RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer) const;
+	void RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::atomic_bool& cancelRequested) const;
 	void ReportProgress(const RenderProgress& progress, const ProgressCallback& callback) const;
 
 	bool useAntiAliasing = true;

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-class RaytracerController;
+class RenderController;
 class QComboBox;
 class QProgressBar;
 class RenderPanel;
@@ -16,10 +16,11 @@ public:
 	explicit RaytracerWindow(QWidget* parent = nullptr, std::string name = "Raytracer", int w = 800, int h = 600);
 	~RaytracerWindow() override = default;
 
-	RaytracerController* GetRaytracerController() { return raytracerController; }
-	const RaytracerController* GetRaytracerController() const { return raytracerController; }
+	RenderController* GetRaytracerController() { return renderController; }
+	const RenderController* GetRaytracerController() const { return renderController; }
 
 private:
+	void closeEvent(QCloseEvent* event) override;
 	void SetupUI(std::string name, int w, int h);
 	void SetupConnections();
 	void ApplyStyle();
@@ -28,7 +29,7 @@ private:
 	QProgressBar* progressBar;
 	RenderPanel* renderPanel;
 
-	RaytracerController* raytracerController;
+	RenderController* renderController;
 };
 
 #endif // APPLICATION_RAYTRACER_WINDOW_H

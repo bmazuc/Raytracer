@@ -32,7 +32,7 @@ Renderer::Renderer(const RendererConfig& config)
     }
 }
 
-ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName, const ProgressCallback& callback) const
+ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const
 {
     size_t width = camera.GetImageWidth();
     size_t height = camera.GetImageHeight();
@@ -43,24 +43,24 @@ ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std
 
     if (threadCount <= 1)
     {
-        RenderSingleThread(camera, scene, imageBuffer, tiles, callback);
+        RenderSingleThread(camera, scene, imageBuffer, tiles, callback, cancelRequested);
     }
     else
     {
-        RenderMultiThread(camera, scene, imageBuffer, tiles, threadCount, callback);
+        RenderMultiThread(camera, scene, imageBuffer, tiles, threadCount, callback, cancelRequested);
     }
 
     return imageBuffer;
 }
 
-void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, const ProgressCallback& callback) const
+void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const
 {
     RenderProgress renderProgress;
     renderProgress.tileCount = tiles.size();
 
     for (const Tile& tile : tiles)
     {
-        RenderTile(tile, camera, scene, imageBuffer);
+        RenderTile(tile, camera, scene, imageBuffer, cancelRequested);
 
         ++renderProgress.completedTiles;
 
@@ -68,7 +68,7 @@ void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, Imag
     }
 }
 
-void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, size_t threadCount, const ProgressCallback& callback) const
+void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::vector<Tile>& tiles, size_t threadCount, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const
 {
     RenderProgress renderProgress;
     renderProgress.tileCount = tiles.size();
@@ -86,7 +86,7 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
                 {
                     try
                     {
-                        RenderTile(tile, camera, scene, imageBuffer);
+                        RenderTile(tile, camera, scene, imageBuffer, cancelRequested);
                     }
                     catch (...)
                     {
@@ -138,12 +138,17 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
     }
 }
 
-void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer) const
+void Renderer::RenderTile(const Tile& tile, const Camera& camera, const Scene& scene, ImageBuffer& imageBuffer, const std::atomic_bool& cancelRequested) const
 {
     for (int y = tile.y; y < tile.y + tile.height; ++y)
     {
         for (int x = tile.x; x < tile.x + tile.width; ++x)
         {
+            if (cancelRequested.load())
+            {
+                return;
+            }
+
             Color pixelColor(0.0f, 0.0f, 0.0f);
 
             if (useAntiAliasing)

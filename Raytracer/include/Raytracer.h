@@ -22,7 +22,7 @@ public:
 
     void SetScene(std::unique_ptr<Scene> newScene);
 
-    void RenderToFile(std::string fileName, const ProgressCallback& callback);
+    void RenderToFile(std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested);
 
 private:
     Renderer renderer;

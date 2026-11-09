@@ -66,10 +66,10 @@ set(SRCS
 	"Raytracer/include/Utils/Log.h" 
 	"Raytracer/include/Application/RaytracerWindow.h" 
 	"Raytracer/source/Application/RaytracerWindow.cpp" 
-	"Raytracer/include/Application/Controller/RaytracerController.h"
-	"Raytracer/source/Application/Controller/RaytracerController.cpp"
+	"Raytracer/include/Application/Controller/RenderController.h"
+	"Raytracer/source/Application/Controller/RenderController.cpp"
 
- "Raytracer/include/Application/RenderPanel.h" "Raytracer/source/Application/RenderPanel.cpp")
+ "Raytracer/include/Application/RenderPanel.h" "Raytracer/source/Application/RenderPanel.cpp" "Raytracer/include/Application/Worker/RenderWorker.h" "Raytracer/source/Application/Worker/RenderWorker.cpp")
 	
 add_executable(raytracer ${SRCS})
 
