@@ -1,5 +1,5 @@
-#ifndef RAYTRACER_RENDER_WORKER_H
-#define RAYTRACER_RENDER_WORKER_H
+#ifndef RAYTRACER_APPLICATION_RENDER_WORKER_H
+#define RAYTRACER_APPLICATION_RENDER_WORKER_H
 
 #include <QObject>
 #include <memory>
@@ -36,4 +36,4 @@ private:
 	std::atomic_bool cancelRequested = false;
 };
 
-#endif // RAYTRACER_RENDER_WORKER_H
+#endif // RAYTRACER_APPLICATION_RENDER_WORKER_H

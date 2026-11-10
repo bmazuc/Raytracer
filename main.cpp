@@ -1,7 +1,4 @@
-#include "Raytracer.h"
-
-#include "Application/RaytracerWindow.h"
-#include "Application/Controller/RenderController.h"
+#include "RaytracerWindow.h"
 
 #include <QApplication>
 

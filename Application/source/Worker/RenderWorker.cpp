@@ -1,4 +1,4 @@
-#include "Application/Worker/RenderWorker.h"
+#include "Worker/RenderWorker.h"
 
 #include "Raytracer.h"
 #include "Scene/Scene.h"

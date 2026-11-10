@@ -1,7 +1,7 @@
-#include "Application/RaytracerWindow.h"
-#include "Application/Controller/RenderController.h"
-#include "Application/RenderPanel.h"
-#include "Application/Panel/OutputPanel.h"
+#include "RaytracerWindow.h"
+#include "Controller/RenderController.h"
+#include "Panel/RenderPanel.h"
+#include "Panel/OutputPanel.h"
 #include "Raytracer.h"
 
 #include <QPushButton>

@@ -1,4 +1,4 @@
-#include "Application/Panel/OutputPanel.h"
+#include "Panel/OutputPanel.h"
 #include "Raytracer.h"
 
 #include <QHBoxLayout>

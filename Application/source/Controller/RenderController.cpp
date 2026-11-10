@@ -1,9 +1,9 @@
-#include "Application/Controller/RenderController.h"
+#include "Controller/RenderController.h"
 #include "Raytracer.h"
 #include "ExampleScenes/BasicScene.h"
 #include "ExampleScenes/ComplexScene.h"
 #include "Camera.h"
-#include "Application/Worker/RenderWorker.h"
+#include "Worker/RenderWorker.h"
 
 #include <QThread>
 

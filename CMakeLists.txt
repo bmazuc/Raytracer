@@ -64,18 +64,23 @@ set(SRCS
 	"Raytracer/include/Utils/NumericUtils.h" 
 	"Raytracer/source/Utils/NumericUtils.cpp" 
 	"Raytracer/include/Utils/Log.h" 
-	"Raytracer/include/Application/RaytracerWindow.h" 
-	"Raytracer/source/Application/RaytracerWindow.cpp" 
-	"Raytracer/include/Application/Controller/RenderController.h"
-	"Raytracer/source/Application/Controller/RenderController.cpp"
-
- "Raytracer/include/Application/RenderPanel.h" "Raytracer/source/Application/RenderPanel.cpp" "Raytracer/include/Application/Worker/RenderWorker.h" "Raytracer/source/Application/Worker/RenderWorker.cpp" "Raytracer/include/Application/Panel/OutputPanel.h" "Raytracer/source/Application/Panel/OutputPanel.cpp")
+	"Application/include/RaytracerWindow.h" 
+	"Application/source/RaytracerWindow.cpp" 
+	"Application/include/Controller/RenderController.h"
+	"Application/source/Controller/RenderController.cpp"
+	"Application/include/Panel/RenderPanel.h" 
+	"Application/source/Panel/RenderPanel.cpp" 
+	"Application/include/Worker/RenderWorker.h" 
+	"Application/source/Worker/RenderWorker.cpp" 
+	"Application/include/Panel/OutputPanel.h" 
+	"Application/source/Panel/OutputPanel.cpp")
 	
 add_executable(raytracer ${SRCS})
 
 target_include_directories(raytracer
 	PRIVATE 
 	"${PROJECT_SOURCE_DIR}/Raytracer/include"
+	"${PROJECT_SOURCE_DIR}/Application/include"
 	"${PROJECT_SOURCE_DIR}/Libs")
 
 target_link_libraries(raytracer

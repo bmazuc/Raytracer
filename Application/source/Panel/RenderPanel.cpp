@@ -1,4 +1,4 @@
-#include "Application/RenderPanel.h"
+#include "Panel/RenderPanel.h"
 
 #include <QHBoxLayout>
 #include <QPushButton>
