@@ -7,6 +7,7 @@
 class Raytracer;
 class QThread;
 class RenderWorker;
+struct RendererConfig;
 struct OutputConfig;
 class QImage;
 
@@ -17,7 +18,7 @@ public:
 	explicit RenderController(QObject* parent = nullptr);
 	~RenderController();
 
-	void StartRender(int sceneIdx, const OutputConfig& outputConfig);
+	void StartRender(int sceneIdx, const RendererConfig& rendererConfig, const OutputConfig& outputConfig);
 	void StopRender();
 
 signals: 

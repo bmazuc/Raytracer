@@ -42,18 +42,9 @@ void Raytracer::RenderToFile(const ProgressCallback& callback, const std::atomic
 
     if (!cancelRequested)
     {
-
-        std::clog << "\rWriting image.                 " << std::flush;
-
         if (writer->Write(outputConfig.GetPath(), imageBuffer))
         {
             throw std::runtime_error("Failed to write image: " + outputConfig.GetPath());
         }
-
-        std::clog << "\rDone.                 \n";
-    }
-    else
-    {
-        std::clog << "\rCancelled.                 \n";
     }
 }

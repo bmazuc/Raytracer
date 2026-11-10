@@ -39,6 +39,8 @@ public:
 	// To improve, manage this cases
 	Renderer(const RendererConfig& config);
 
+	void SetRendererConfig(const RendererConfig& config);
+
 	ImageBuffer Render(const Camera& camera, const Scene& scene, const std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const;
 
 	void UseAntialising(bool newState) { useAntiAliasing = newState; }

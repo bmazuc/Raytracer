@@ -56,6 +56,11 @@ void RenderWorker::Run()
 	}
 }
 
+void RenderWorker::SetRendererConfig(const RendererConfig& config)
+{
+	raytracer->GetRenderer()->SetRendererConfig(config);
+}
+
 void RenderWorker::SetCameraConfig(const CameraConfiguration& config)
 {
 	raytracer->GetCamera()->SetCameraConfig(config);

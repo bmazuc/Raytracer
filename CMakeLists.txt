@@ -76,7 +76,7 @@ set(SRCS
 	"Application/include/Worker/RenderWorker.h" 
 	"Application/source/Worker/RenderWorker.cpp" 
 	"Application/include/Panel/OutputPanel.h" 
-	"Application/source/Panel/OutputPanel.cpp" "Application/include/ImageView.h" "Application/source/ImageView.cpp" "Application/include/Utils/ImageConverter.h" "Application/source/Utils/ImageConverter.cpp")
+	"Application/source/Panel/OutputPanel.cpp" "Application/include/ImageView.h" "Application/source/ImageView.cpp" "Application/include/Utils/ImageConverter.h" "Application/source/Utils/ImageConverter.cpp" "Application/include/Panel/RenderParameterPanel.h" "Application/source/Panel/RenderParameterPanel.cpp")
 	
 add_executable(raytracer ${SRCS})
 

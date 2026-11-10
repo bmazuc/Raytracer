@@ -4,10 +4,10 @@
 #include <QMainWindow>
 
 class RenderController;
-class QComboBox;
 class RenderPanel;
 class OutputPanel;
 class ImageView;
+class RenderParameterPanel;
 
 class RaytracerWindow : public QMainWindow
 {
@@ -26,11 +26,10 @@ private:
 	void SetupConnections();
 	void ApplyStyle();
 
-	QComboBox* sceneSelector;
-
 	RenderPanel* renderPanel;
 	OutputPanel* outputPanel;
 	ImageView* imageView;
+	RenderParameterPanel* renderParameterPanel;
 
 	RenderController* renderController;
 };

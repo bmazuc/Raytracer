@@ -25,7 +25,7 @@ RenderController::~RenderController()
     }
 }
 
-void RenderController::StartRender(int sceneIdx, const OutputConfig& outputConfig)
+void RenderController::StartRender(int sceneIdx, const RendererConfig& rendererConfig, const OutputConfig& outputConfig)
 {
     if (isRendering)
     {
@@ -37,6 +37,7 @@ void RenderController::StartRender(int sceneIdx, const OutputConfig& outputConfi
     QThread* thread = new QThread(this);
     worker = new RenderWorker();
     worker->SetOutputConfig(outputConfig);
+    worker->SetRendererConfig(rendererConfig);
 
     renderThread = thread;
 

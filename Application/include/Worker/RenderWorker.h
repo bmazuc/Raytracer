@@ -7,6 +7,7 @@
 class QImage;
 class Raytracer;
 struct CameraConfiguration;
+struct RendererConfig;
 struct OutputConfig;
 class Scene;
 
@@ -16,6 +17,7 @@ class RenderWorker : public QObject
 public:
 	explicit RenderWorker(QObject* parent = nullptr);
 
+	void SetRendererConfig(const RendererConfig& config);
 	void SetCameraConfig(const CameraConfiguration& config);
 	void SetScene(std::unique_ptr<Scene> scene);
 	void SetOutputConfig(const OutputConfig& outputConfig);

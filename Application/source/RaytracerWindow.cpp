@@ -2,6 +2,7 @@
 #include "Controller/RenderController.h"
 #include "Panel/RenderPanel.h"
 #include "Panel/OutputPanel.h"
+#include "Panel/RenderParameterPanel.h"
 #include "Raytracer.h"
 #include "ImageView.h"
 
@@ -10,7 +11,6 @@
 #include <QVBoxLayout>
 #include <QDebug>
 
-#include <QComboBox>
 #include <QCloseEvent>
 
 RaytracerWindow::RaytracerWindow(QWidget* parent, std::string name, int w, int h)
@@ -34,10 +34,9 @@ void RaytracerWindow::SetupUI(std::string name, int w, int h)
     QWidget* centralWidget = new QWidget(this);
     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
 
-    sceneSelector = new QComboBox(centralWidget);
-    sceneSelector->addItem("Basic scene", 0);
-    sceneSelector->addItem("Complex scene", 1);
-    sceneSelector->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    renderParameterPanel = new RenderParameterPanel(centralWidget);
+    renderParameterPanel->AddScene("Basic scene", 0);
+    renderParameterPanel->AddScene("Complex scene", 1);
 
     imageView = new ImageView(centralWidget);
 
@@ -49,7 +48,7 @@ void RaytracerWindow::SetupUI(std::string name, int w, int h)
     setCentralWidget(centralWidget);
 
     sideLayout->addWidget(outputPanel, 1);
-    sideLayout->addWidget(sceneSelector, 1);
+    sideLayout->addWidget(renderParameterPanel, 1);
     sideLayout->addWidget(renderPanel, 1);
 
     mainLayout->addLayout(sideLayout, 1);
@@ -66,7 +65,7 @@ void RaytracerWindow::SetupConnections()
     connect(renderPanel, &RenderPanel::RenderRequested,
         this, [this]()
         {
-            renderController->StartRender(sceneSelector->currentData().toInt(), outputPanel->GenerateOutputConfig());
+            renderController->StartRender(renderParameterPanel->GetSceneIndex(), renderParameterPanel->GenerateRendererConfig(), outputPanel->GenerateOutputConfig());
         });
 
     connect(renderPanel, &RenderPanel::CancelRequested,

@@ -32,6 +32,13 @@ Renderer::Renderer(const RendererConfig& config)
     }
 }
 
+void Renderer::SetRendererConfig(const RendererConfig& config)
+{
+    tileSize = config.tileSize;
+    threadCount = config.threadCount;
+    progressMonitorFrequency = config.progressMonitorFrequency;
+}
+
 ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const
 {
     size_t width = camera.GetImageWidth();

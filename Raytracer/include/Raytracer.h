@@ -29,6 +29,9 @@ public:
     Camera* GetCamera() { return &camera; }
     const Camera* GetCamera() const { return &camera; }
 
+    Renderer* GetRenderer() { return &renderer; }
+    const Renderer* GetRenderer() const { return &renderer; }
+
     ImageBuffer& GetImageBuffer() { return imageBuffer; }
     const ImageBuffer& GetImageBuffer() const { return imageBuffer; }
 
