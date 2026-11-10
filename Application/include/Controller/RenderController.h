@@ -8,6 +8,7 @@ class Raytracer;
 class QThread;
 class RenderWorker;
 struct OutputConfig;
+class QImage;
 
 class RenderController : public QObject
 {
@@ -21,6 +22,7 @@ public:
 
 signals: 
 	void ProgressChanged(int percentage);
+	void ImageReady(const QImage& image);
 	void RenderFinished();
 	void RenderCancelled();
 	void RenderError(const QString& error);

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <memory>
 
+class QImage;
 class Raytracer;
 struct CameraConfiguration;
 struct OutputConfig;
@@ -26,6 +27,7 @@ public slots:
 
 signals:
 	void ProgressChanged(int percentage);
+	void ImageReady(const QImage& image);
 	void RenderCancelled();
 	void RenderFinished();
 	void RenderError(const QString& error);

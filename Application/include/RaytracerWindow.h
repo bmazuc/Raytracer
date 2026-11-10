@@ -5,9 +5,9 @@
 
 class RenderController;
 class QComboBox;
-class QProgressBar;
 class RenderPanel;
 class OutputPanel;
+class ImageView;
 
 class RaytracerWindow : public QMainWindow
 {
@@ -27,9 +27,10 @@ private:
 	void ApplyStyle();
 
 	QComboBox* sceneSelector;
-	QProgressBar* progressBar;
+
 	RenderPanel* renderPanel;
 	OutputPanel* outputPanel;
+	ImageView* imageView;
 
 	RenderController* renderController;
 };

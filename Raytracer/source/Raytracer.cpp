@@ -1,6 +1,5 @@
 #include "Raytracer.h"
 #include "Scene/Scene.h"
-#include "Image/ImageBuffer.h"
 #include "Image/ImageWriterFactory.h"
 #include "Image/ImageWriter.h"
 
@@ -26,7 +25,6 @@ void Raytracer::RenderToFile(const ProgressCallback& callback, const std::atomic
         throw std::logic_error("Cannot render: no scene has been configured");
     }
 
-
     const std::size_t dotPosition = outputConfig.filename.find_last_of('.');
     if (dotPosition == std::string::npos)
     {
@@ -40,7 +38,7 @@ void Raytracer::RenderToFile(const ProgressCallback& callback, const std::atomic
         throw std::invalid_argument("Unsupported image format: " + extension);
     }
 
-    ImageBuffer imageBuffer = renderer.Render(camera, *scene, outputConfig.GetPath(), callback, cancelRequested);
+    imageBuffer = renderer.Render(camera, *scene, outputConfig.GetPath(), callback, cancelRequested);
 
     if (!cancelRequested)
     {

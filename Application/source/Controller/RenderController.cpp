@@ -63,6 +63,7 @@ void RenderController::StartRender(int sceneIdx, const OutputConfig& outputConfi
         }
     );
 
+    connect(worker, &RenderWorker::ImageReady, this, &RenderController::ImageReady);
     connect(worker, &RenderWorker::ProgressChanged,this,&RenderController::ProgressChanged);
 
     connect(worker, &RenderWorker::RenderError, this, &RenderController::RenderError);

@@ -60,6 +60,11 @@ void Renderer::RenderSingleThread(const Camera& camera, const Scene& scene, Imag
 
     for (const Tile& tile : tiles)
     {
+        if (cancelRequested)
+        {
+            return;
+        }
+
         RenderTile(tile, camera, scene, imageBuffer, cancelRequested);
 
         ++renderProgress.completedTiles;
@@ -105,6 +110,11 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
 
     while (renderProgress.completedTiles.load(std::memory_order_relaxed) < renderProgress.tileCount)
     {
+       if (cancelRequested.load())
+       {
+           return;
+       }
+
        ReportProgress(renderProgress, callback);
 
        std::this_thread::sleep_for(std::chrono::milliseconds(progressMonitorFrequency));
@@ -130,7 +140,10 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
         }
     }
 
-    ReportProgress(renderProgress, callback);
+    if (!cancelRequested.load())
+    {
+        ReportProgress(renderProgress, callback);
+    }
 
     if (firstException)
     {
@@ -180,6 +193,4 @@ void Renderer::ReportProgress(const RenderProgress& progress, const ProgressCall
     {
         callback(percentage);
     }
-
-    std::clog << "\rRendering: " << std::fixed << std::setprecision(1) << percentage << '%' << std::flush;
 }

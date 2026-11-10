@@ -3,12 +3,13 @@
 #include "Panel/RenderPanel.h"
 #include "Panel/OutputPanel.h"
 #include "Raytracer.h"
+#include "ImageView.h"
 
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QDebug>
-#include <QProgressBar>
+
 #include <QComboBox>
 #include <QCloseEvent>
 
@@ -38,10 +39,7 @@ void RaytracerWindow::SetupUI(std::string name, int w, int h)
     sceneSelector->addItem("Complex scene", 1);
     sceneSelector->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    progressBar = new QProgressBar(centralWidget);
-    progressBar->setRange(0, 100);
-    progressBar->setValue(0);
-    progressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    imageView = new ImageView(centralWidget);
 
     renderPanel = new RenderPanel(centralWidget);
     outputPanel = new OutputPanel(centralWidget);
@@ -54,8 +52,8 @@ void RaytracerWindow::SetupUI(std::string name, int w, int h)
     sideLayout->addWidget(sceneSelector, 1);
     sideLayout->addWidget(renderPanel, 1);
 
-    mainLayout->addLayout(sideLayout);
-    mainLayout->addWidget(progressBar, 4);
+    mainLayout->addLayout(sideLayout, 1);
+    mainLayout->addWidget(imageView, 4);
 
     setWindowTitle(name.c_str());
     resize(w, h);
@@ -63,31 +61,29 @@ void RaytracerWindow::SetupUI(std::string name, int w, int h)
 
 void RaytracerWindow::SetupConnections()
 {
-    connect(renderController,
-        &RenderController::ProgressChanged,
-        this,
-        [this](int percentage)
-        {
-            progressBar->setValue(percentage);
-        });
+    connect(renderController, &RenderController::ProgressChanged, renderPanel, &RenderPanel::UpdateProgressBar);
 
-    connect(renderPanel,
-        &RenderPanel::RenderRequested,
-        this,
-        [this]()
+    connect(renderPanel, &RenderPanel::RenderRequested,
+        this, [this]()
         {
-            progressBar->setValue(0);
             renderController->StartRender(sceneSelector->currentData().toInt(), outputPanel->GenerateOutputConfig());
         });
 
-    connect(renderPanel,
-        &RenderPanel::CancelRequested,
-        this,
-        [this]()
+    connect(renderPanel, &RenderPanel::CancelRequested,
+        this, [this]()
         {
-            progressBar->setValue(0);
             renderController->StopRender();
         });
+
+    connect(renderController,
+        &RenderController::ImageReady,
+        imageView,
+        &ImageView::SetImage
+    );
+
+    connect(renderController, &RenderController::RenderFinished, renderPanel, &RenderPanel::OnRenderEnded);
+    connect(renderController, &RenderController::RenderError, renderPanel, &RenderPanel::OnRenderEnded);
+    connect(renderController, &RenderController::RenderCancelled, renderPanel, &RenderPanel::OnRenderEnded);
 }
 
 void RaytracerWindow::ApplyStyle()

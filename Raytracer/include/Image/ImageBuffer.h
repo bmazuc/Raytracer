@@ -12,7 +12,7 @@ constexpr size_t maxSize = SIZE_MAX;
 class ImageBuffer
 {
 public:
-	ImageBuffer(size_t inWidth, size_t inHeight);
+	ImageBuffer(size_t inWidth = 1, size_t inHeight = 1);
 
 	void SetPixel(int x, int y, const Color& color);
 

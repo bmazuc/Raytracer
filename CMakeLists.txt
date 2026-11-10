@@ -4,7 +4,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-project(Raytracer)
+project(Raytracer LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Threads REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
@@ -73,7 +76,7 @@ set(SRCS
 	"Application/include/Worker/RenderWorker.h" 
 	"Application/source/Worker/RenderWorker.cpp" 
 	"Application/include/Panel/OutputPanel.h" 
-	"Application/source/Panel/OutputPanel.cpp")
+	"Application/source/Panel/OutputPanel.cpp" "Application/include/ImageView.h" "Application/source/ImageView.cpp" "Application/include/Utils/ImageConverter.h" "Application/source/Utils/ImageConverter.cpp")
 	
 add_executable(raytracer ${SRCS})
 

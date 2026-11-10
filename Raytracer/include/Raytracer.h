@@ -3,7 +3,7 @@
 
 #include "Renderer.h"
 #include "Camera.h"
-#include "Image/PPMWriter.h"
+#include "Image/ImageBuffer.h"
 
 #include <memory>
 
@@ -29,6 +29,9 @@ public:
     Camera* GetCamera() { return &camera; }
     const Camera* GetCamera() const { return &camera; }
 
+    ImageBuffer& GetImageBuffer() { return imageBuffer; }
+    const ImageBuffer& GetImageBuffer() const { return imageBuffer; }
+
     void SetOutputConfig(const OutputConfig& inOutputConfig) { outputConfig = inOutputConfig; }
     void SetScene(std::unique_ptr<Scene> newScene);
 
@@ -37,6 +40,8 @@ public:
 private:
     Renderer renderer;
     Camera camera;
+
+    ImageBuffer imageBuffer;
 
     OutputConfig outputConfig;
 

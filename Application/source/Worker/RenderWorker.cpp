@@ -1,5 +1,5 @@
 #include "Worker/RenderWorker.h"
-
+#include "Utils/ImageConverter.h"
 #include "Raytracer.h"
 #include "Scene/Scene.h"
 
@@ -32,6 +32,17 @@ void RenderWorker::Run()
 		}
 		else
 		{
+			const ImageBuffer& buffer = raytracer->GetImageBuffer();
+
+			QImage image = ImageConverter::ToQImage(buffer);
+			if (image.isNull())
+			{
+				throw std::runtime_error("Failed to convert rendered image");
+			}
+
+			emit ImageReady(image);
+
+
 			emit RenderFinished();
 		}
 	}
