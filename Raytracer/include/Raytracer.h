@@ -11,6 +11,12 @@ class Scene;
 struct CameraConfiguration;
 struct RendererConfig;
 
+enum class OperationStatus
+{
+    RenderingScene,
+    WritingToFile
+};
+
 struct OutputConfig
 {
 public:
@@ -19,6 +25,9 @@ public:
 
     std::string GetPath() { return directory + '/' + filename; }
 };
+
+using ProgressCallback = std::function<void(int)>;
+using OperationStatusCallback = std::function<void(OperationStatus)>;
 
 class Raytracer
 {
@@ -38,7 +47,7 @@ public:
     void SetOutputConfig(const OutputConfig& inOutputConfig) { outputConfig = inOutputConfig; }
     void SetScene(std::unique_ptr<Scene> newScene);
 
-    void RenderToFile(const ProgressCallback& callback, const std::atomic_bool& cancelRequested);
+    void RenderToFile(const OperationStatusCallback& operationStatusCallback, const ProgressCallback& progressCallback, const std::atomic_bool& cancelRequested);
 
 private:
     Renderer renderer;

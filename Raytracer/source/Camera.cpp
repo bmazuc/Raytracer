@@ -80,13 +80,8 @@ Ray Camera::ViewportPointToRay(int x, int y) const
 
 void Camera::ComputeImageHeight()
 {
-	int computedImageHeight = int(imageWidth / aspectRatio);
-	if (computedImageHeight < 1)
-	{
-		computedImageHeight = 1;
-	}
-
-	imageHeight = computedImageHeight;
+	int computedImageHeight = static_cast<int>(imageWidth / aspectRatio);
+	imageHeight = std::max(1, computedImageHeight);
 }
 
 void Camera::ComputeCameraBasis()

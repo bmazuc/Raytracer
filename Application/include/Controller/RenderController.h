@@ -11,6 +11,8 @@ struct RendererConfig;
 struct OutputConfig;
 class QImage;
 
+enum class OperationStatus;
+
 class RenderController : public QObject
 {
 	Q_OBJECT
@@ -23,6 +25,7 @@ public:
 
 signals: 
 	void ProgressChanged(int percentage);
+	void OperationStatusChanged(OperationStatus status);
 	void ImageReady(const QImage& image);
 	void RenderFinished();
 	void RenderCancelled();

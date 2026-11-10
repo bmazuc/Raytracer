@@ -8,13 +8,14 @@ class RenderPanel;
 class OutputPanel;
 class ImageView;
 class RenderParameterPanel;
+class OperationStatusPanel;
 
 class RaytracerWindow : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	explicit RaytracerWindow(QWidget* parent = nullptr, std::string name = "Raytracer", int w = 800, int h = 600);
+	explicit RaytracerWindow(std::string name = "Raytracer", int w = 1920, int h = 1080, QWidget* parent = nullptr);
 	~RaytracerWindow() override = default;
 
 	RenderController* GetRaytracerController() { return renderController; }
@@ -22,10 +23,11 @@ public:
 
 private:
 	void closeEvent(QCloseEvent* event) override;
-	void SetupUI(std::string name, int w, int h);
+	void SetupUI();
 	void SetupConnections();
 	void ApplyStyle();
 
+	OperationStatusPanel* operationStatusPanel;
 	RenderPanel* renderPanel;
 	OutputPanel* outputPanel;
 	ImageView* imageView;

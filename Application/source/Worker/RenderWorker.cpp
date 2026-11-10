@@ -19,6 +19,10 @@ void RenderWorker::Run()
 	try
 	{
 		raytracer->RenderToFile(
+			[this](OperationStatus status)
+			{
+				emit OperationStatusChanged(status);
+			},
 			[this](int percentage)
 			{
 				emit ProgressChanged(percentage);

@@ -10,6 +10,7 @@ struct CameraConfiguration;
 struct RendererConfig;
 struct OutputConfig;
 class Scene;
+enum class OperationStatus;
 
 class RenderWorker : public QObject
 {
@@ -29,6 +30,7 @@ public slots:
 
 signals:
 	void ProgressChanged(int percentage);
+	void OperationStatusChanged(OperationStatus status);
 	void ImageReady(const QImage& image);
 	void RenderCancelled();
 	void RenderFinished();

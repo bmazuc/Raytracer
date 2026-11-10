@@ -3,24 +3,28 @@
 #include "Panel/RenderPanel.h"
 #include "Panel/OutputPanel.h"
 #include "Panel/RenderParameterPanel.h"
+#include "Panel/OperationStatusPanel.h"
 #include "Raytracer.h"
 #include "ImageView.h"
 
+#include <QApplication>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QDebug>
-
 #include <QCloseEvent>
 
-RaytracerWindow::RaytracerWindow(QWidget* parent, std::string name, int w, int h)
+RaytracerWindow::RaytracerWindow(std::string name, int w, int h, QWidget* parent)
 	: QMainWindow(parent)
 {
 	renderController = new RenderController(this);
 
-    SetupUI(name, w, h);
+    SetupUI();
     SetupConnections();
     ApplyStyle();
+
+    setWindowTitle(name.c_str());
+    resize(w, h);
 }
 
 void RaytracerWindow::closeEvent(QCloseEvent* event)
@@ -29,7 +33,7 @@ void RaytracerWindow::closeEvent(QCloseEvent* event)
     event->accept();
 }
 
-void RaytracerWindow::SetupUI(std::string name, int w, int h)
+void RaytracerWindow::SetupUI()
 {
     QWidget* centralWidget = new QWidget(this);
     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
@@ -43,7 +47,11 @@ void RaytracerWindow::SetupUI(std::string name, int w, int h)
     renderPanel = new RenderPanel(centralWidget);
     outputPanel = new OutputPanel(centralWidget);
 
+    operationStatusPanel = new OperationStatusPanel(centralWidget);
+    operationStatusPanel->hide();
+
     QVBoxLayout* sideLayout = new QVBoxLayout();
+    QVBoxLayout* rightSideLayout = new QVBoxLayout();
 
     setCentralWidget(centralWidget);
 
@@ -51,20 +59,21 @@ void RaytracerWindow::SetupUI(std::string name, int w, int h)
     sideLayout->addWidget(renderParameterPanel, 1);
     sideLayout->addWidget(renderPanel, 1);
 
-    mainLayout->addLayout(sideLayout, 1);
-    mainLayout->addWidget(imageView, 4);
+    rightSideLayout->addWidget(imageView, 6);
+    rightSideLayout->addWidget(operationStatusPanel, 1);
 
-    setWindowTitle(name.c_str());
-    resize(w, h);
+    mainLayout->addLayout(sideLayout, 1);
+    mainLayout->addLayout(rightSideLayout, 4);
 }
 
 void RaytracerWindow::SetupConnections()
 {
-    connect(renderController, &RenderController::ProgressChanged, renderPanel, &RenderPanel::UpdateProgressBar);
+    connect(renderController, &RenderController::ProgressChanged, operationStatusPanel, &OperationStatusPanel::UpdateProgressBar);
 
     connect(renderPanel, &RenderPanel::RenderRequested,
         this, [this]()
         {
+            operationStatusPanel->show();
             renderController->StartRender(renderParameterPanel->GetSceneIndex(), renderParameterPanel->GenerateRendererConfig(), outputPanel->GenerateOutputConfig());
         });
 
@@ -74,15 +83,17 @@ void RaytracerWindow::SetupConnections()
             renderController->StopRender();
         });
 
-    connect(renderController,
-        &RenderController::ImageReady,
-        imageView,
-        &ImageView::SetImage
-    );
+    connect(renderController, &RenderController::ImageReady, imageView, &ImageView::SetImage);
+
+    connect(renderController, &RenderController::OperationStatusChanged, operationStatusPanel, &OperationStatusPanel::HandleOperationStatus);
 
     connect(renderController, &RenderController::RenderFinished, renderPanel, &RenderPanel::OnRenderEnded);
     connect(renderController, &RenderController::RenderError, renderPanel, &RenderPanel::OnRenderEnded);
     connect(renderController, &RenderController::RenderCancelled, renderPanel, &RenderPanel::OnRenderEnded);
+
+    connect(renderController, &RenderController::RenderFinished, operationStatusPanel, &QWidget::hide);
+    connect(renderController, &RenderController::RenderError, operationStatusPanel, &QWidget::hide);
+    connect(renderController, &RenderController::RenderCancelled, operationStatusPanel, &QWidget::hide);
 }
 
 void RaytracerWindow::ApplyStyle()

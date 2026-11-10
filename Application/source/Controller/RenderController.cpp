@@ -66,6 +66,7 @@ void RenderController::StartRender(int sceneIdx, const RendererConfig& rendererC
 
     connect(worker, &RenderWorker::ImageReady, this, &RenderController::ImageReady);
     connect(worker, &RenderWorker::ProgressChanged,this,&RenderController::ProgressChanged);
+    connect(worker, &RenderWorker::OperationStatusChanged, this, &RenderController::OperationStatusChanged);
 
     connect(worker, &RenderWorker::RenderError, this, &RenderController::RenderError);
     connect(worker, &RenderWorker::RenderError, worker, &QObject::deleteLater);

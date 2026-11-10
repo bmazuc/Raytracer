@@ -4,7 +4,6 @@
 #include <QWidget>
 
 class QPushButton;
-class QProgressBar;
 
 class RenderPanel : public QWidget
 {
@@ -13,7 +12,6 @@ class RenderPanel : public QWidget
 public:
 	explicit RenderPanel(QWidget* parent = nullptr);
 
-	void UpdateProgressBar(int percentage);
 	void OnRenderEnded();
 
 signals:
@@ -23,8 +21,7 @@ signals:
 private:
 	void SetupUI();
 	void SetupConnections();
-
-	QProgressBar* progressBar;
+	
 	QPushButton* renderButton;
 	QPushButton* cancelButton;
 };
