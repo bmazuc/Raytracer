@@ -10,6 +10,8 @@ public:
 
 	bool Scatter(const Ray& rayIn, const HitInfo& hitInfo, Color& attenuation, Ray& scattered) const override;
 
+	Color GetAlbedo() const { return albedo; }
+
 protected:
 	Color albedo;
 };

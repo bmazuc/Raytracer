@@ -1,7 +1,5 @@
 #include "Controller/RenderController.h"
 #include "Raytracer.h"
-#include "ExampleScenes/BasicScene.h"
-#include "ExampleScenes/ComplexScene.h"
 #include "Camera.h"
 #include "Worker/RenderWorker.h"
 
@@ -119,22 +117,7 @@ void RenderController::SetWorkerAsBasicScene()
         return;
     }
 
-    CameraConfiguration cameraConfig;
-    cameraConfig.imageWidth = 400;
-    cameraConfig.aspectRatio = 16.0f / 9.0f;
-    cameraConfig.samplesPerPixel = 100;
-    cameraConfig.maxDepth = 50;
-
-    cameraConfig.fov = 20;
-    cameraConfig.position = Vec3(-2.0f, 2.0f, 1.0f);
-    cameraConfig.lookAt = Vec3(0.0f, 0.0f, -1.0f);
-    cameraConfig.vUp = Vec3(0.0f, 1.0f, 0.0f);
-
-    cameraConfig.defocusAngle = 0.0f;
-    cameraConfig.focusDistance = 10.0f;
-
-    worker->SetCameraConfig(cameraConfig);
-    worker->SetScene(BasicScene::Create());
+    worker->LoadScene("basic_scene.json");
 }
 
 void RenderController::SetWorkerAsComplexScene()
@@ -144,20 +127,5 @@ void RenderController::SetWorkerAsComplexScene()
         return;
     }
 
-    CameraConfiguration cameraConfig;
-    cameraConfig.imageWidth = 1200;
-    cameraConfig.aspectRatio = 16.0f / 9.0f;
-    cameraConfig.samplesPerPixel = 500;
-    cameraConfig.maxDepth = 50;
-
-    cameraConfig.fov = 20;
-    cameraConfig.position = Vec3(13.0f, 2.0f, 3.0f);
-    cameraConfig.lookAt = Vec3(0.0f, 0.0f, 0.0f);
-    cameraConfig.vUp = Vec3(0.0f, 1.0f, 0.0f);
-
-    cameraConfig.defocusAngle = 0.6f;
-    cameraConfig.focusDistance = 10.0f;
-
-    worker->SetCameraConfig(cameraConfig);
-    worker->SetScene(ComplexScene::Create());
+    worker->LoadScene("complex_scene.json");
 }

@@ -33,6 +33,8 @@ public:
 
 	float GetFov() const { return fov; }
 
+	CameraConfiguration GetConfiguration() const;
+
 	size_t GetImageWidth() const { return imageWidth; }
 	size_t GetImageHeight() const { return imageHeight; }
 
@@ -48,7 +50,7 @@ public:
 	float GetPixelSamplesScale() const { return pixelSamplesScale; }
 	int GetMaxDepth() const { return maxDepth; }
 
-	void SetCameraConfig(const CameraConfiguration& config);
+	void SetConfiguration(const CameraConfiguration& config);
 
 	void SetImageWidth(int inImageWidth);
 	void SetAspectRatio(float inAspectRatio);

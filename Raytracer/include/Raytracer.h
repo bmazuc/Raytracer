@@ -38,6 +38,9 @@ public:
     Camera* GetCamera() { return &camera; }
     const Camera* GetCamera() const { return &camera; }
 
+    Scene* GetScene() { return scene.get(); }
+    const Scene* GetScene() const;
+
     Renderer* GetRenderer() { return &renderer; }
     const Renderer* GetRenderer() const { return &renderer; }
 

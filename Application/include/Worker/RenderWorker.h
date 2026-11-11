@@ -19,9 +19,11 @@ public:
 	explicit RenderWorker(QObject* parent = nullptr);
 
 	void SetRendererConfig(const RendererConfig& config);
-	void SetCameraConfig(const CameraConfiguration& config);
+	void SetConfiguration(const CameraConfiguration& config);
 	void SetScene(std::unique_ptr<Scene> scene);
 	void SetOutputConfig(const OutputConfig& outputConfig);
+
+	void LoadScene(std::string jsonpath);
 
 	void RequestCancel();
 

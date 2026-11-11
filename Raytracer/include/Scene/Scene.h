@@ -13,10 +13,16 @@ struct Color;
 class Scene
 {
 public:
+	Sky* GetSky() { return sky.get(); }
+	const Sky* GetSky() const { return sky.get(); }
+
 	void SetSky(std::unique_ptr<Sky> newSky);
 
 	void Add(std::shared_ptr<Hittable> object);
 	void Clear();
+
+	const std::vector<std::shared_ptr<Hittable>>& GetObjects() const { return objects; }
+	std::vector<std::shared_ptr<Hittable>>&GetObjects() { return objects; }
 
 	bool Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const;
 

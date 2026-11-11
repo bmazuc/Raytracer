@@ -6,10 +6,31 @@
 
 Camera::Camera(const CameraConfiguration& config)
 {
-	SetCameraConfig(config);
+	SetConfiguration(config);
 }
 
-void Camera::SetCameraConfig(const CameraConfiguration& config)
+CameraConfiguration Camera::GetConfiguration() const
+{
+	CameraConfiguration config;
+
+	config.imageWidth = imageWidth;
+	config.aspectRatio = aspectRatio;
+	config.fov = fov;
+
+	config.position = position;
+	config.lookAt = lookAt;
+	config.vUp = vUp;
+
+	config.samplesPerPixel = samplesPerPixel;
+	config.maxDepth = maxDepth;
+
+	config.defocusAngle = defocusAngle;
+	config.focusDistance = focusDistance;
+
+	return config;
+}
+
+void Camera::SetConfiguration(const CameraConfiguration& config)
 {
 	imageWidth = config.imageWidth;
 	if (!std::isfinite(imageWidth) || imageWidth == 0)

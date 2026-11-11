@@ -9,6 +9,9 @@ public:
 	Metal(const Color& inAlbedo = Color::white, float inRoughness = 1.0f);
 	bool Scatter(const Ray& rayIn, const HitInfo& hitInfo, Color& attenuation, Ray& scattered) const override;
 
+	Color GetAlbedo() const { return albedo; }
+	float GetRoughness() const { return roughness; }
+
 private:
 	Color albedo;
 	float roughness;

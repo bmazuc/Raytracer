@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Threads REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 find_path(STB_INCLUDE_DIR
     NAMES stb_image_write.h
@@ -54,8 +55,8 @@ set(SRCS
 	"Raytracer/source/Image/PPMWriter.cpp" 
 	"Raytracer/include/Raytracer.h" 
 	"Raytracer/source/Raytracer.cpp" 
-	"Raytracer/include/ExampleScenes/BasicScene.h" 
-	"Raytracer/include/ExampleScenes/ComplexScene.h" 
+	 
+	 
 	"Raytracer/include/Image/ImageBuffer.h" 
 	"Raytracer/source/Image/ImageBuffer.cpp" 
 	"Raytracer/include/ThreadPool.h" 
@@ -88,7 +89,16 @@ set(SRCS
 	"Application/include/Panel/RenderParameterPanel.h"
 	"Application/source/Panel/RenderParameterPanel.cpp"
 	"Application/include/Panel/OperationStatusPanel.h"
-	"Application/source/Panel/OperationStatusPanel.cpp")
+	"Application/source/Panel/OperationStatusPanel.cpp" 
+	"Raytracer/include/Serialization/JsonTypes.h" 
+	"Raytracer/include/Serialization/SceneSerializer.h" 
+	"Raytracer/source/Serialization/SceneSerializer.cpp" 
+	"Raytracer/include/Serialization/MaterialSerializer.h" 
+	"Raytracer/source/Serialization/MaterialSerializer.cpp" 
+	"Raytracer/include/Serialization/ObjectSerializer.h" 
+	"Raytracer/source/Serialization/ObjectSerializer.cpp" 
+	"Raytracer/include/Serialization/SkySerializer.h" 
+	"Raytracer/source/Serialization/SkySerializer.cpp")
 	
 add_executable(raytracer ${SRCS})
 
@@ -101,6 +111,7 @@ target_include_directories(raytracer
 target_link_libraries(raytracer
 	PRIVATE Threads::Threads
 	PRIVATE Qt6::Widgets
+	PRIVATE nlohmann_json::nlohmann_json
 )
 
 if(WIN32)

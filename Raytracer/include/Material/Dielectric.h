@@ -10,6 +10,8 @@ public:
 
 	bool Scatter(const Ray& rayIn, const HitInfo& hitInfo, Color& attenuation, Ray& scattered) const override;
 
+	float GetRefractionIndex() const { return refractionIndex; }
+
 private:
 	float Reflectance(float cos, float eta) const;
 

@@ -13,6 +13,11 @@ Raytracer::Raytracer(const CameraConfiguration& cameraConfig, const RendererConf
 {
 }
 
+const Scene* Raytracer::GetScene() const 
+{ 
+    return scene.get(); 
+}
+
 void Raytracer::SetScene(std::unique_ptr<Scene> newScene)
 {
     scene = std::move(newScene);

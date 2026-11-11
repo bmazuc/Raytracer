@@ -2,6 +2,7 @@
 #include "Utils/ImageConverter.h"
 #include "Raytracer.h"
 #include "Scene/Scene.h"
+#include "Serialization/SceneSerializer.h"
 
 RenderWorker::RenderWorker(QObject* parent)
 	: QObject(parent),
@@ -60,14 +61,19 @@ void RenderWorker::Run()
 	}
 }
 
+void RenderWorker::LoadScene(std::string jsonpath)
+{
+	SceneSerializer::Load(jsonpath, raytracer);
+}
+
 void RenderWorker::SetRendererConfig(const RendererConfig& config)
 {
 	raytracer->GetRenderer()->SetRendererConfig(config);
 }
 
-void RenderWorker::SetCameraConfig(const CameraConfiguration& config)
+void RenderWorker::SetConfiguration(const CameraConfiguration& config)
 {
-	raytracer->GetCamera()->SetCameraConfig(config);
+	raytracer->GetCamera()->SetConfiguration(config);
 }
 
 void RenderWorker::SetScene(std::unique_ptr<Scene> scene)

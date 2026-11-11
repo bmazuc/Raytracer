@@ -1,0 +1,122 @@
+{
+    "camera": {
+        "aspectRatio": 1.7777777910232544,
+        "defocusAngle": 0.0,
+        "focusDistance": 10.0,
+        "fov": 20.0,
+        "imageWidth": 400,
+        "lookAt": [
+            0.0,
+            0.0,
+            -1.0
+        ],
+        "maxDepth": 50,
+        "position": [
+            -2.0,
+            2.0,
+            1.0
+        ],
+        "samplesPerPixel": 100,
+        "vUp": [
+            0.0,
+            1.0,
+            0.0
+        ]
+    },
+    "scene": {
+        "objects": [
+            {
+                "material": {
+                    "albedo": [
+                        0.800000011920929,
+                        0.800000011920929,
+                        0.0
+                    ],
+                    "type": "lambertian"
+                },
+                "position": [
+                    0.0,
+                    -100.5,
+                    -1.0
+                ],
+                "radius": 100.0,
+                "type": "sphere"
+            },
+            {
+                "material": {
+                    "albedo": [
+                        0.10000000149011612,
+                        0.20000000298023224,
+                        0.5
+                    ],
+                    "type": "lambertian"
+                },
+                "position": [
+                    0.0,
+                    0.0,
+                    -1.2000000476837158
+                ],
+                "radius": 0.5,
+                "type": "sphere"
+            },
+            {
+                "material": {
+                    "refractionIndex": 1.5,
+                    "type": "dielectric"
+                },
+                "position": [
+                    -1.0,
+                    0.0,
+                    -1.0
+                ],
+                "radius": 0.5,
+                "type": "sphere"
+            },
+            {
+                "material": {
+                    "refractionIndex": 0.6666666865348816,
+                    "type": "dielectric"
+                },
+                "position": [
+                    -1.0,
+                    0.0,
+                    -1.0
+                ],
+                "radius": 0.4000000059604645,
+                "type": "sphere"
+            },
+            {
+                "material": {
+                    "albedo": [
+                        0.800000011920929,
+                        0.6000000238418579,
+                        0.20000000298023224
+                    ],
+                    "roughness": 1.0,
+                    "type": "metal"
+                },
+                "position": [
+                    1.0,
+                    0.0,
+                    -1.0
+                ],
+                "radius": 0.5,
+                "type": "sphere"
+            }
+        ],
+        "sky": {
+            "horizonColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "gradient",
+            "zenithColor": [
+                0.5,
+                0.699999988079071,
+                1.0
+            ]
+        }
+    },
+    "version": 1
+}
