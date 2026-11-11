@@ -6,6 +6,8 @@
 #include <QSlider>
 #include <QLabel>
 #include <QIntValidator>
+#include <QGroupBox>
+#include <QFormLayout>
 
 RenderParameterPanel::RenderParameterPanel(QWidget* parent)
 	: QWidget(parent)
@@ -17,43 +19,52 @@ RenderParameterPanel::RenderParameterPanel(QWidget* parent)
 void RenderParameterPanel::SetupUI()
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout(this);
+	mainLayout->setContentsMargins(10, 10, 10, 10);
+	mainLayout->setSpacing(8);
+
+	QGroupBox* groupBox = new QGroupBox("Render Parameter", this);
+	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
+
+	QFormLayout* formLayout = new QFormLayout();
 
 	// thread count slider block
 	QHBoxLayout* threadCountLayout = new QHBoxLayout();
-	QLabel* threadCountLabel = new QLabel("Thread count", this);
-	threadCountSlider = new QSlider(this);
+
+	threadCountSlider = new QSlider(groupBox);
 	threadCountSlider->setOrientation(Qt::Horizontal);
 	unsigned int maxThread = std::max(1u, std::thread::hardware_concurrency() - 1);
 	threadCountSlider->setRange(1, maxThread);
 	threadCountSlider->setValue(maxThread);
-	threadCountSliderValueLabel = new QLabel(QString::number(maxThread), this);
-	threadCountLayout->addWidget(threadCountLabel);
+
+	threadCountSliderValueLabel = new QLabel(QString::number(maxThread), groupBox);
 	threadCountLayout->addWidget(threadCountSlider);
 	threadCountLayout->addWidget(threadCountSliderValueLabel);
 
-	QIntValidator* validator = new QIntValidator(this);
+	formLayout->addRow("Thread count", threadCountLayout);
+
+	QIntValidator* validator = new QIntValidator(groupBox);
 
 	// progressMonitorFrequency edit block
-	QHBoxLayout* progressMonitorFrequencyLayout = new QHBoxLayout();
-	QLabel* progressMonitorFrequencyLabel = new QLabel("Progress monitor frequency", this);
-	progressMonitorFrequencyEdit = new QLineEdit(this);
+	
+	progressMonitorFrequencyEdit = new QLineEdit(groupBox);
 	progressMonitorFrequencyEdit->setValidator(validator);
 	progressMonitorFrequencyEdit->setText("100");
-	progressMonitorFrequencyLayout->addWidget(progressMonitorFrequencyLabel);
-	progressMonitorFrequencyLayout->addWidget(progressMonitorFrequencyEdit);
+
+	formLayout->addRow("Progress monitor frequency", progressMonitorFrequencyEdit);
 
 	// tile size edit block
-	QHBoxLayout* tileSizeLayout = new QHBoxLayout();
-	QLabel* tileSizeLabel = new QLabel("Tile Size", this);
-	tileSizeEdit = new QLineEdit(this);
+
+	tileSizeEdit = new QLineEdit(groupBox);
 	tileSizeEdit->setValidator(validator);
 	tileSizeEdit->setText("32");
-	tileSizeLayout->addWidget(tileSizeLabel);
-	tileSizeLayout->addWidget(tileSizeEdit);
 
-	mainLayout->addLayout(threadCountLayout);
-	mainLayout->addLayout(progressMonitorFrequencyLayout);
-	mainLayout->addLayout(tileSizeLayout);
+	formLayout->addRow("Tile Size", tileSizeEdit);
+	
+	groupLayout->addStretch();
+	groupLayout->addLayout(formLayout);
+	groupLayout->addStretch();
+
+	mainLayout->addWidget(groupBox);
 }
 
 void RenderParameterPanel::SetupConnections()

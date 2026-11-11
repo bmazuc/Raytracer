@@ -16,6 +16,7 @@
 #include <QCloseEvent>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QSplitter>
 
 RaytracerWindow::RaytracerWindow(std::string name, int w, int h, QWidget* parent)
 	: QMainWindow(parent)
@@ -39,7 +40,6 @@ void RaytracerWindow::closeEvent(QCloseEvent* event)
 void RaytracerWindow::SetupUI()
 {
     QWidget* centralWidget = new QWidget(this);
-    QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
 
     renderParameterPanel = new RenderParameterPanel(centralWidget);
     sceneFilePanel = new SceneFilePanel(centralWidget);
@@ -52,21 +52,49 @@ void RaytracerWindow::SetupUI()
     operationStatusPanel = new OperationStatusPanel(centralWidget);
     operationStatusPanel->hide();
 
-    QVBoxLayout* sideLayout = new QVBoxLayout();
+    // Left side layout
+
+    QVBoxLayout* leftSideLayout = new QVBoxLayout();
+    leftSideLayout->addWidget(outputPanel, 1);
+    leftSideLayout->addWidget(renderParameterPanel, 1);
+    leftSideLayout->addWidget(sceneFilePanel, 1);
+    leftSideLayout->addWidget(renderPanel, 1);
+
+    QWidget* leftSide = new QWidget();
+    leftSide->setLayout(leftSideLayout);
+
+    // Right side layout
+
     QVBoxLayout* rightSideLayout = new QVBoxLayout();
-
-    setCentralWidget(centralWidget);
-
-    sideLayout->addWidget(outputPanel, 1);
-    sideLayout->addWidget(renderParameterPanel, 1);
-    sideLayout->addWidget(sceneFilePanel, 1);
-    sideLayout->addWidget(renderPanel, 1);
-
     rightSideLayout->addWidget(imageView, 6);
     rightSideLayout->addWidget(operationStatusPanel, 1);
 
-    mainLayout->addLayout(sideLayout, 1);
-    mainLayout->addLayout(rightSideLayout, 4);
+    QWidget* rightSide = new QWidget();
+    rightSide->setLayout(rightSideLayout);
+
+    // Horizontal splitter
+
+    QSplitter* splitter = new QSplitter(Qt::Horizontal, centralWidget);
+
+    splitter->addWidget(leftSide);
+    splitter->addWidget(rightSide);
+
+    splitter->setStretchFactor(0, 1);
+    splitter->setStretchFactor(1, 4);
+
+    splitter->setSizes({ 300, 1200 });
+    splitter->setHandleWidth(5);
+    splitter->handle(1)->setCursor(Qt::PointingHandCursor);
+    //splitter->handle(1)->setCursor(Qt::SplitHCursor);
+
+    splitter->setChildrenCollapsible(false);
+
+    // Main layout
+
+    QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
+    mainLayout->addWidget(splitter);
+
+    setCentralWidget(centralWidget);
 }
 
 void RaytracerWindow::SetupConnections()
@@ -130,6 +158,20 @@ void RaytracerWindow::ApplyStyle()
             background-color: #171B24;
         }
 
+        QGroupBox {
+            border: 1px solid #444444;
+            border-radius: 6px;
+            margin-top: 12px;
+            padding: 12px 8px 8px 8px;
+            font-weight: bold;
+        }
+
+        QGroupBox::title {
+            subcontrol-origin: margin;
+            left: 10px;
+            padding: 0 5px;
+        }
+
         QWidget {
             color: #E5EAF2;
             font-family: "Segoe UI";
@@ -140,11 +182,17 @@ void RaytracerWindow::ApplyStyle()
             background-color: #3478D4;
             border: none;
             border-radius: 5px;
+            font-size: 10pt;
+            padding: 6px 10px;
             padding: 9px;
         }
 
         QPushButton:hover {
             background-color: #438FE8;
+        }
+
+        QPushButton#browseButton {
+            padding: 2px 6px;
         }
 
 		QLineEdit {

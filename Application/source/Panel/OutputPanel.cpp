@@ -9,6 +9,8 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QCoreApplication>
+#include <QGroupBox>
+#include <QStyle>
 
 OutputPanel::OutputPanel(QWidget* parent)
 	: QWidget(parent)
@@ -20,30 +22,38 @@ OutputPanel::OutputPanel(QWidget* parent)
 void OutputPanel::SetupUI()
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout(this);
+	mainLayout->setContentsMargins(10, 10, 10, 10);
+	mainLayout->setSpacing(8);
 
-	QHBoxLayout* directoryLayout = new QHBoxLayout();
+	QGroupBox* groupBox = new QGroupBox("Output", this);
+	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
 
-	QLabel* directoryLabel = new QLabel("Output directory", this);
+	QFormLayout* formLayout = new QFormLayout();
+	formLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
 
 	QString defaultDirectory = QCoreApplication::applicationDirPath();
-	directoryEdit = new QLineEdit(defaultDirectory, this);
+	directoryEdit = new QLineEdit(defaultDirectory, groupBox);
 
-	browseButton = new QPushButton(this);
-	browseButton->setIcon(QIcon(":/icons/folder.png"));
-	browseButton->setFixedSize(32, 32);
+	browseButton = new QPushButton("Browse...", groupBox);
+	browseButton->setFixedHeight(directoryEdit->sizeHint().height());
+	browseButton->setObjectName("browseButton");
+	browseButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
-	QLabel* fileLabel = new QLabel("File name", this);
-	fileEdit = new QLineEdit("image.png", this);
-
-	directoryLayout->addWidget(directoryEdit);
+	QHBoxLayout* directoryLayout = new QHBoxLayout();
+	directoryLayout->addWidget(directoryEdit, 1);
 	directoryLayout->addWidget(browseButton);
 
-	mainLayout->addWidget(directoryLabel);
-	mainLayout->addLayout(directoryLayout);
-	mainLayout->addWidget(fileLabel);
-	mainLayout->addWidget(fileEdit);
+	formLayout->addRow("Output directory", directoryLayout);
 
-	setLayout(mainLayout);
+	fileEdit = new QLineEdit("image.png");
+
+	formLayout->addRow("File name", fileEdit);
+
+	groupLayout->addStretch();
+	groupLayout->addLayout(formLayout);
+	groupLayout->addStretch();
+
+	mainLayout->addWidget(groupBox);
 }
 
 void OutputPanel::SetupConnections()

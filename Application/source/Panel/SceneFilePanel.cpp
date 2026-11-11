@@ -8,6 +8,9 @@
 #include <QVBoxLayout>
 #include <QCoreApplication>
 #include <QDir>
+#include <QStyle>
+#include <QGroupBox>
+#include <QFormLayout>
 
 SceneFilePanel::SceneFilePanel(QWidget* parent)
     : QWidget(parent)
@@ -19,21 +22,37 @@ SceneFilePanel::SceneFilePanel(QWidget* parent)
 void SceneFilePanel::SetupUI()
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    QHBoxLayout* fileLayout = new QHBoxLayout();
+    mainLayout->setContentsMargins(10, 10, 10, 10);
+    mainLayout->setSpacing(8);
 
-    mainLayout->addWidget(new QLabel("Scene JSON file", this));
+    QGroupBox* groupBox = new QGroupBox("Scene", this);
+    QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
+
+    QFormLayout* formLayout = new QFormLayout();
+    formLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+
+    QHBoxLayout* fileLayout = new QHBoxLayout();
 
     const QString defaultPath =
         QDir(QCoreApplication::applicationDirPath()).filePath("basic_scene.json");
-    fileEdit = new QLineEdit(defaultPath, this);
+    fileEdit = new QLineEdit(defaultPath, groupBox);
     fileEdit->setPlaceholderText("Select a scene JSON file");
 
-    browseButton = new QPushButton("Browse...", this);
-    browseButton->setFixedWidth(90);
+    browseButton = new QPushButton("Browse...", groupBox);
+    browseButton->setFixedHeight(fileEdit->sizeHint().height());
+    browseButton->setObjectName("browseButton");
+    browseButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     fileLayout->addWidget(fileEdit, 1);
     fileLayout->addWidget(browseButton);
-    mainLayout->addLayout(fileLayout);
+
+    formLayout->addRow("Scene JSON file", fileLayout);
+
+    groupLayout->addStretch();
+    groupLayout->addLayout(formLayout);
+    groupLayout->addStretch();
+
+    mainLayout->addWidget(groupBox);
 }
 
 void SceneFilePanel::SetupConnections()

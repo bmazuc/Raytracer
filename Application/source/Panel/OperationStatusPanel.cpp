@@ -4,6 +4,7 @@
 #include <QProgressBar>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QGroupBox>
 
 OperationStatusPanel::OperationStatusPanel(QWidget* parent)
 	: QWidget(parent)
@@ -14,13 +15,18 @@ OperationStatusPanel::OperationStatusPanel(QWidget* parent)
 void OperationStatusPanel::SetupUI()
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-	
+	mainLayout->setContentsMargins(10, 10, 10, 10);
+	mainLayout->setSpacing(8);
+
+	QGroupBox* groupBox = new QGroupBox("Operation Status", this);
+	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
+
 	// UpperLayout
 	QHBoxLayout* upperLayout = new QHBoxLayout();
 	
-	operationStatusLabel = new QLabel("", this);
+	operationStatusLabel = new QLabel("", groupBox);
 
-	progressBar = new QProgressBar(this);
+	progressBar = new QProgressBar(groupBox);
 	progressBar->setRange(0, 100);
 	progressBar->setValue(0);
 	progressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -29,19 +35,21 @@ void OperationStatusPanel::SetupUI()
 	upperLayout->addWidget(operationStatusLabel, 1);
 	upperLayout->addWidget(progressBar, 2);
 
-	mainLayout->addLayout(upperLayout);
+	groupLayout->addLayout(upperLayout);
 
 	// LowerLayout
 	QHBoxLayout* lowerLayout = new QHBoxLayout();
 
-	QProgressBar* busyBar = new QProgressBar(this);
+	QProgressBar* busyBar = new QProgressBar(groupBox);
 	busyBar->setRange(0, 0);
 	busyBar->setFixedWidth(100);
 
 	lowerLayout->addStretch();
 	lowerLayout->addWidget(busyBar);
 
-	mainLayout->addLayout(lowerLayout);
+	groupLayout->addLayout(lowerLayout);
+
+	mainLayout->addWidget(groupBox);
 }
 
 void OperationStatusPanel::showEvent(QShowEvent* event)
