@@ -2,7 +2,7 @@
 #include "Image/ImageBuffer.h"
 #include "Utils/NumericUtils.h"
 
-#include <stb/stb_image_write.h>
+#include <stb_image_write.h>
 
 bool JpgWriter::Write(const std::string& filename, const ImageBuffer& frameBuffer) const
 {

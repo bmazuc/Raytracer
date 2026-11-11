@@ -3,7 +3,7 @@
 #include "Utils/NumericUtils.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb/stb_image_write.h>
+#include <stb_image_write.h>
 
 bool PngWriter::Write(const std::string& filename, const ImageBuffer& frameBuffer) const
 {

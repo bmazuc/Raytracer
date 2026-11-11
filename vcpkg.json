@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "stb",
     {
       "name": "qtbase",
       "default-features": false,

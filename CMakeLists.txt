@@ -12,6 +12,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Threads REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
+find_path(STB_INCLUDE_DIR
+    NAMES stb_image_write.h
+    REQUIRED
+)
+
 set(SRCS
 	main.cpp
 	"Raytracer/include/Renderer.h" 
@@ -59,7 +64,6 @@ set(SRCS
 	"Raytracer/include/Image/ImageWriter.h"
 	"Raytracer/include/Image/PngWriter.h"
 	"Raytracer/source/Image/PngWriter.cpp"
-	"Libs/stb/stb_image_write.h" 
 	"Raytracer/include/Image/JpgWriter.h" 
 	"Raytracer/source/Image/JpgWriter.cpp" 
 	"Raytracer/include/Image/ImageWriterFactory.h"
@@ -76,15 +80,23 @@ set(SRCS
 	"Application/include/Worker/RenderWorker.h" 
 	"Application/source/Worker/RenderWorker.cpp" 
 	"Application/include/Panel/OutputPanel.h" 
-	"Application/source/Panel/OutputPanel.cpp" "Application/include/ImageView.h" "Application/source/ImageView.cpp" "Application/include/Utils/ImageConverter.h" "Application/source/Utils/ImageConverter.cpp" "Application/include/Panel/RenderParameterPanel.h" "Application/source/Panel/RenderParameterPanel.cpp" "Application/include/Panel/OperationStatusPanel.h" "Application/source/Panel/OperationStatusPanel.cpp")
+	"Application/source/Panel/OutputPanel.cpp" 
+	"Application/include/ImageView.h" 
+	"Application/source/ImageView.cpp" 
+	"Application/include/Utils/ImageConverter.h"
+	"Application/source/Utils/ImageConverter.cpp"
+	"Application/include/Panel/RenderParameterPanel.h"
+	"Application/source/Panel/RenderParameterPanel.cpp"
+	"Application/include/Panel/OperationStatusPanel.h"
+	"Application/source/Panel/OperationStatusPanel.cpp")
 	
 add_executable(raytracer ${SRCS})
 
 target_include_directories(raytracer
 	PRIVATE 
 	"${PROJECT_SOURCE_DIR}/Raytracer/include"
-	"${PROJECT_SOURCE_DIR}/Application/include"
-	"${PROJECT_SOURCE_DIR}/Libs")
+	"${STB_INCLUDE_DIR}"
+	"${PROJECT_SOURCE_DIR}/Application/include")
 
 target_link_libraries(raytracer
 	PRIVATE Threads::Threads
