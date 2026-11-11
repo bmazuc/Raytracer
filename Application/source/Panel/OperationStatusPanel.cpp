@@ -60,6 +60,12 @@ void OperationStatusPanel::HandleOperationStatus(OperationStatus status)
 {
 	switch (status)
 	{
+	case OperationStatus::LoadingScene:
+		{
+			progressBar->hide();
+			operationStatusLabel->setText("Loading scene...");
+		}
+		break;
 	case OperationStatus::RenderingScene:
 		{
 			operationStatusLabel->setText("Rendering scene...");

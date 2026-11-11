@@ -3,6 +3,7 @@
 #include "Panel/RenderPanel.h"
 #include "Panel/OutputPanel.h"
 #include "Panel/RenderParameterPanel.h"
+#include "Panel/SceneFilePanel.h"
 #include "Panel/OperationStatusPanel.h"
 #include "Raytracer.h"
 #include "ImageView.h"
@@ -13,6 +14,8 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QCloseEvent>
+#include <QFileInfo>
+#include <QMessageBox>
 
 RaytracerWindow::RaytracerWindow(std::string name, int w, int h, QWidget* parent)
 	: QMainWindow(parent)
@@ -39,8 +42,7 @@ void RaytracerWindow::SetupUI()
     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
 
     renderParameterPanel = new RenderParameterPanel(centralWidget);
-    renderParameterPanel->AddScene("Basic scene", 0);
-    renderParameterPanel->AddScene("Complex scene", 1);
+    sceneFilePanel = new SceneFilePanel(centralWidget);
 
     imageView = new ImageView(centralWidget);
 
@@ -57,6 +59,7 @@ void RaytracerWindow::SetupUI()
 
     sideLayout->addWidget(outputPanel, 1);
     sideLayout->addWidget(renderParameterPanel, 1);
+    sideLayout->addWidget(sceneFilePanel, 1);
     sideLayout->addWidget(renderPanel, 1);
 
     rightSideLayout->addWidget(imageView, 6);
@@ -73,8 +76,32 @@ void RaytracerWindow::SetupConnections()
     connect(renderPanel, &RenderPanel::RenderRequested,
         this, [this]()
         {
+            const QString scenePath = sceneFilePanel->GetScenePath();
+            const QFileInfo sceneInfo(scenePath);
+
+            if (scenePath.isEmpty() || sceneInfo.suffix().compare("json", Qt::CaseInsensitive) != 0)
+            {
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Invalid scene");
+                msgBox.setText("Please select a valid JSON scene before starting the render.");
+                msgBox.setIcon(QMessageBox::Warning);
+                msgBox.setStandardButtons(QMessageBox::Ok);
+
+                msgBox.setStyleSheet(
+                    "QLabel {"
+                    "    color: #222222;"
+                    "}"
+                );
+
+                msgBox.exec();
+
+                return;
+            }
+
+            renderPanel->OnRenderStart();
+
             operationStatusPanel->show();
-            renderController->StartRender(renderParameterPanel->GetSceneIndex(), renderParameterPanel->GenerateRendererConfig(), outputPanel->GenerateOutputConfig());
+            renderController->StartRender(sceneFilePanel->GetScenePath(), renderParameterPanel->GenerateRendererConfig(), outputPanel->GenerateOutputConfig());
         });
 
     connect(renderPanel, &RenderPanel::CancelRequested,

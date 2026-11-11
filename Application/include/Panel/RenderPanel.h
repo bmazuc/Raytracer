@@ -12,6 +12,7 @@ class RenderPanel : public QWidget
 public:
 	explicit RenderPanel(QWidget* parent = nullptr);
 
+	void OnRenderStart();
 	void OnRenderEnded();
 
 signals:

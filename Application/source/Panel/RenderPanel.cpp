@@ -35,9 +35,6 @@ void RenderPanel::SetupConnections()
 	connect(renderButton, &QPushButton::clicked,
 		this, [this]()
 		{
-			cancelButton->setEnabled(true);
-			renderButton->setEnabled(false);
-
 			emit RenderRequested();
 		});
 
@@ -46,6 +43,12 @@ void RenderPanel::SetupConnections()
 		{
 			emit CancelRequested();
 		});
+}
+
+void RenderPanel::OnRenderStart()
+{
+	cancelButton->setEnabled(true);
+	renderButton->setEnabled(false);
 }
 
 void RenderPanel::OnRenderEnded()

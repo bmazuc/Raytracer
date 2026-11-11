@@ -3,7 +3,6 @@
 
 #include <QWidget>
 
-class QComboBox;
 class QSlider;
 class QLineEdit;
 struct RendererConfig;
@@ -15,8 +14,6 @@ class RenderParameterPanel : public QWidget
 public:
 	explicit RenderParameterPanel(QWidget* parent = nullptr);
 
-	void AddScene(const QString& text, int index);
-	int GetSceneIndex();
 	RendererConfig GenerateRendererConfig();
 
 private:
@@ -27,8 +24,6 @@ private:
 	QLabel* threadCountSliderValueLabel;
 	QLineEdit* progressMonitorFrequencyEdit;
 	QLineEdit* tileSizeEdit;
-
-	QComboBox* sceneSelector;
 };
 
 #endif

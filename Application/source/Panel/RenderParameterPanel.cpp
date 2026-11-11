@@ -2,10 +2,10 @@
 #include "Renderer.h"
 
 #include <QVBoxLayout>
-#include <QComboBox>
 #include <QLineEdit>
 #include <QSlider>
 #include <QLabel>
+#include <QIntValidator>
 
 RenderParameterPanel::RenderParameterPanel(QWidget* parent)
 	: QWidget(parent)
@@ -17,10 +17,6 @@ RenderParameterPanel::RenderParameterPanel(QWidget* parent)
 void RenderParameterPanel::SetupUI()
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-
-	sceneSelector = new QComboBox(this);
-	sceneSelector->setCurrentIndex(0);
-	sceneSelector->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	// thread count slider block
 	QHBoxLayout* threadCountLayout = new QHBoxLayout();
@@ -58,7 +54,6 @@ void RenderParameterPanel::SetupUI()
 	mainLayout->addLayout(threadCountLayout);
 	mainLayout->addLayout(progressMonitorFrequencyLayout);
 	mainLayout->addLayout(tileSizeLayout);
-	mainLayout->addWidget(sceneSelector);
 }
 
 void RenderParameterPanel::SetupConnections()
@@ -68,16 +63,6 @@ void RenderParameterPanel::SetupConnections()
 		{
 			threadCountSliderValueLabel->setText(QString::number(value));
 		});
-}
-
-void RenderParameterPanel::AddScene(const QString& text, int index)
-{
-	sceneSelector->addItem(text, index);
-}
-
-int RenderParameterPanel::GetSceneIndex()
-{
-	return sceneSelector->currentData().toInt();
 }
 
 RendererConfig RenderParameterPanel::GenerateRendererConfig()

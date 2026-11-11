@@ -23,7 +23,7 @@ RenderController::~RenderController()
     }
 }
 
-void RenderController::StartRender(int sceneIdx, const RendererConfig& rendererConfig, const OutputConfig& outputConfig)
+void RenderController::StartRender(const QString& scenePath, const RendererConfig& rendererConfig, const OutputConfig& outputConfig)
 {
     if (isRendering)
     {
@@ -41,16 +41,7 @@ void RenderController::StartRender(int sceneIdx, const RendererConfig& rendererC
 
     worker->moveToThread(thread);
 
-    switch (sceneIdx)
-    {
-        case 0:
-            SetWorkerAsBasicScene();
-            break;
-        case 1:
-            SetWorkerAsComplexScene();
-            break;
-        default:break;
-    }
+    worker->LoadScene(scenePath.toStdString());
 
     connect(thread, &QThread::started, worker, &RenderWorker::Run);
     connect(thread, &QThread::finished, thread, &QObject::deleteLater);
@@ -108,24 +99,4 @@ void RenderController::StopRender()
     {
         worker->RequestCancel();
     }
-}
-
-void RenderController::SetWorkerAsBasicScene()
-{
-    if (!worker)
-    {
-        return;
-    }
-
-    worker->LoadScene("basic_scene.json");
-}
-
-void RenderController::SetWorkerAsComplexScene()
-{
-    if (!worker)
-    {
-        return;
-    }
-
-    worker->LoadScene("complex_scene.json");
 }

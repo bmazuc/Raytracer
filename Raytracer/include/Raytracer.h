@@ -13,6 +13,7 @@ struct RendererConfig;
 
 enum class OperationStatus
 {
+    LoadingScene,
     RenderingScene,
     WritingToFile
 };

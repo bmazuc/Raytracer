@@ -63,6 +63,7 @@ void RenderWorker::Run()
 
 void RenderWorker::LoadScene(std::string jsonpath)
 {
+	emit OperationStatusChanged(OperationStatus::LoadingScene);
 	SceneSerializer::Load(jsonpath, raytracer);
 }
 

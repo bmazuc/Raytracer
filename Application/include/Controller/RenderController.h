@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPointer>
 
-class Raytracer;
+class QString;
 class QThread;
 class RenderWorker;
 struct RendererConfig;
@@ -20,7 +20,7 @@ public:
 	explicit RenderController(QObject* parent = nullptr);
 	~RenderController();
 
-	void StartRender(int sceneIdx, const RendererConfig& rendererConfig, const OutputConfig& outputConfig);
+	void StartRender(const QString& scenePath, const RendererConfig& rendererConfig, const OutputConfig& outputConfig);
 	void StopRender();
 
 signals: 
@@ -32,9 +32,6 @@ signals:
 	void RenderError(const QString& error);
 
 private:
-	void SetWorkerAsBasicScene();
-	void SetWorkerAsComplexScene();
-
 	RenderWorker* worker = nullptr;
 	QPointer<QThread> renderThread;
 	bool isRendering = false;

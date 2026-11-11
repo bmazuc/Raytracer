@@ -8,6 +8,7 @@ class RenderPanel;
 class OutputPanel;
 class ImageView;
 class RenderParameterPanel;
+class SceneFilePanel;
 class OperationStatusPanel;
 
 class RaytracerWindow : public QMainWindow
@@ -32,6 +33,7 @@ private:
 	OutputPanel* outputPanel;
 	ImageView* imageView;
 	RenderParameterPanel* renderParameterPanel;
+	SceneFilePanel* sceneFilePanel;
 
 	RenderController* renderController;
 };
