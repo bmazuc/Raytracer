@@ -34,7 +34,7 @@ void SceneFilePanel::SetupUI()
     QHBoxLayout* fileLayout = new QHBoxLayout();
 
     const QString defaultPath =
-        QDir(QCoreApplication::applicationDirPath()).filePath("basic_scene.json");
+        QDir(QCoreApplication::applicationDirPath()).filePath("Scenes/basic_scene.json");
     fileEdit = new QLineEdit(defaultPath, groupBox);
     fileEdit->setPlaceholderText("Select a scene JSON file");
 

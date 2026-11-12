@@ -16,6 +16,8 @@ ImageView::ImageView(QWidget* parent)
 
 	setMouseTracking(true);
 	setFocusPolicy(Qt::StrongFocus);
+
+    setCursor(Qt::OpenHandCursor);
 }
 
 void ImageView::SetImage(const QImage& newImage)
@@ -157,6 +159,8 @@ void ImageView::mousePressEvent(QMouseEvent* event)
 
         lastMousePosition = event->position();
 
+        setCursor(Qt::ClosedHandCursor);
+
         event->accept();
         return;
     }
@@ -190,6 +194,8 @@ void ImageView::mouseReleaseEvent(QMouseEvent* event)
     if (event->button() == Qt::LeftButton && isDragging)
     {
         isDragging = false;
+
+        setCursor(Qt::OpenHandCursor);
 
         event->accept();
         return;

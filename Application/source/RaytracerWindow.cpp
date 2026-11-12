@@ -52,7 +52,7 @@ void RaytracerWindow::SetupUI()
     operationStatusPanel = new OperationStatusPanel(centralWidget);
     operationStatusPanel->hide();
 
-    // Left side layout
+    // Left side
 
     QVBoxLayout* leftSideLayout = new QVBoxLayout();
     leftSideLayout->addWidget(outputPanel, 1);
@@ -63,7 +63,7 @@ void RaytracerWindow::SetupUI()
     QWidget* leftSide = new QWidget();
     leftSide->setLayout(leftSideLayout);
 
-    // Right side layout
+    // Right side
 
     QVBoxLayout* rightSideLayout = new QVBoxLayout();
     rightSideLayout->addWidget(imageView, 6);
@@ -84,8 +84,6 @@ void RaytracerWindow::SetupUI()
 
     splitter->setSizes({ 300, 1200 });
     splitter->setHandleWidth(5);
-    splitter->handle(1)->setCursor(Qt::PointingHandCursor);
-    //splitter->handle(1)->setCursor(Qt::SplitHCursor);
 
     splitter->setChildrenCollapsible(false);
 

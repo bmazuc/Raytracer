@@ -54,9 +54,7 @@ set(SRCS
 	"Raytracer/include/Image/PPMWriter.h" 
 	"Raytracer/source/Image/PPMWriter.cpp" 
 	"Raytracer/include/Raytracer.h" 
-	"Raytracer/source/Raytracer.cpp" 
-	 
-	 
+	"Raytracer/source/Raytracer.cpp"  
 	"Raytracer/include/Image/ImageBuffer.h" 
 	"Raytracer/source/Image/ImageBuffer.cpp" 
 	"Raytracer/include/ThreadPool.h" 
@@ -98,7 +96,9 @@ set(SRCS
 	"Raytracer/include/Serialization/ObjectSerializer.h" 
 	"Raytracer/source/Serialization/ObjectSerializer.cpp" 
 	"Raytracer/include/Serialization/SkySerializer.h" 
-	"Raytracer/source/Serialization/SkySerializer.cpp" "Application/include/Panel/SceneFilePanel.h" "Application/source/Panel/SceneFilePanel.cpp")
+	"Raytracer/source/Serialization/SkySerializer.cpp" 
+	"Application/include/Panel/SceneFilePanel.h" 
+	"Application/source/Panel/SceneFilePanel.cpp")
 	
 add_executable(raytracer ${SRCS})
 
@@ -121,12 +121,17 @@ if(WIN32)
 
     add_custom_command(TARGET raytracer POST_BUILD
 
-        # Copier les DLL Qt
+		# Default scene copy
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${PROJECT_SOURCE_DIR}/Scenes"
+            "$<TARGET_FILE_DIR:raytracer>/Scenes"
+
+        # DLL Qt copy
         COMMAND ${CMAKE_COMMAND} -E copy_directory
             "$<IF:$<CONFIG:Debug>,${VCPKG_ROOT_DIR}/debug/bin,${VCPKG_ROOT_DIR}/bin>"
             "$<TARGET_FILE_DIR:raytracer>"
 
-        # Copier les plugins de plateforme
+        # Platform plugins copy
         COMMAND ${CMAKE_COMMAND} -E copy_directory
             "$<IF:$<CONFIG:Debug>,${VCPKG_ROOT_DIR}/debug/Qt6/plugins/platforms,${VCPKG_ROOT_DIR}/Qt6/plugins/platforms>"
             "$<TARGET_FILE_DIR:raytracer>/platforms"

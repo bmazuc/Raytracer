@@ -54,18 +54,21 @@ void SceneSerializer::Load(const std::string& filepath, Camera& camera, std::uni
     std::ifstream file(filepath);
 
     if (!file.is_open())
+    {
         throw std::runtime_error("Cannot open file: " + filepath);
+    }
 
     nlohmann::json json;
     file >> json;
 
     // Check file version
     if (json.at("version").get<int>() != 1)
+    {
         throw std::runtime_error("Unsupported scene file version");
+    }
 
     // Reconstruct camera configuration
-    CameraConfiguration cameraConfig =
-        CameraFromJson(json.at("camera"));
+    CameraConfiguration cameraConfig = CameraFromJson(json.at("camera"));
 
     // Reconstruct scene
     auto loadedScene = std::make_unique<Scene>();

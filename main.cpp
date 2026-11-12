@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
         height = std::max(1, height);
     }
 
-    RaytracerWindow window("Raytracer", 1920, 1080);
+    RaytracerWindow window("Raytracer", width, height);
 
     window.show();
     window.showMaximized();
