@@ -98,7 +98,20 @@ set(SRCS
 	"Raytracer/include/Serialization/SkySerializer.h" 
 	"Raytracer/source/Serialization/SkySerializer.cpp" 
 	"Application/include/Panel/SceneFilePanel.h" 
-	"Application/source/Panel/SceneFilePanel.cpp" "Application/include/UI/UIConstants.h" "Application/include/UI/LayoutHelper.h" "Application/source/UI/LayoutHelper.cpp" "Application/include/UI/WidgetHelper.h" "Application/source/UI/WidgetHelper.cpp" "Application/include/Panel/ImageViewPanel.h" "Application/source/Panel/ImageViewPanel.cpp")
+	"Application/source/Panel/SceneFilePanel.cpp" 
+	"Application/include/UI/UIConstants.h" 
+	"Application/include/UI/LayoutHelper.h" 
+	"Application/source/UI/LayoutHelper.cpp" 
+	"Application/include/UI/WidgetHelper.h" 
+	"Application/source/UI/WidgetHelper.cpp" 
+	"Application/include/Panel/ImageViewPanel.h" 
+	"Application/source/Panel/ImageViewPanel.cpp" 
+	"Application/include/Panel/Panel.h" 
+	"Application/source/Panel/Panel.cpp" 
+	"Application/include/Panel/GroupBoxPanel.h" 
+	"Application/source/Panel/GroupBoxPanel.cpp"
+	"Application/include/PositiveIntValidator.h"
+	"Application/source/PositiveIntValidator.cpp")
 	
 add_executable(raytracer ${SRCS})
 

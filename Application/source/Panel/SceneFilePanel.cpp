@@ -14,21 +14,13 @@
 #include <QGroupBox>
 #include <QFormLayout>
 
-SceneFilePanel::SceneFilePanel(QWidget* parent)
-    : QWidget(parent)
+QString SceneFilePanel::GetGroupTitle() const
 {
-    SetupUI();
-    SetupConnections();
+    return "Scene";
 }
 
 void SceneFilePanel::SetupUI()
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    LayoutHelper::SetupPanelLayout(mainLayout);
-
-    QGroupBox* groupBox = new QGroupBox("Scene", this);
-    QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
-
     QFormLayout* formLayout = new QFormLayout();
     formLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
     LayoutHelper::SetupFormLayout(formLayout);
@@ -48,8 +40,6 @@ void SceneFilePanel::SetupUI()
     formLayout->addRow("Scene JSON file", fileLayout);
 
     groupLayout->addLayout(formLayout);
-
-    mainLayout->addWidget(groupBox);
 }
 
 void SceneFilePanel::SetupConnections()

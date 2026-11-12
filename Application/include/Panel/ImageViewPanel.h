@@ -1,24 +1,25 @@
 #ifndef RAYTRACER_APPLICATION_IMAGE_VIEW_PANEL_H
 #define RAYTRACER_APPLICATION_IMAGE_VIEW_PANEL_H
 
-#include <QWidget>
+#include "Panel/GroupBoxPanel.h"
 
 class QImage;
 class ImageView;
 
-class ImageViewPanel : public QWidget
+class ImageViewPanel : public GroupBoxPanel
 {
 	Q_OBJECT
 
 public:
-	explicit ImageViewPanel(QWidget* parent = nullptr);
+	using GroupBoxPanel::GroupBoxPanel;
 
 signals:
 	void SetImage(const QImage& image);
 
 private:
-	void SetupUI();
-	void SetupConnections();
+	QString GetGroupTitle() const override;
+	void SetupUI() override;
+	void SetupConnections() override;
 
 	ImageView* imageView;
 };

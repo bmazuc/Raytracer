@@ -1,16 +1,16 @@
 #ifndef RAYTRACER_APPLICATION_RENDER_PANEL_H
 #define RAYTRACER_APPLICATION_RENDER_PANEL_H
 
-#include <QWidget>
+#include "Panel/Panel.h"
 
 class QPushButton;
 
-class RenderPanel : public QWidget
+class RenderPanel : public Panel
 {
 	Q_OBJECT
 
 public:
-	explicit RenderPanel(QWidget* parent = nullptr);
+	using Panel::Panel;
 
 	void OnRenderStart();
 	void OnRenderEnded();
@@ -20,8 +20,8 @@ signals:
 	void CancelRequested();
 
 private:
-	void SetupUI();
-	void SetupConnections();
+	void SetupUI() override;
+	void SetupConnections() override;
 	
 	QPushButton* renderButton;
 	QPushButton* cancelButton;

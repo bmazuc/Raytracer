@@ -5,26 +5,16 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 
-ImageViewPanel::ImageViewPanel(QWidget* parent)
-	: QWidget(parent)
+QString ImageViewPanel::GetGroupTitle() const
 {
-	SetupUI();
-	SetupConnections();
+	return "Image";
 }
 
 void ImageViewPanel::SetupUI()
 {
-	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-	LayoutHelper::SetupPanelLayout(mainLayout);
-
-	QGroupBox* groupBox = new QGroupBox("Image", this);
-	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
-
 	imageView = new ImageView(groupBox);
 
 	groupLayout->addWidget(imageView);
-
-	mainLayout->addWidget(groupBox);
 }
 
 void ImageViewPanel::SetupConnections()

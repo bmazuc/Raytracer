@@ -42,23 +42,49 @@ void RaytracerWindow::SetupUI()
     QWidget* centralWidget = new QWidget(this);
 
     renderParameterPanel = new RenderParameterPanel(centralWidget);
+    renderParameterPanel->InitPanel();
+    renderParameterPanel->setSizePolicy(
+        QSizePolicy::Preferred,
+        QSizePolicy::Maximum
+    );
+
+
     sceneFilePanel = new SceneFilePanel(centralWidget);
+    sceneFilePanel->InitPanel();
+    sceneFilePanel->setSizePolicy(
+        QSizePolicy::Preferred,
+        QSizePolicy::Maximum
+    );
 
     imageViewPanel = new ImageViewPanel(centralWidget);
+    imageViewPanel->InitPanel();
 
     renderPanel = new RenderPanel(centralWidget);
-    outputPanel = new OutputPanel(centralWidget);
+    renderPanel->InitPanel();
+    renderPanel->setSizePolicy(
+        QSizePolicy::Preferred,
+        QSizePolicy::Maximum
+    );
 
+    outputPanel = new OutputPanel(centralWidget);
+    outputPanel->InitPanel();
+    outputPanel->setSizePolicy(
+        QSizePolicy::Preferred,
+        QSizePolicy::Maximum
+    );
     operationStatusPanel = new OperationStatusPanel(centralWidget);
+    operationStatusPanel->InitPanel();
     operationStatusPanel->hide();
 
     // Left side
 
     QVBoxLayout* leftSideLayout = new QVBoxLayout();
-    leftSideLayout->addWidget(outputPanel, 2);
-    leftSideLayout->addWidget(renderParameterPanel, 2);
-    leftSideLayout->addWidget(sceneFilePanel, 2);
+    leftSideLayout->addWidget(outputPanel, 1);
+    leftSideLayout->addWidget(renderParameterPanel, 1);
+    leftSideLayout->addWidget(sceneFilePanel, 1);
     leftSideLayout->addWidget(renderPanel, 1);
+
+    leftSideLayout->addStretch(1);
 
     QWidget* leftSide = new QWidget();
     leftSide->setLayout(leftSideLayout);

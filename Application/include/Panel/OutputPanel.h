@@ -1,24 +1,26 @@
 #ifndef RAYTRACER_APPLICATION_OUTPUT_PANEL_H
 #define RAYTRACER_APPLICATION_OUTPUT_PANEL_H
 
-#include <QWidget>
+#include "Panel/GroupBoxPanel.h"
 
 class QLineEdit;
 class QPushButton;
 struct OutputConfig;
 
-class OutputPanel : public QWidget
+class OutputPanel : public GroupBoxPanel
 {
 	Q_OBJECT
 
 public:
-	explicit OutputPanel(QWidget* parent = nullptr);
+	using GroupBoxPanel::GroupBoxPanel;
 
 	OutputConfig GenerateOutputConfig();
 
 private:
-	void SetupUI();
-	void SetupConnections();
+	QString GetGroupTitle() const override;
+
+	void SetupUI() override;
+	void SetupConnections() override;
 
 	void BrowseDirectory();
 

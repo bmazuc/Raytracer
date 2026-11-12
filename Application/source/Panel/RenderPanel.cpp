@@ -8,12 +8,6 @@
 #include <QProgressBar>
 #include <QLabel>
 
-RenderPanel::RenderPanel(QWidget* parent)
-	: QWidget(parent)
-{
-	SetupUI();
-	SetupConnections();
-}
 
 void RenderPanel::SetupUI()
 {
@@ -27,10 +21,6 @@ void RenderPanel::SetupUI()
 
 	renderButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	cancelButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-	// layout
-	QHBoxLayout* mainLayout = new QHBoxLayout(this);
-	LayoutHelper::SetupPanelLayout(mainLayout);
 
 	mainLayout->addWidget(renderButton, 1);
 	mainLayout->addWidget(cancelButton, 1);

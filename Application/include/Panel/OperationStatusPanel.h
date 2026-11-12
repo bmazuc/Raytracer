@@ -1,18 +1,18 @@
 #ifndef RAYTRACER_APPLICATION_OPERATION_STATUS_PANEL_H
 #define RAYTRACER_APPLICATION_OPERATION_STATUS_PANEL_H
 
-#include <QWidget>
+#include "Panel/GroupBoxPanel.h"
 
 enum class OperationStatus;
 class QLabel;
 class QProgressBar;
 
-class OperationStatusPanel : public QWidget
+class OperationStatusPanel : public GroupBoxPanel
 {
 	Q_OBJECT
 
 public:
-	explicit OperationStatusPanel(QWidget* parent = nullptr);
+	using GroupBoxPanel::GroupBoxPanel;
 
 	void UpdateProgressBar(int percentage);
 	void HandleOperationStatus(OperationStatus status);
@@ -21,7 +21,8 @@ protected:
 	void showEvent(QShowEvent* event) override;
 
 private:
-	void SetupUI();
+	QString GetGroupTitle() const override;
+	void SetupUI() override;
 
 	QLabel* operationStatusLabel;
 	QProgressBar* progressBar;

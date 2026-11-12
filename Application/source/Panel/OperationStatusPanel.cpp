@@ -8,20 +8,13 @@
 #include <QLabel>
 #include <QGroupBox>
 
-OperationStatusPanel::OperationStatusPanel(QWidget* parent)
-	: QWidget(parent)
+QString OperationStatusPanel::GetGroupTitle() const
 {
-	SetupUI();
+	return "Operation Status";
 }
 
 void OperationStatusPanel::SetupUI()
 {
-	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-	LayoutHelper::SetupPanelLayout(mainLayout);
-
-	QGroupBox* groupBox = new QGroupBox("Operation Status", this);
-	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
-
 	// UpperLayout
 	QHBoxLayout* upperLayout = new QHBoxLayout();
 	
@@ -51,8 +44,6 @@ void OperationStatusPanel::SetupUI()
 	lowerLayout->addWidget(busyBar);
 
 	groupLayout->addLayout(lowerLayout);
-
-	mainLayout->addWidget(groupBox);
 }
 
 void OperationStatusPanel::showEvent(QShowEvent* event)

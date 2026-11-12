@@ -14,22 +14,13 @@
 #include <QGroupBox>
 #include <QStyle>
 
-OutputPanel::OutputPanel(QWidget* parent)
-	: QWidget(parent)
+QString OutputPanel::GetGroupTitle() const
 {
-	SetupUI();
-	SetupConnections();
+	return "Output";
 }
 
 void OutputPanel::SetupUI()
 {
-	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-	LayoutHelper::SetupPanelLayout(mainLayout);
-
-	QGroupBox* groupBox = new QGroupBox("Output", this);
-	
-	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
-
 	QFormLayout* formLayout = new QFormLayout();
 	formLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
 	LayoutHelper::SetupFormLayout(formLayout);
@@ -50,8 +41,6 @@ void OutputPanel::SetupUI()
 	formLayout->addRow("File name", fileEdit);
 
 	groupLayout->addLayout(formLayout);
-
-	mainLayout->addWidget(groupBox);
 }
 
 void OutputPanel::SetupConnections()

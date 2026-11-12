@@ -1,24 +1,25 @@
 #ifndef RAYTRACER_APPLICATION_RENDER_PARAMETER_PANEL_H
 #define RAYTRACER_APPLICATION_RENDER_PARAMETER_PANEL_H
 
-#include <QWidget>
+#include "Panel/GroupBoxPanel.h"
 
 class QSlider;
 class QLineEdit;
 struct RendererConfig;
 
-class RenderParameterPanel : public QWidget
+class RenderParameterPanel : public GroupBoxPanel
 {
 	Q_OBJECT
 
 public:
-	explicit RenderParameterPanel(QWidget* parent = nullptr);
+	using GroupBoxPanel::GroupBoxPanel;
 
 	RendererConfig GenerateRendererConfig();
 
-private:
-	void SetupUI();
-	void SetupConnections();
+private:	
+	QString GetGroupTitle() const override;
+	void SetupUI() override;
+	void SetupConnections() override;
 
 	QSlider* threadCountSlider;
 	QLabel* threadCountSliderValueLabel;

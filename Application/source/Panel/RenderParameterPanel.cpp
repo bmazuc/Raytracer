@@ -1,6 +1,7 @@
 #include "Panel/RenderParameterPanel.h"
 #include "Renderer.h"
 #include "UI/LayoutHelper.h"
+#include "PositiveIntValidator.h"
 
 #include <QVBoxLayout>
 #include <QLineEdit>
@@ -10,21 +11,13 @@
 #include <QGroupBox>
 #include <QFormLayout>
 
-RenderParameterPanel::RenderParameterPanel(QWidget* parent)
-	: QWidget(parent)
+QString RenderParameterPanel::GetGroupTitle() const
 {
-	SetupUI();
-	SetupConnections();
+	return "Render Parameter";
 }
 
 void RenderParameterPanel::SetupUI()
 {
-	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-	LayoutHelper::SetupPanelLayout(mainLayout);
-
-	QGroupBox* groupBox = new QGroupBox("Render Parameter", this);
-	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
-
 	QFormLayout* formLayout = new QFormLayout();
 	LayoutHelper::SetupFormLayout(formLayout);
 
@@ -46,12 +39,10 @@ void RenderParameterPanel::SetupUI()
 
 	formLayout->addRow("Thread count", threadCountLayout);
 
-	QIntValidator* validator = new QIntValidator(groupBox);
-
 	// progressMonitorFrequency edit block
-	
+
 	progressMonitorFrequencyEdit = new QLineEdit(groupBox);
-	progressMonitorFrequencyEdit->setValidator(validator);
+	progressMonitorFrequencyEdit->setValidator(new PositiveIntValidator(0));
 	progressMonitorFrequencyEdit->setText("100");
 	progressMonitorFrequencyEdit->setMinimumWidth(90);
 
@@ -60,15 +51,13 @@ void RenderParameterPanel::SetupUI()
 	// tile size edit block
 
 	tileSizeEdit = new QLineEdit(groupBox);
-	tileSizeEdit->setValidator(validator);
+	tileSizeEdit->setValidator(new PositiveIntValidator(1));
 	tileSizeEdit->setText("32");
 	tileSizeEdit->setMinimumWidth(90);
 
 	formLayout->addRow("Tile Size", tileSizeEdit);
 	
 	groupLayout->addLayout(formLayout);
-
-	mainLayout->addWidget(groupBox);
 }
 
 void RenderParameterPanel::SetupConnections()
