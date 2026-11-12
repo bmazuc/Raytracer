@@ -1,5 +1,7 @@
 #include "Panel/OperationStatusPanel.h"
 #include "Raytracer.h"
+#include "UI/LayoutHelper.h"
+#include "UI/UIConstants.h"
 
 #include <QProgressBar>
 #include <QHBoxLayout>
@@ -15,8 +17,7 @@ OperationStatusPanel::OperationStatusPanel(QWidget* parent)
 void OperationStatusPanel::SetupUI()
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-	mainLayout->setContentsMargins(10, 10, 10, 10);
-	mainLayout->setSpacing(8);
+	LayoutHelper::SetupPanelLayout(mainLayout);
 
 	QGroupBox* groupBox = new QGroupBox("Operation Status", this);
 	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
@@ -29,6 +30,7 @@ void OperationStatusPanel::SetupUI()
 	progressBar = new QProgressBar(groupBox);
 	progressBar->setRange(0, 100);
 	progressBar->setValue(0);
+	progressBar->setMinimumHeight(UIConstants::Dimensions::ProgressBarHeight);
 	progressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	progressBar->hide();
 
@@ -43,6 +45,7 @@ void OperationStatusPanel::SetupUI()
 	QProgressBar* busyBar = new QProgressBar(groupBox);
 	busyBar->setRange(0, 0);
 	busyBar->setFixedWidth(100);
+	busyBar->setMinimumHeight(UIConstants::Dimensions::ProgressBarHeight);
 
 	lowerLayout->addStretch();
 	lowerLayout->addWidget(busyBar);

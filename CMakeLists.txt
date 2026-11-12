@@ -98,7 +98,7 @@ set(SRCS
 	"Raytracer/include/Serialization/SkySerializer.h" 
 	"Raytracer/source/Serialization/SkySerializer.cpp" 
 	"Application/include/Panel/SceneFilePanel.h" 
-	"Application/source/Panel/SceneFilePanel.cpp")
+	"Application/source/Panel/SceneFilePanel.cpp" "Application/include/UI/UIConstants.h" "Application/include/UI/LayoutHelper.h" "Application/source/UI/LayoutHelper.cpp" "Application/include/UI/WidgetHelper.h" "Application/source/UI/WidgetHelper.cpp" "Application/include/Panel/ImageViewPanel.h" "Application/source/Panel/ImageViewPanel.cpp")
 	
 add_executable(raytracer ${SRCS})
 

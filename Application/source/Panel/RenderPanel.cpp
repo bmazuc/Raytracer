@@ -1,4 +1,6 @@
 #include "Panel/RenderPanel.h"
+#include "UI/LayoutHelper.h"
+#include "UI/UIConstants.h"
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -20,11 +22,15 @@ void RenderPanel::SetupUI()
 	cancelButton = new QPushButton("Cancel", this);
 	cancelButton->setEnabled(false);
 
-	renderButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	cancelButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	renderButton->setMinimumHeight(UIConstants::Dimensions::RenderButtonHeight);
+	cancelButton->setMinimumHeight(UIConstants::Dimensions::RenderButtonHeight);
+
+	renderButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	cancelButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
 	// layout
 	QHBoxLayout* mainLayout = new QHBoxLayout(this);
+	LayoutHelper::SetupPanelLayout(mainLayout);
 
 	mainLayout->addWidget(renderButton, 1);
 	mainLayout->addWidget(cancelButton, 1);

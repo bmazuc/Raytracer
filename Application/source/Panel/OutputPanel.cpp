@@ -1,5 +1,7 @@
 #include "Panel/OutputPanel.h"
 #include "Raytracer.h"
+#include "UI/LayoutHelper.h"
+#include "UI/WidgetHelper.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -22,22 +24,20 @@ OutputPanel::OutputPanel(QWidget* parent)
 void OutputPanel::SetupUI()
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-	mainLayout->setContentsMargins(10, 10, 10, 10);
-	mainLayout->setSpacing(8);
+	LayoutHelper::SetupPanelLayout(mainLayout);
 
 	QGroupBox* groupBox = new QGroupBox("Output", this);
+	
 	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
 
 	QFormLayout* formLayout = new QFormLayout();
 	formLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+	LayoutHelper::SetupFormLayout(formLayout);
 
 	QString defaultDirectory = QCoreApplication::applicationDirPath();
 	directoryEdit = new QLineEdit(defaultDirectory, groupBox);
 
-	browseButton = new QPushButton("Browse...", groupBox);
-	browseButton->setFixedHeight(directoryEdit->sizeHint().height());
-	browseButton->setObjectName("browseButton");
-	browseButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+	browseButton = WidgetHelper::CreateBrowseButton(directoryEdit, groupBox);
 
 	QHBoxLayout* directoryLayout = new QHBoxLayout();
 	directoryLayout->addWidget(directoryEdit, 1);
@@ -49,9 +49,7 @@ void OutputPanel::SetupUI()
 
 	formLayout->addRow("File name", fileEdit);
 
-	groupLayout->addStretch();
 	groupLayout->addLayout(formLayout);
-	groupLayout->addStretch();
 
 	mainLayout->addWidget(groupBox);
 }

@@ -1,4 +1,6 @@
 #include "Panel/SceneFilePanel.h"
+#include "UI/LayoutHelper.h"
+#include "UI/WidgetHelper.h"
 
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -22,14 +24,14 @@ SceneFilePanel::SceneFilePanel(QWidget* parent)
 void SceneFilePanel::SetupUI()
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(10, 10, 10, 10);
-    mainLayout->setSpacing(8);
+    LayoutHelper::SetupPanelLayout(mainLayout);
 
     QGroupBox* groupBox = new QGroupBox("Scene", this);
     QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
 
     QFormLayout* formLayout = new QFormLayout();
     formLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+    LayoutHelper::SetupFormLayout(formLayout);
 
     QHBoxLayout* fileLayout = new QHBoxLayout();
 
@@ -38,19 +40,14 @@ void SceneFilePanel::SetupUI()
     fileEdit = new QLineEdit(defaultPath, groupBox);
     fileEdit->setPlaceholderText("Select a scene JSON file");
 
-    browseButton = new QPushButton("Browse...", groupBox);
-    browseButton->setFixedHeight(fileEdit->sizeHint().height());
-    browseButton->setObjectName("browseButton");
-    browseButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    browseButton = WidgetHelper::CreateBrowseButton(fileEdit, groupBox);
 
     fileLayout->addWidget(fileEdit, 1);
     fileLayout->addWidget(browseButton);
 
     formLayout->addRow("Scene JSON file", fileLayout);
 
-    groupLayout->addStretch();
     groupLayout->addLayout(formLayout);
-    groupLayout->addStretch();
 
     mainLayout->addWidget(groupBox);
 }

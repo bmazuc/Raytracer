@@ -6,7 +6,7 @@
 class RenderController;
 class RenderPanel;
 class OutputPanel;
-class ImageView;
+class ImageViewPanel;
 class RenderParameterPanel;
 class SceneFilePanel;
 class OperationStatusPanel;
@@ -31,7 +31,7 @@ private:
 	OperationStatusPanel* operationStatusPanel;
 	RenderPanel* renderPanel;
 	OutputPanel* outputPanel;
-	ImageView* imageView;
+	ImageViewPanel* imageViewPanel;
 	RenderParameterPanel* renderParameterPanel;
 	SceneFilePanel* sceneFilePanel;
 

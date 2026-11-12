@@ -6,7 +6,7 @@
 #include "Panel/SceneFilePanel.h"
 #include "Panel/OperationStatusPanel.h"
 #include "Raytracer.h"
-#include "ImageView.h"
+#include "Panel/ImageViewPanel.h"
 
 #include <QApplication>
 #include <QPushButton>
@@ -44,7 +44,7 @@ void RaytracerWindow::SetupUI()
     renderParameterPanel = new RenderParameterPanel(centralWidget);
     sceneFilePanel = new SceneFilePanel(centralWidget);
 
-    imageView = new ImageView(centralWidget);
+    imageViewPanel = new ImageViewPanel(centralWidget);
 
     renderPanel = new RenderPanel(centralWidget);
     outputPanel = new OutputPanel(centralWidget);
@@ -55,9 +55,9 @@ void RaytracerWindow::SetupUI()
     // Left side
 
     QVBoxLayout* leftSideLayout = new QVBoxLayout();
-    leftSideLayout->addWidget(outputPanel, 1);
-    leftSideLayout->addWidget(renderParameterPanel, 1);
-    leftSideLayout->addWidget(sceneFilePanel, 1);
+    leftSideLayout->addWidget(outputPanel, 2);
+    leftSideLayout->addWidget(renderParameterPanel, 2);
+    leftSideLayout->addWidget(sceneFilePanel, 2);
     leftSideLayout->addWidget(renderPanel, 1);
 
     QWidget* leftSide = new QWidget();
@@ -66,7 +66,7 @@ void RaytracerWindow::SetupUI()
     // Right side
 
     QVBoxLayout* rightSideLayout = new QVBoxLayout();
-    rightSideLayout->addWidget(imageView, 6);
+    rightSideLayout->addWidget(imageViewPanel, 6);
     rightSideLayout->addWidget(operationStatusPanel, 1);
 
     QWidget* rightSide = new QWidget();
@@ -136,7 +136,7 @@ void RaytracerWindow::SetupConnections()
             renderController->StopRender();
         });
 
-    connect(renderController, &RenderController::ImageReady, imageView, &ImageView::SetImage);
+    connect(renderController, &RenderController::ImageReady, imageViewPanel, &ImageViewPanel::SetImage);
 
     connect(renderController, &RenderController::OperationStatusChanged, operationStatusPanel, &OperationStatusPanel::HandleOperationStatus);
 
@@ -156,11 +156,17 @@ void RaytracerWindow::ApplyStyle()
             background-color: #171B24;
         }
 
+        QWidget {
+            color: #E5EAF2;
+            font-family: "Segoe UI";
+            font-size: 10pt;
+        }
+
         QGroupBox {
-            border: 1px solid #444444;
+            border: 1px solid #394354;
             border-radius: 6px;
             margin-top: 12px;
-            padding: 12px 8px 8px 8px;
+            padding-top: 8px;
             font-weight: bold;
         }
 
@@ -168,34 +174,72 @@ void RaytracerWindow::ApplyStyle()
             subcontrol-origin: margin;
             left: 10px;
             padding: 0 5px;
-        }
-
-        QWidget {
             color: #E5EAF2;
-            font-family: "Segoe UI";
-            font-size: 10pt;
         }
 
         QPushButton {
             background-color: #3478D4;
             border: none;
             border-radius: 5px;
-            font-size: 10pt;
-            padding: 6px 10px;
-            padding: 9px;
+            padding: 8px 12px;
         }
 
         QPushButton:hover {
             background-color: #438FE8;
         }
 
+        QPushButton:pressed {
+            background-color: #2863B3;
+        }
+
+        QPushButton:disabled {
+            background-color: #394354;
+            color: #858D9A;
+        }
+
         QPushButton#browseButton {
-            padding: 2px 6px;
+            padding: 3px 8px;
         }
 
 		QLineEdit {
-			color: black;
-			background-color:white;
+			color: #20242C;
+            background-color: #F1F3F5;
+            border: 1px solid #C5CAD2;
+            border-radius: 3px;
+            padding: 4px 6px;
+            selection-background-color: #3478D4;
 		}
+QLineEdit:focus {
+            border: 1px solid #438FE8;
+        }
+
+        QProgressBar {
+            background-color: #252B36;
+            border: 1px solid #465164;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        QProgressBar::chunk {
+            background-color: #3478D4;
+            border-radius: 3px;
+        }
+
+        QSlider::groove:horizontal {
+            height: 4px;
+            background: #465164;
+            border-radius: 2px;
+        }
+
+        QSlider::handle:horizontal {
+            background: #438FE8;
+            width: 12px;
+            margin: -5px 0;
+            border-radius: 6px;
+        }
+
+        QSplitter::handle {
+            background-color: #394354;
+        }
     )");
 }

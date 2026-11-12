@@ -1,5 +1,6 @@
 #include "Panel/RenderParameterPanel.h"
 #include "Renderer.h"
+#include "UI/LayoutHelper.h"
 
 #include <QVBoxLayout>
 #include <QLineEdit>
@@ -19,13 +20,13 @@ RenderParameterPanel::RenderParameterPanel(QWidget* parent)
 void RenderParameterPanel::SetupUI()
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout(this);
-	mainLayout->setContentsMargins(10, 10, 10, 10);
-	mainLayout->setSpacing(8);
+	LayoutHelper::SetupPanelLayout(mainLayout);
 
 	QGroupBox* groupBox = new QGroupBox("Render Parameter", this);
 	QVBoxLayout* groupLayout = new QVBoxLayout(groupBox);
 
 	QFormLayout* formLayout = new QFormLayout();
+	LayoutHelper::SetupFormLayout(formLayout);
 
 	// thread count slider block
 	QHBoxLayout* threadCountLayout = new QHBoxLayout();
@@ -37,6 +38,9 @@ void RenderParameterPanel::SetupUI()
 	threadCountSlider->setValue(maxThread);
 
 	threadCountSliderValueLabel = new QLabel(QString::number(maxThread), groupBox);
+	threadCountSliderValueLabel->setAlignment(Qt::AlignRight);
+	threadCountSliderValueLabel->setMinimumWidth(25);
+	
 	threadCountLayout->addWidget(threadCountSlider);
 	threadCountLayout->addWidget(threadCountSliderValueLabel);
 
@@ -49,6 +53,7 @@ void RenderParameterPanel::SetupUI()
 	progressMonitorFrequencyEdit = new QLineEdit(groupBox);
 	progressMonitorFrequencyEdit->setValidator(validator);
 	progressMonitorFrequencyEdit->setText("100");
+	progressMonitorFrequencyEdit->setMinimumWidth(90);
 
 	formLayout->addRow("Progress monitor frequency", progressMonitorFrequencyEdit);
 
@@ -57,12 +62,11 @@ void RenderParameterPanel::SetupUI()
 	tileSizeEdit = new QLineEdit(groupBox);
 	tileSizeEdit->setValidator(validator);
 	tileSizeEdit->setText("32");
+	tileSizeEdit->setMinimumWidth(90);
 
 	formLayout->addRow("Tile Size", tileSizeEdit);
 	
-	groupLayout->addStretch();
 	groupLayout->addLayout(formLayout);
-	groupLayout->addStretch();
 
 	mainLayout->addWidget(groupBox);
 }
