@@ -111,21 +111,35 @@ set(SRCS
 	"Application/include/Panel/GroupBoxPanel.h" 
 	"Application/source/Panel/GroupBoxPanel.cpp"
 	"Application/include/PositiveIntValidator.h"
-	"Application/source/PositiveIntValidator.cpp" "Raytracer/include/Utils/ThreadUtils.h")
+	"Application/source/PositiveIntValidator.cpp" 
+	"Raytracer/include/Utils/ThreadUtils.h")
 	
 add_executable(raytracer ${SRCS})
 
 target_include_directories(raytracer
 	PRIVATE 
 	"${PROJECT_SOURCE_DIR}/Raytracer/include"
+	"${PROJECT_SOURCE_DIR}/Application/include"
+)
+
+target_include_directories(raytracer
+	SYSTEM PRIVATE 
 	"${STB_INCLUDE_DIR}"
-	"${PROJECT_SOURCE_DIR}/Application/include")
+)
 
 target_link_libraries(raytracer
 	PRIVATE Threads::Threads
 	PRIVATE Qt6::Widgets
 	PRIVATE nlohmann_json::nlohmann_json
 )
+
+if (MSVC)
+	target_compile_options(raytracer
+	PRIVATE
+		/external:anglebrackets
+		/external:W0
+	)
+endif()
 
 if(WIN32)
     set(VCPKG_ROOT_DIR

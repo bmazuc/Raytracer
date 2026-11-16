@@ -21,9 +21,9 @@ public:
 	// Material assigned to the intersected object
 	std::shared_ptr<Material> material;
 	// Ray parameter at the intersection point
-	float t;
+	float t = 0.0f;
 	// True when the ray hits the outward-facing side of the surface
-	bool frontFace;
+	bool frontFace = false;
 };
 
 /**

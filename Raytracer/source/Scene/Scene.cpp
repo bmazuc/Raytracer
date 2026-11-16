@@ -17,7 +17,7 @@ void Scene::Clear()
 }
 
 void Scene::SetSky(std::unique_ptr<Sky> newSky)
-{ 
+{
 	sky = std::move(newSky); 
 }
 

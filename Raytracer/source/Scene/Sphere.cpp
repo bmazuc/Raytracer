@@ -1,4 +1,4 @@
-#include "Scene/Sphere.h"
+﻿#include "Scene/Sphere.h"
 #include "Ray.h"
 #include "Utils/Log.h"
 
@@ -19,7 +19,7 @@ bool Sphere::Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const
 
 	/**
 	 * Expand the sphere equation along the ray into a quadratic equation:
-	 * a*t� + b*t + c = 0.
+	 * a*t² + b*t + c = 0.
 	 */
 	float a = ray.direction.LengthSquared();
 	float h = Vec3::Dot(ray.direction, oc);
