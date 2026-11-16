@@ -5,7 +5,7 @@
 #include <random>
 #include "Interval.h"
 
-namespace maths
+namespace MathsUtils
 {
     // Constants
 

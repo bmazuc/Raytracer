@@ -1,7 +1,8 @@
 #ifndef RAYTRACER_RENDERER_H
 #define RAYTRACER_RENDERER_H
 
-#include <thread>
+#include "Utils/ThreadUtils.h"
+
 #include <atomic>
 #include <mutex>
 #include <string>
@@ -36,7 +37,7 @@ struct RendererConfig
 {
 public:
 	int tileSize = 32;
-	size_t threadCount = std::thread::hardware_concurrency();
+	size_t threadCount = ThreadUtils::GetMaxThreadAvailable();
 	unsigned int progressMonitorFrequency = 100;
 
 	void Sanitize();

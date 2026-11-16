@@ -1,5 +1,5 @@
 #include "Maths/Vec3.h"
-#include "Maths/Maths.h"
+#include "Maths/MathsUtils.h"
 
 Vec3::Vec3()
 	: x(0), y(0), z(0)
@@ -133,14 +133,14 @@ Vec3 Vec3::Cross(const Vec3& lhs, const Vec3& rhs)
 
 Vec3 Vec3::Random()
 {
-	return Vec3(maths::Random(), maths::Random(), maths::Random());
+	return Vec3(MathsUtils::Random(), MathsUtils::Random(), MathsUtils::Random());
 }
 
 Vec3 Vec3::Random(float min, float max)
 {
-	return Vec3(maths::Random(min, max), 
-		maths::Random(min, max),
-		maths::Random(min, max));
+	return Vec3(MathsUtils::Random(min, max), 
+		MathsUtils::Random(min, max),
+		MathsUtils::Random(min, max));
 }
 
 Vec3 Vec3::RandomUnitVector()
@@ -172,7 +172,7 @@ Vec3 Vec3::RandomOnHemisphere(const Vec3& normal)
 
 Vec3 Vec3::RandomInUnitDisk()
 {
-	Vec3 p = Vec3(maths::Random(-1.0f, 1.0f), maths::Random(-1.0f, 1.0f), 0.0f);
+	Vec3 p = Vec3(MathsUtils::Random(-1.0f, 1.0f), MathsUtils::Random(-1.0f, 1.0f), 0.0f);
 	if (p.LengthSquared() < 1.0f)
 	{
 		return p;

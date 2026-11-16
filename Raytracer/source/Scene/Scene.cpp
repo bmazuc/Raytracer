@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "Ray.h"
 #include "Color.h"
-#include "Maths/Maths.h"
+#include "Maths/MathsUtils.h"
 #include "Material/Material.h"
 
 void Scene::Add(std::shared_ptr<Hittable> object)
@@ -46,7 +46,7 @@ Color Scene::GetPixelColor(const Ray& ray, int depth) const
 	if (depth > 0)
 	{
 		HitInfo hitInfo;
-		if (Hit(ray, Interval(0.001f, maths::infinity), hitInfo))
+		if (Hit(ray, Interval(0.001f, MathsUtils::infinity), hitInfo))
 		{
 			Ray scattered;
 			Color attenuation;

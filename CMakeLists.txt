@@ -38,7 +38,7 @@ set(SRCS
 	"Raytracer/source/Scene/Hittable.cpp" 
 	"Raytracer/include/Scene/Scene.h" 
 	"Raytracer/source/Scene/Scene.cpp" 
-	"Raytracer/include/Maths/Maths.h" 
+	"Raytracer/include/Maths/MathsUtils.h" 
 	"Raytracer/include/Maths/Interval.h" 
 	"Raytracer/source/Maths/Interval.cpp"  
 	"Raytracer/include/Material/Material.h" 
@@ -111,7 +111,7 @@ set(SRCS
 	"Application/include/Panel/GroupBoxPanel.h" 
 	"Application/source/Panel/GroupBoxPanel.cpp"
 	"Application/include/PositiveIntValidator.h"
-	"Application/source/PositiveIntValidator.cpp")
+	"Application/source/PositiveIntValidator.cpp" "Raytracer/include/Utils/ThreadUtils.h")
 	
 add_executable(raytracer ${SRCS})
 

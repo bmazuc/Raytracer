@@ -4,7 +4,7 @@
 #include "Viewport.h"
 #include "Ray.h"
 #include "Scene/Scene.h"
-#include "Maths/Maths.h"
+#include "Maths/MathsUtils.h"
 #include "Image/ImageBuffer.h"
 #include "ThreadPool.h"
 #include "Tile.h"

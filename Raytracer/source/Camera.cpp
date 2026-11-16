@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "Viewport.h"
 #include "Ray.h"
-#include "Maths/Maths.h"
+#include "Maths/MathsUtils.h"
 #include "Utils/Log.h"
 
 void CameraConfiguration::Sanitize()
@@ -92,7 +92,7 @@ void Camera::ComputeCameraBasis()
 
 void Camera::ComputeDefocusDisk()
 {
-	float defocusRadius = configuration.focusDistance * std::tan(maths::DegreesToRadians(configuration.defocusAngle / 2.0f));
+	float defocusRadius = configuration.focusDistance * std::tan(MathsUtils::DegreesToRadians(configuration.defocusAngle / 2.0f));
 
 	defocusDiskU = right * defocusRadius;
 	defocusDiskV = up * defocusRadius;
@@ -106,7 +106,7 @@ Vec3 Camera::DefocusDiskSample() const
 
 Vec3 Camera::SampleSquare() const
 {
-	return Vec3(maths::Random() - 0.5f, maths::Random() - 0.5f, 0.0f);
+	return Vec3(MathsUtils::Random() - 0.5f, MathsUtils::Random() - 0.5f, 0.0f);
 }
 
 void Camera::SetImageWidth(int inImageWidth)

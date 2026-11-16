@@ -1,5 +1,5 @@
 #include "Color.h"
-#include "Maths/Maths.h"
+#include "Maths/MathsUtils.h"
 
 const Color Color::black = Color(0.f, 0.f, 0.f);
 const Color Color::blue = Color(0.f, 0.f, 1.f);
@@ -107,14 +107,14 @@ Color Color::Lerp(const Color& colorA, const Color& colorB, float t)
 
 Color Color::Random()
 {
-	return Color(maths::Random(), maths::Random(), maths::Random());
+	return Color(MathsUtils::Random(), MathsUtils::Random(), MathsUtils::Random());
 }
 
 Color Color::Random(float min, float max)
 {
-	return Color(maths::Random(min, max),
-		maths::Random(min, max),
-		maths::Random(min, max));
+	return Color(MathsUtils::Random(min, max),
+		MathsUtils::Random(min, max),
+		MathsUtils::Random(min, max));
 }
 
 Color Color::LinearToGamma(const Color& color)

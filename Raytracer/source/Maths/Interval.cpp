@@ -1,8 +1,8 @@
 #include "Maths/Interval.h"
-#include "Maths/Maths.h"
+#include "Maths/MathsUtils.h"
 
 Interval::Interval()
-	: min(+maths::infinity), max(-maths::infinity)
+	: min(+MathsUtils::infinity), max(-MathsUtils::infinity)
 {
 }
 

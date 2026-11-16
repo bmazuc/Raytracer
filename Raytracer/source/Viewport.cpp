@@ -1,6 +1,6 @@
 #include "Viewport.h"
 #include "Camera.h"
-#include "Maths/Maths.h"
+#include "Maths/MathsUtils.h"
 
 void Viewport::ComputeViewportData(const Camera* camera)
 {
@@ -12,7 +12,7 @@ void Viewport::ComputeViewportData(const Camera* camera)
 	size_t imageWidth = camera->GetImageWidth();
 	size_t imageHeight = camera->GetImageHeight();
 
-	float theta = maths::DegreesToRadians(camera->GetFov());
+	float theta = MathsUtils::DegreesToRadians(camera->GetFov());
 	float h = std::tan(theta / 2.0f);
 
 	float height = 2.0f * h * camera->GetFocusDistance();

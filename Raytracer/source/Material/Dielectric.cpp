@@ -1,7 +1,7 @@
 #include "Material/Dielectric.h"
 #include "Scene/Hittable.h"
 #include "Ray.h"
-#include "Maths/Maths.h"
+#include "Maths/MathsUtils.h"
 
 Dielectric::Dielectric(float inRefractionIndex)
 	: refractionIndex(inRefractionIndex)
@@ -23,7 +23,7 @@ bool Dielectric::Scatter(const Ray& rayIn, const HitInfo& hitInfo, Color& attenu
 
 	Vec3 direction;
 
-	if (canRefract && Reflectance(cosTheta, eta) <= maths::Random())
+	if (canRefract && Reflectance(cosTheta, eta) <= MathsUtils::Random())
 	{
 		direction = Vec3::Refract(unitDirection, hitInfo.normal, eta);
 	}
