@@ -133,14 +133,6 @@ target_link_libraries(raytracer
 	PRIVATE nlohmann_json::nlohmann_json
 )
 
-if (MSVC)
-	target_compile_options(raytracer
-	PRIVATE
-		/external:anglebrackets
-		/external:W0
-	)
-endif()
-
 if(WIN32)
     set(VCPKG_ROOT_DIR
         "${CMAKE_BINARY_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}"

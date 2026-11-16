@@ -57,8 +57,9 @@ void Raytracer::RenderToFile(const OperationStatusCallback& operationStatusCallb
             operationStatusCallback(OperationStatus::WritingToFile);
         }
 
-        if (writer->Write(outputConfig.GetPath(), imageBuffer))
+        if (!writer->Write(outputConfig.GetPath(), imageBuffer))
         {
+            std::string t = outputConfig.GetPath();
             throw std::runtime_error("Failed to write image: " + outputConfig.GetPath());
         }
     }
