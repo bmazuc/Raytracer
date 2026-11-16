@@ -1,6 +1,10 @@
 #ifndef RAYTRACER_INTERVAL_H
 #define RAYTRACER_INTERVAL_H
 
+/**
+ * Represents a numerical interval bounded by a minimum 
+ * and a maximum value.
+ */
 class Interval
 {
 public:

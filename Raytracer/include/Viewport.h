@@ -5,6 +5,9 @@
 
 class Camera;
 
+/**
+ * Manages the geometric representation of the camera viewport.
+ */
 class Viewport
 {
 public:

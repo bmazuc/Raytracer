@@ -1,13 +1,6 @@
 #ifndef RAYTRACER_RENDERER_H
 #define RAYTRACER_RENDERER_H
 
-struct Color;
-class Scene;
-class Camera;
-class PPMWriter;
-struct Tile;
-class ImageBuffer;
-
 #include <thread>
 #include <atomic>
 #include <mutex>
@@ -15,6 +8,19 @@ class ImageBuffer;
 #include <vector>
 #include <functional>
 
+struct Color;
+class Scene;
+class Camera;
+class PPMWriter;
+struct Tile;
+class ImageBuffer;
+
+/**
+ * Tracks of the progress of the rendering operation.
+ * 
+ * Stores the total number of tiles and the number of tiles
+ * successfully completed during rendering.
+ */
 struct RenderProgress
 {
 public:
@@ -22,6 +28,10 @@ public:
 	std::atomic<size_t> completedTiles = { 0 };
 };
 
+/**
+ * Stores the configuration parameters controlling
+ * the rendering process.
+ */
 struct RendererConfig
 {
 public:
@@ -32,13 +42,21 @@ public:
 	void Sanitize();
 };
 
+/**
+ * Progress callback allows to retrieve completion percentage
+ * and use it elsewhere.
+ */
 using ProgressCallback = std::function<void(int)>;
 
+/**
+ * Coordinates the rendering of a 3D scene into an image buffer.
+ * 
+ * Divides the image into tiles and distributes the rendering workload
+ * across one or multiple threads.
+ */
 class Renderer
 {
 public:
-	// For the thread count, if using the max hardware concurrency, one of them will be use for progress monitoring and if not using max, we will use one more.
-	// To improve, manage this cases
 	Renderer(const RendererConfig& config);
 
 	void SetRendererConfig(const RendererConfig& config);

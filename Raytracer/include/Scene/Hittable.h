@@ -7,7 +7,10 @@
 struct Ray;
 class Material;
 
-
+/**
+ * Stores information about the intersection between
+ * a ray and a hittable object.
+ */
 struct HitInfo
 {
 public:
@@ -18,6 +21,9 @@ public:
 	bool frontFace;
 };
 
+/**
+ * Abstraction for objects that can be intersected by a ray.
+ */
 class Hittable
 {
 public:

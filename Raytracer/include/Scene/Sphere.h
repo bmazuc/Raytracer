@@ -6,6 +6,9 @@
 struct Ray;
 class Material;
 
+/**
+ * Represents a spherical object in a 3D scene.
+ */
 class Sphere : public Hittable
 {
 public:

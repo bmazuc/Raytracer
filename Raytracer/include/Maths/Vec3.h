@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+/**
+ * Representation of 3D vectors and points.
+ */
 struct Vec3
 {
 public:

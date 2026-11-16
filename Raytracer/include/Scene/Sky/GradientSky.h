@@ -4,6 +4,9 @@
 #include "Scene/Sky/Sky.h"
 #include "Color.h"
 
+/**
+ * Represents a gradient-based sky background.
+ */
 class GradientSky : public Sky
 {
 public:

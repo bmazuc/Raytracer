@@ -3,7 +3,12 @@
 
 #include <vector>
 
-// Tile represent a rectangle region of the image.
+/**
+ * Represents a rectangular region of an image.
+ * 
+ * Used to divide the rendering workload into smaller regions
+ * that can be processed independently, including in parallel.
+ */ 
 struct Tile
 {
 public:
@@ -14,7 +19,10 @@ public:
 	size_t height;
 };
 
-// Generate rectangle tiles
+/**
+ * Generates a collection of tiles covering the entire image,
+ * using independent width and height.
+ */
 static std::vector<Tile> GenerateTiles(size_t imageWidth, size_t imageHeight,
 	size_t tileSizeX, size_t tileSizeY)
 {
@@ -36,7 +44,10 @@ static std::vector<Tile> GenerateTiles(size_t imageWidth, size_t imageHeight,
 	return tiles;
 }
 
-// Generate square tiles
+/**
+ * Generates a collection of tiles covering the entire image,
+ * using square dimensions.
+ */
 static std::vector<Tile> GenerateTiles(size_t imageWidth, size_t imageHeight,
 	size_t tileSize)
 {

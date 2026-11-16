@@ -4,7 +4,12 @@
 #include <string>
 #include <iostream>
 
-
+/**
+ * Provides lightweight logging utilities.
+ * 
+ * Exposes functions for reporting warnings and errors
+ * through the standard error stream.
+ */
 namespace Log
 {
     inline void Warning(const std::string& message)
@@ -16,7 +21,6 @@ namespace Log
     {
         std::cerr << "[ERROR] " << message << '\n';
     }
-
 }
 
 #endif // RAYTRACER_LOGGER_H

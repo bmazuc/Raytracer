@@ -3,10 +3,18 @@
 
 #include "Material/Material.h"
 
+/**
+ * Represents a reflective metallic material.
+ */
 class Metal : public Material
 {
 public:
 	Metal(const Color& inAlbedo = Color::white, float inRoughness = 1.0f);
+	
+	/**
+	 * Reflects incoming rays according to the surface normal
+	 * and applies configurable roughness to simulate imperfect reflections.
+	 */
 	bool Scatter(const Ray& rayIn, const HitInfo& hitInfo, Color& attenuation, Ray& scattered) const override;
 
 	Color GetAlbedo() const { return albedo; }

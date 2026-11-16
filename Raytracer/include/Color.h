@@ -1,6 +1,9 @@
 #ifndef RAYTRACER_COLOR_H
 #define RAYTRACER_COLOR_H
 
+/**
+ * Represents an RGB color using floating-point components.
+ */
 struct Color
 {
 public:

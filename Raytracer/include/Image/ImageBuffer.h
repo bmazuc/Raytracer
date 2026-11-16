@@ -7,8 +7,9 @@
 #include <stdexcept>
 #include <cstdint>
 
-constexpr size_t maxSize = SIZE_MAX;
-
+/**
+ * Stores image into a buffer containing RGB pixel data.
+ */
 class ImageBuffer
 {
 public:

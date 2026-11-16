@@ -6,6 +6,12 @@
 
 class ImageBuffer;
 
+/**
+ * Abstraction for image file writers.
+ * 
+ * Provides a common contract for exporting image buffers
+ * to different file formats.
+ */
 class ImageWriter
 {
 public:

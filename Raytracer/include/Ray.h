@@ -3,6 +3,9 @@
 
 #include "Maths/Vec3.h"
 
+/**
+ * Represents a ray defined by an origin and a direction.
+ */
 struct Ray
 {
 public:

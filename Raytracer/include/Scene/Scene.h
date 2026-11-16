@@ -10,6 +10,13 @@
 class Camera;
 struct Color;
 
+/**
+ * Represents a 3D scene containing geometric objects
+ * and a background sky.
+ * 
+ * Manages scene objects and provides ray intersection queries
+ * and pixel color evaluation through recursive ray tracing.
+ */
 class Scene
 {
 public:

@@ -8,9 +8,16 @@
 struct Color;
 class ImageBuffer;
 
+/**
+ * Exports image using the PPM file format.
+ */
 class PPMWriter : public ImageWriter
 {
 public:
+	/**
+     * @return True on success, false if image buffer is invalid
+     * or writing failed.
+     */
 	bool Write(const std::string& filename, const ImageBuffer& frameBuffer) const override;
 
 private:

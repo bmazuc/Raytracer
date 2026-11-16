@@ -4,6 +4,9 @@
 #include <limits>
 #include <stdexcept>
 
+/**
+ * Provides utility functions for safe numeric conversions.
+ */
 namespace NumericUtils
 {
     int ToInt(size_t value);

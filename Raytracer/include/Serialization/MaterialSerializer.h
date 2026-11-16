@@ -9,6 +9,12 @@ class Lambertian;
 class Metal;
 class Dielectric;
 
+/**
+ * Handles serialization and deserialization of materials.
+ *
+ * Converts supported material types and their properties
+ * to and from JSON representations.
+ */
 class MaterialSerializer
 {
 public:

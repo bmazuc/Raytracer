@@ -7,6 +7,12 @@
 class Sky;
 class GradientSky;
 
+/**
+ * Handles serialization and deserialization of sky models.
+ *
+ * Converts supported background models and their properties
+ * to and from JSON representations.
+ */
 class SkySerializer
 {
 public:

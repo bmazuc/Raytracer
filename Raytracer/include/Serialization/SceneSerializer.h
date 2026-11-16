@@ -11,6 +11,12 @@ class Raytracer;
 
 struct CameraConfiguration;
 
+/**
+ * Handles serialization and deserialization of complete scenes.
+ *
+ * Saves and restores camera settings, scene objects and associated
+ * scene data using JSON files.
+ */
 class SceneSerializer
 {
 public:

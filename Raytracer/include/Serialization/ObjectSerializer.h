@@ -7,6 +7,11 @@
 class Hittable;
 class Sphere;
 
+/**
+ * Handles serialization and deserialization of scene objects.
+ *
+ * Converts supported geometric objects to and from JSON representations.
+ */
 class ObjectSerializer
 {
 public:

@@ -7,27 +7,47 @@
 
 struct Ray;
 
+/**
+ * Stores the parameters used to configure a rendering camera.
+ */
 struct CameraConfiguration
 {
 public:
 	size_t imageWidth = 255;
 	float aspectRatio = 16.0f/9.0f;
 
-	float fov = 90.0f; // Vertical view angle (field of view)
+	// Vertical view angle (field of view)
+	float fov = 90.0f; 
 
-	Vec3 position = Vec3(0.0f, 0.0f, 0.0f); // Point camera is looking from
-	Vec3 lookAt = Vec3(0.0f, 0.0f, -1.0f); // Point camera is looking at
-	Vec3 vUp = Vec3(0.0f, 1.0f, 0.0f); // Camera-relative "vUp" direction
+	// Point camera is looking from
+	Vec3 position = Vec3(0.0f, 0.0f, 0.0f); 
+	// Point camera is looking at
+	Vec3 lookAt = Vec3(0.0f, 0.0f, -1.0f);
+	// Camera-relative "vUp" direction
+	Vec3 vUp = Vec3(0.0f, 1.0f, 0.0f); 
 
-	unsigned int samplesPerPixel = 10; // Count of random samples for each pixel
-	unsigned int maxDepth = 10; // Maximum number of ray bounces into scene
+	// Count of random samples for each pixel
+	unsigned int samplesPerPixel = 10; 
+	// Maximum number of ray bounces into scene
+	unsigned int maxDepth = 10; 
 
-	float defocusAngle = 0.0f; // Variation angle of rays through each pixel
-	float focusDistance = 10.0f; // Distance from camera lookfrom point to plane of perfect focus
+	// Variation angle of rays through each pixel
+	float defocusAngle = 0.0f; 
+	// Distance from camera lookfrom point to plane of perfect focus
+	float focusDistance = 10.0f; 
 
+	/**
+	 * Check and modify incorrect parameters.
+	 */
 	void Sanitize();
 };
 
+/**
+ * Represent a camera responsible for generating rays
+ * used to observe and sample a 3D scene.
+ * Computes the camera coordinate system, viewport geometry,
+ * pixel sampling positions and defocus effects.
+ */
 class Camera
 {
 public:

@@ -11,6 +11,9 @@ class Scene;
 struct CameraConfiguration;
 struct RendererConfig;
 
+/**
+ * Defines the different stages of a rendering operation.
+ */
 enum class OperationStatus
 {
     LoadingScene,
@@ -18,18 +21,34 @@ enum class OperationStatus
     WritingToFile
 };
 
+/**
+ * Stores the destination directory and filename
+ * used to save the rendered image
+ */
 struct OutputConfig
 {
 public:
     std::string directory;
     std::string filename;
 
+    /**
+     * Construct the complete output file path.
+     */
     std::string GetPath() { return directory + '/' + filename; }
 };
 
 using ProgressCallback = std::function<void(int)>;
 using OperationStatusCallback = std::function<void(OperationStatus)>;
 
+/**
+ * Core ray tracing engine class.
+ * 
+ * Owns and coordinates the renderer, camera, image buffer
+ * and scene.
+ * 
+ * Handles the complete rendering workflow, from scene preparation
+ * to saving the final image.
+ */
 class Raytracer
 {
 public:

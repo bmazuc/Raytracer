@@ -4,6 +4,9 @@
 struct Color;
 struct Ray;
 
+/**
+ * Abstraction for scene background.
+ */
 class Sky
 {
 public:

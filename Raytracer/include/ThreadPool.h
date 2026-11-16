@@ -12,6 +12,15 @@
 #include <utility>
 #include <stdexcept>
 
+/**
+ * Manages a pool of worker threads for asynchronous task execution.
+ *
+ * Maintains a shared task queue and distributes submitted tasks
+ * among available worker threads.
+ * 
+ * Synchronizes task access and thread execution using mutexes
+ * and condition variables.
+ */
 class ThreadPool
 {
 public:
