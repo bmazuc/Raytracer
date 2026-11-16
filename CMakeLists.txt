@@ -114,7 +114,7 @@ set(SRCS
 	"Application/source/PositiveIntValidator.cpp" 
 	"Raytracer/include/Utils/ThreadUtils.h")
 	
-add_executable(raytracer ${SRCS})
+add_executable(raytracer WIN32 ${SRCS})
 
 target_include_directories(raytracer
 	PRIVATE 
