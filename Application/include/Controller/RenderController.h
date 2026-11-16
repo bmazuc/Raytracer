@@ -13,6 +13,14 @@ class QImage;
 
 enum class OperationStatus;
 
+/**
+ * Coordinates rendering operations between the graphical
+ * interface and the rendering worker.
+ *
+ * Manages the worker thread lifecycle, forwards rendering
+ * configuration and handles progress, completion, cancellation
+ * and error notifications through Qt signals.
+ */
 class RenderController : public QObject
 {
 	Q_OBJECT

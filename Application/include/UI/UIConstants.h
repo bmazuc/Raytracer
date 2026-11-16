@@ -3,6 +3,11 @@
 
 namespace UIConstants
 {
+    /**
+     * Centralizes hared layout dimensions and spacing values
+     * used throughout the graphical interface 
+     * to ensure consistent interface organization.
+     */
     struct Layout
     {
         static constexpr int PanelMargin = 8;
@@ -18,6 +23,9 @@ namespace UIConstants
         static constexpr int GroupSpacing = 10;
     };
 
+    /**
+     * Centralizes standard widget dimensions used by the application.
+     */
     struct Dimensions
     {
         static constexpr int RenderButtonHeight = 55;

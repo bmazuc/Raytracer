@@ -4,6 +4,9 @@
 class QLayout;
 class QFormLayout;
 
+/**
+ * Provides reusable functions for configuring Qt layouts.
+ */
 namespace LayoutHelper
 {
 	void SetupPanelLayout(QLayout* layout);

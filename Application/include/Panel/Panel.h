@@ -5,6 +5,12 @@
 
 class QBoxLayout;
 
+/**
+ * Defines the common base class for application interface panels.
+ *
+ * Provides a shared initialization workflow and virtual methods
+ * for configuring layouts, widgets and signal connections.
+ */
 class Panel : public QWidget
 {
 	Q_OBJECT

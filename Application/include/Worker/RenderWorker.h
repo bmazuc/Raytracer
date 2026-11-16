@@ -12,6 +12,15 @@ struct OutputConfig;
 class Scene;
 enum class OperationStatus;
 
+/**
+ * Executes rendering operations independently of the GUI thread.
+ *
+ * Manages the ray tracing engine, scene loading, rendering
+ * configuration and output settings.
+ * 
+ * Reports operation progress and results through Qt signals
+ * and supports rendering cancellation.
+ */
 class RenderWorker : public QObject
 {
 	Q_OBJECT

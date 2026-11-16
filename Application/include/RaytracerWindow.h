@@ -11,6 +11,14 @@ class RenderParameterPanel;
 class SceneFilePanel;
 class OperationStatusPanel;
 
+/**
+ * Represents the main application window.
+ * 
+ * Coordinates the graphical interface by assembling the different
+ * panels and connecting them to the rendering controller.
+ *
+ * Manages the application layout, visual styling and window events.
+ */
 class RaytracerWindow : public QMainWindow
 {
 	Q_OBJECT

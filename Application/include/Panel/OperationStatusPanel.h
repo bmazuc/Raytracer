@@ -7,6 +7,12 @@ enum class OperationStatus;
 class QLabel;
 class QProgressBar;
 
+/**
+ * Displays the current rendering operation status and progress.
+ *
+ * Updates the progress bar and operation status label
+ * according to notifications received from the rendering workflow.
+ */
 class OperationStatusPanel : public GroupBoxPanel
 {
 	Q_OBJECT

@@ -6,6 +6,12 @@
 class QImage;
 class ImageView;
 
+/**
+ * Provides the interface container for displaying rendered images.
+ *
+ * Embeds an ImageView widget and forwards image updates
+ * to the image display component.
+ */
 class ImageViewPanel : public GroupBoxPanel
 {
 	Q_OBJECT

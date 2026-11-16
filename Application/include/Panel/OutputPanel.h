@@ -7,6 +7,9 @@ class QLineEdit;
 class QPushButton;
 struct OutputConfig;
 
+/**
+ * Provides controls for configuring the rendered image destination.
+ */
 class OutputPanel : public GroupBoxPanel
 {
 	Q_OBJECT
@@ -14,6 +17,10 @@ class OutputPanel : public GroupBoxPanel
 public:
 	using GroupBoxPanel::GroupBoxPanel;
 
+	/**
+	 * Generates the OutputConfig from the selected
+	 * output directory and filename.
+	 */
 	OutputConfig GenerateOutputConfig();
 
 private:

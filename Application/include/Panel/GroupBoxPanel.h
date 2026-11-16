@@ -5,6 +5,12 @@
 
 class QGroupBox;
 
+/**
+ * Extends the base panel with a group box container.
+ *
+ * Provides a common structure for panels that organize their
+ * widgets inside a titled group box.
+ */
 class GroupBoxPanel : public Panel
 {
 	Q_OBJECT

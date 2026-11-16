@@ -9,7 +9,14 @@ class QMouseEvent;
 class QWheelEvent;
 class QPainter;
 
-
+/**
+ * Provides an interactive widget for displaying rendered images.
+ *
+ * Supports image scaling, zooming, panning and automatic fitting
+ * of the image to the available widget area.
+ *
+ * Handles mouse and wheel events to provide interactive navigation.
+ */
 class ImageView : public QWidget
 {
 	Q_OBJECT

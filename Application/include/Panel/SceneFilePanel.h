@@ -7,6 +7,9 @@
 class QLineEdit;
 class QPushButton;
 
+/**
+ * Provides controls for selecting the json scene file to load.
+ */
 class SceneFilePanel : public GroupBoxPanel
 {
     Q_OBJECT

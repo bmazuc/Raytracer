@@ -5,6 +5,10 @@
 
 class QPushButton;
 
+/**
+ * Provides the interface controls for starting and cancelling
+ * rendering operations.
+ */
 class RenderPanel : public Panel
 {
 	Q_OBJECT

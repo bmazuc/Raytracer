@@ -7,6 +7,9 @@ class QSlider;
 class QLineEdit;
 struct RendererConfig;
 
+/**
+ * Provides controls for configuring rendering parameters.
+ */
 class RenderParameterPanel : public GroupBoxPanel
 {
 	Q_OBJECT

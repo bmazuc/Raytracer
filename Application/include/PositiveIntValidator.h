@@ -3,6 +3,10 @@
 
 #include <QIntValidator>
 
+/**
+ * Extends QIntValidator with a configurable lower bound
+ * for application input fields.
+ */
 class PositiveIntValidator : public QIntValidator
 {
     Q_OBJECT

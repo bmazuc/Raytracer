@@ -6,6 +6,10 @@
 
 namespace ImageConverter
 {
+    /**
+     * Converts ImageBuffer instances into QImage objects
+     * for graphical display.
+     */
     QImage ToQImage(const ImageBuffer& buffer);
 }
 

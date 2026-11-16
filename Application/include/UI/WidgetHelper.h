@@ -7,6 +7,10 @@ class QLineEdit;
 
 namespace WidgetHelper
 {
+	/**
+	 * Create a button associated with a line edit for browsing
+	 * files or folder and fill the line edit with it.
+	 */
 	QPushButton* CreateBrowseButton(QLineEdit* associatedLineEdit, QWidget* parent = nullptr);
 }
 
