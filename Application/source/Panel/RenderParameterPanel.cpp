@@ -26,7 +26,8 @@ void RenderParameterPanel::SetupUI()
 
 	threadCountSlider = new QSlider(groupBox);
 	threadCountSlider->setOrientation(Qt::Horizontal);
-	unsigned int maxThread = ThreadUtils::GetMaxThreadAvailable();
+	// Max thread take main thread and render worker thread into account
+	unsigned int maxThread = std::max(1u, ThreadUtils::GetMaxThreadAvailable() - 1u);
 	threadCountSlider->setRange(1, maxThread);
 	threadCountSlider->setValue(maxThread);
 
