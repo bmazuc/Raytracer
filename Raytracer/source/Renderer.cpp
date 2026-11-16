@@ -14,10 +14,7 @@
 #include <future>
 #include <iomanip>
 
-Renderer::Renderer(const RendererConfig& config)
-    : tileSize(config.tileSize),
-    threadCount(config.threadCount),
-    progressMonitorFrequency(config.progressMonitorFrequency)
+void RendererConfig::Sanitize()
 {
     if (!std::isfinite(tileSize) || tileSize == 0)
     {
@@ -32,11 +29,15 @@ Renderer::Renderer(const RendererConfig& config)
     }
 }
 
+Renderer::Renderer(const RendererConfig& config)
+{
+    SetRendererConfig(config);
+}
+
 void Renderer::SetRendererConfig(const RendererConfig& config)
 {
-    tileSize = config.tileSize;
-    threadCount = config.threadCount;
-    progressMonitorFrequency = config.progressMonitorFrequency;
+    configuration = config;
+    configuration.Sanitize();
 }
 
 ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std::string fileName, const ProgressCallback& callback, const std::atomic_bool& cancelRequested) const
@@ -46,15 +47,15 @@ ImageBuffer Renderer::Render(const Camera& camera, const Scene& scene, const std
 
     ImageBuffer imageBuffer(width, height);
 
-    std::vector<Tile> tiles = GenerateTiles(width, height, tileSize);
+    std::vector<Tile> tiles = GenerateTiles(width, height, configuration.tileSize);
 
-    if (threadCount <= 1)
+    if (configuration.threadCount <= 1)
     {
         RenderSingleThread(camera, scene, imageBuffer, tiles, callback, cancelRequested);
     }
     else
     {
-        RenderMultiThread(camera, scene, imageBuffer, tiles, threadCount, callback, cancelRequested);
+        RenderMultiThread(camera, scene, imageBuffer, tiles, configuration.threadCount, callback, cancelRequested);
     }
 
     return imageBuffer;
@@ -124,7 +125,7 @@ void Renderer::RenderMultiThread(const Camera& camera, const Scene& scene, Image
 
        ReportProgress(renderProgress, callback);
 
-       std::this_thread::sleep_for(std::chrono::milliseconds(progressMonitorFrequency));
+       std::this_thread::sleep_for(std::chrono::milliseconds(configuration.progressMonitorFrequency));
     }
 
     /**

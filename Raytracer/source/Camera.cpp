@@ -4,6 +4,27 @@
 #include "Maths/Maths.h"
 #include "Utils/Log.h"
 
+void CameraConfiguration::Sanitize()
+{
+	if (!std::isfinite(imageWidth) || imageWidth == 0)
+	{
+		Log::Warning("Camera : Image width == " + std::to_string(imageWidth) + " is invalid. Using 1 instead.");
+		imageWidth = 1;
+	}
+
+	if (!std::isfinite(aspectRatio) || aspectRatio <= 0)
+	{
+		Log::Warning("Camera : Aspect ratio == " + std::to_string(aspectRatio) + " is invalid. Using 16:9 instead.");
+		aspectRatio = 16.0f / 9.0f;
+	}
+
+	if (!std::isfinite(samplesPerPixel) || samplesPerPixel == 0)
+	{
+		Log::Warning("Camera : Samples per pixel == " + std::to_string(samplesPerPixel) + " is invalid. Using 1 instead.");
+		samplesPerPixel = 1;
+	}
+}
+
 Camera::Camera(const CameraConfiguration& config)
 {
 	SetConfiguration(config);
@@ -11,61 +32,18 @@ Camera::Camera(const CameraConfiguration& config)
 
 CameraConfiguration Camera::GetConfiguration() const
 {
-	CameraConfiguration config;
-
-	config.imageWidth = imageWidth;
-	config.aspectRatio = aspectRatio;
-	config.fov = fov;
-
-	config.position = position;
-	config.lookAt = lookAt;
-	config.vUp = vUp;
-
-	config.samplesPerPixel = samplesPerPixel;
-	config.maxDepth = maxDepth;
-
-	config.defocusAngle = defocusAngle;
-	config.focusDistance = focusDistance;
-
-	return config;
+	return configuration;
 }
 
 void Camera::SetConfiguration(const CameraConfiguration& config)
 {
-	imageWidth = config.imageWidth;
-	if (!std::isfinite(imageWidth) || imageWidth == 0)
-	{
-		Log::Warning("Camera : Image width == " + std::to_string(imageWidth) + " is invalid. Using 1 instead.");
-		imageWidth = 1;
-	}
-
-	aspectRatio = config.aspectRatio;
-	if (!std::isfinite(aspectRatio) || aspectRatio <= 0)
-	{
-		Log::Warning("Camera : Aspect ratio == " + std::to_string(aspectRatio) + " is invalid. Using 16:9 instead.");
-		aspectRatio = 16.0f / 9.0f;
-	}
+	configuration = config;
+	configuration.Sanitize();
 
 	ComputeImageHeight();
 
-	fov = config.fov;
+	pixelSamplesScale = 1.0f / configuration.samplesPerPixel;
 
-	samplesPerPixel = config.samplesPerPixel;
-	if (!std::isfinite(samplesPerPixel) || samplesPerPixel == 0)
-	{
-		Log::Warning("Camera : Samples per pixel == " + std::to_string(samplesPerPixel) + " is invalid. Using 1 instead.");
-		samplesPerPixel = 1;
-	}
-	pixelSamplesScale = 1.0f / samplesPerPixel;
-
-	maxDepth = config.maxDepth;
-
-	defocusAngle = config.defocusAngle;
-	focusDistance = config.focusDistance;
-
-	position = config.position;
-	lookAt = config.lookAt;
-	vUp = config.vUp;
 	ComputeCameraBasis();
 
 	ComputeDefocusDisk();
@@ -77,12 +55,12 @@ std::vector<Ray> Camera::GetRaySamplesForPixel(int x, int y) const
 {
 	std::vector<Ray> samples;
 
-	for (unsigned int sample = 0; sample < samplesPerPixel; ++sample)
+	for (unsigned int sample = 0; sample < configuration.samplesPerPixel; ++sample)
 	{
 		Vec3 offset = SampleSquare();
 		Vec3 pixelSample = viewport.GetPixelSample(x, y, offset);
 
-		Vec3 rayOrigin = (defocusAngle <= 0) ? position : DefocusDiskSample();
+		Vec3 rayOrigin = (configuration.defocusAngle <= 0) ? configuration.position : DefocusDiskSample();
 		Vec3 rayDirection = pixelSample - rayOrigin;
 
 		samples.push_back(Ray(rayOrigin, rayDirection));
@@ -93,7 +71,7 @@ std::vector<Ray> Camera::GetRaySamplesForPixel(int x, int y) const
 
 Ray Camera::ViewportPointToRay(int x, int y) const
 {
-	Vec3 rayOrigin = (defocusAngle <= 0) ? position : DefocusDiskSample();
+	Vec3 rayOrigin = (configuration.defocusAngle <= 0) ? configuration.position : DefocusDiskSample();
 	Vec3 rayDirection = viewport.GetPixelCenter(x, y) - rayOrigin;
 
 	return Ray(rayOrigin, rayDirection);
@@ -101,20 +79,20 @@ Ray Camera::ViewportPointToRay(int x, int y) const
 
 void Camera::ComputeImageHeight()
 {
-	int computedImageHeight = static_cast<int>(imageWidth / aspectRatio);
+	int computedImageHeight = static_cast<int>(configuration.imageWidth / configuration.aspectRatio);
 	imageHeight = std::max(1, computedImageHeight);
 }
 
 void Camera::ComputeCameraBasis()
 {
-	backward = (position - lookAt).GetNormal();
-	right = Vec3::Cross(vUp, backward).GetNormal();
+	backward = (configuration.position - configuration.lookAt).GetNormal();
+	right = Vec3::Cross(configuration.vUp, backward).GetNormal();
 	up = Vec3::Cross(backward, right);
 }
 
 void Camera::ComputeDefocusDisk()
 {
-	float defocusRadius = focusDistance * std::tan(maths::DegreesToRadians(defocusAngle / 2.0f));
+	float defocusRadius = configuration.focusDistance * std::tan(maths::DegreesToRadians(configuration.defocusAngle / 2.0f));
 
 	defocusDiskU = right * defocusRadius;
 	defocusDiskV = up * defocusRadius;
@@ -123,7 +101,7 @@ void Camera::ComputeDefocusDisk()
 Vec3 Camera::DefocusDiskSample() const
 {
 	Vec3 p = Vec3::RandomInUnitDisk();
-	return position + (p.x * defocusDiskU) + (p.y * defocusDiskV);
+	return configuration.position + (p.x * defocusDiskU) + (p.y * defocusDiskV);
 }
 
 Vec3 Camera::SampleSquare() const
@@ -133,61 +111,61 @@ Vec3 Camera::SampleSquare() const
 
 void Camera::SetImageWidth(int inImageWidth)
 {
-	imageWidth = inImageWidth;
+	configuration.imageWidth = inImageWidth;
 	ComputeImageHeight();
 	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetAspectRatio(float inAspectRatio)
 {
-	aspectRatio = inAspectRatio;
+	configuration.aspectRatio = inAspectRatio;
 	ComputeImageHeight();
 	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetFov(float inFov)
 {
-	fov = inFov;
+	configuration.fov = inFov;
 	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetSamplesPerPixel(int inSamplesPerPixel)
 {
-	samplesPerPixel = std::max(inSamplesPerPixel, 1);
-	pixelSamplesScale = 1.0f / samplesPerPixel;
+	configuration.samplesPerPixel = std::max(inSamplesPerPixel, 1);
+	pixelSamplesScale = 1.0f / configuration.samplesPerPixel;
 }
 
 void Camera::SetPosition(Vec3 inPosition)
 {
-	position = inPosition;
+	configuration.position = inPosition;
 	ComputeCameraBasis();
 	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetLookAt(Vec3 inLookAt)
 {
-	lookAt = inLookAt;
+	configuration.lookAt = inLookAt;
 	ComputeCameraBasis();
 	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetVUp(Vec3 inVUp)
 {
-	vUp = inVUp;
+	configuration.vUp = inVUp;
 	ComputeCameraBasis();
 	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetDefocusAngle(float inDefocusAngle)
 {
-	defocusAngle = inDefocusAngle;
+	configuration.defocusAngle = inDefocusAngle;
 	ComputeDefocusDisk();
 	viewport.ComputeViewportData(this);
 }
 
 void Camera::SetFocusDistance(float inFocusDistance)
 {
-	focusDistance = inFocusDistance;
+	configuration.focusDistance = inFocusDistance;
 	ComputeDefocusDisk();
 	viewport.ComputeViewportData(this);
 }

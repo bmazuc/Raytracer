@@ -28,6 +28,8 @@ public:
 	int tileSize = 32;
 	size_t threadCount = std::thread::hardware_concurrency();
 	unsigned int progressMonitorFrequency = 100;
+
+	void Sanitize();
 };
 
 using ProgressCallback = std::function<void(int)>;
@@ -54,10 +56,7 @@ private:
 
 	bool useAntiAliasing = true;
 
-	unsigned int tileSize;
-	size_t threadCount;
-
-	int progressMonitorFrequency;
+	RendererConfig configuration;
 };
 
 #endif // RAYTRACER_RENDERER_H

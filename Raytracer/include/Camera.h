@@ -19,11 +19,13 @@ public:
 	Vec3 lookAt = Vec3(0.0f, 0.0f, -1.0f); // Point camera is looking at
 	Vec3 vUp = Vec3(0.0f, 1.0f, 0.0f); // Camera-relative "vUp" direction
 
-	unsigned int samplesPerPixel = 10;
-	unsigned int maxDepth = 10;
+	unsigned int samplesPerPixel = 10; // Count of random samples for each pixel
+	unsigned int maxDepth = 10; // Maximum number of ray bounces into scene
 
 	float defocusAngle = 0.0f; // Variation angle of rays through each pixel
 	float focusDistance = 10.0f; // Distance from camera lookfrom point to plane of perfect focus
+
+	void Sanitize();
 };
 
 class Camera
@@ -31,24 +33,24 @@ class Camera
 public:
 	Camera(const CameraConfiguration& config);
 
-	float GetFov() const { return fov; }
+	float GetFov() const { return configuration.fov; }
 
 	CameraConfiguration GetConfiguration() const;
 
-	size_t GetImageWidth() const { return imageWidth; }
+	size_t GetImageWidth() const { return configuration.imageWidth; }
 	size_t GetImageHeight() const { return imageHeight; }
 
-	Vec3 GetPosition() const { return position; }
-	Vec3 GetLookAt() const { return lookAt; }
-	Vec3 GetVUp() const { return vUp; }
+	Vec3 GetPosition() const { return configuration.position; }
+	Vec3 GetLookAt() const { return configuration.lookAt; }
+	Vec3 GetVUp() const { return configuration.vUp; }
 
 	Vec3 GetBackward() const { return backward; }
 	Vec3 GetRight() const { return right; }
 	Vec3 GetUp() const { return up; }
 
-	float GetFocusDistance() const { return focusDistance; }
+	float GetFocusDistance() const { return configuration.focusDistance; }
 	float GetPixelSamplesScale() const { return pixelSamplesScale; }
-	int GetMaxDepth() const { return maxDepth; }
+	int GetMaxDepth() const { return configuration.maxDepth; }
 
 	void SetConfiguration(const CameraConfiguration& config);
 
@@ -62,7 +64,7 @@ public:
 	void SetLookAt(Vec3 inLookAt);
 	void SetVUp(Vec3 inVUp);
 
-	void SetMaxDepth(int inMaxDepth) { maxDepth = inMaxDepth; }
+	void SetMaxDepth(int inMaxDepth) { configuration.maxDepth = inMaxDepth; }
 
 	void SetDefocusAngle(float inDefocusAngle);
 	void SetFocusDistance(float inFocusDistance);
@@ -80,28 +82,16 @@ private:
 	// Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
 	Vec3 SampleSquare() const;
 
-	float fov = 90.0f;
+	CameraConfiguration configuration;
 
-	Vec3 position;
-	Vec3 lookAt;
-	Vec3 vUp;
+	size_t imageHeight;
 
 	Vec3 right;
 	Vec3 up;
 	Vec3 backward;
 
-	float aspectRatio;
-
-	unsigned int samplesPerPixel; // Count of random samples for each pixel
 	float pixelSamplesScale;  // Color scale factor for a sum of pixel samples
 
-	unsigned int maxDepth; // Maximum number of ray bounces into scene
-
-	size_t imageWidth;
-	size_t imageHeight;
-
-	float defocusAngle;
-	float focusDistance;
 	Vec3 defocusDiskU; // Defocus disk horizontal radius
 	Vec3 defocusDiskV; // Defocus disk vertical radius
 
