@@ -27,3 +27,7 @@ Scenes are loaded from JSON through the scene serialization system. The serializ
 - Sky models (gradient sky).
 
 2 scene examples are present into "Scenes" folder.
+
+![Basic Scene](RenderedScenes/BasicScene.png)
+
+![Complex Scene](RenderedScenes/ComplexScene.png)
