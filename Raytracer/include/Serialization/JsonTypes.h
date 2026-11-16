@@ -13,6 +13,9 @@
 
 /**
  * Define serialization support for Vec3
+ * 
+ * @param json JSON object to populate.
+ * @param vec Vector to serialize.
  */
 inline void to_json(nlohmann::json& json, const Vec3& vec)
 {
@@ -21,6 +24,11 @@ inline void to_json(nlohmann::json& json, const Vec3& vec)
 
 /**
  * Define deserialization support for Vec3
+ * 
+ * @param json JSON array containing the vector components.
+ * @param vec Vector to populate.
+ * @throws std::runtime_error If the JSON array does not contain
+ * exactly three elements.
  */
 inline void from_json(const nlohmann::json& json, Vec3& vec)
 {
@@ -38,6 +46,9 @@ inline void from_json(const nlohmann::json& json, Vec3& vec)
 
 /**
  * Define serialization support for Color
+ * 
+ * @param json JSON object to populate.
+ * @param color Color to serialize.
  */
 inline void to_json(nlohmann::json& json, const Color& color)
 {
@@ -46,6 +57,11 @@ inline void to_json(nlohmann::json& json, const Color& color)
 
 /**
  * Define deserialization support for Color
+ * 
+ * @param json JSON array containing the vector components.
+ * @param color Color to populate.
+ * @throws std::runtime_error If the JSON array does not contain
+ * exactly three elements.
  */
 inline void from_json(const nlohmann::json& json, Color& color)
 {

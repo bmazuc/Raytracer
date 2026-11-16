@@ -7,8 +7,8 @@
 class QString;
 class QThread;
 class RenderWorker;
-struct RendererConfig;
-struct OutputConfig;
+struct RendererConfiguration;
+struct OutputConfiguration;
 class QImage;
 
 enum class OperationStatus;
@@ -26,9 +26,30 @@ class RenderController : public QObject
 	Q_OBJECT
 public:
 	explicit RenderController(QObject* parent = nullptr);
+	
+	/**
+	 * Stop rendering and clean thread.
+	 */
 	~RenderController();
 
-	void StartRender(const QString& scenePath, const RendererConfig& rendererConfig, const OutputConfig& outputConfig);
+	/**
+	 * Starts a rendering operation on a dedicated worker thread.
+	 * 
+	 * Creates and configures the rendering worker, initializes
+     * its execution thread and forwards rendering notifications
+     * to the graphical interface.
+	 *
+	 * @param scenePath Path to the JSON scene file.
+     * @param rendererConfig Configuration of the rendering process.
+	 * @param outputConfig Destination configuration for the rendered image.
+	 */
+	void StartRender(const QString& scenePath, const RendererConfiguration& rendererConfig, const OutputConfiguration& outputConfig);
+	/**
+	 * Requests cancellation of the current rendering operation.
+	 *
+	 * Signals the worker to stop rendering and handles
+	 * the associated thread lifecycle.
+	 */
 	void StopRender();
 
 signals: 
@@ -40,8 +61,11 @@ signals:
 	void RenderError(const QString& error);
 
 private:
+	// Worker object moved to the dedicated rendering QThread
 	RenderWorker* worker = nullptr;
+	// Guarded pointer to the Qt thread executing the worker
 	QPointer<QThread> renderThread;
+	// Tracks whether a rendering operation is currently active
 	bool isRendering = false;
 };
 

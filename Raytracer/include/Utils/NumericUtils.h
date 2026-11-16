@@ -9,6 +9,15 @@
  */
 namespace NumericUtils
 {
+    /**
+     * Converts an unsigned integer to an integer with range validation.
+     * Throws an exception if the value cannot be represented by an int.
+     *
+     * @param value Value to convert.
+     * @return Converted integer.
+     * @throws std::overflow_error If the value exceeds the maximum
+     * representable int value.
+     */
     int ToInt(size_t value);
 }
 

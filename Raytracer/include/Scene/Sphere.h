@@ -23,14 +23,25 @@ public:
 	const std::shared_ptr<Material> GetMaterial() const { return material; }
 
 	/**
-	 * Checks whether a ray intersects a sphere.
+	 * Computes the intersection between a ray and the sphere.
+	 *
+	 * Solves the ray-sphere intersection equation and stores
+	 * the closest valid intersection within the specified interval.
+	 *
+	 * @param ray Ray being tested.
+	 * @param t Valid interval for the intersection distance.
+	 * @param hitInfo Output structure containing the intersection data.
+	 * @return True if the ray intersects the sphere within the interval.
 	 */
 	bool Hit(const Ray& ray, Interval t, HitInfo& hitInfo) const override;
 
 private:
+	// World-space center of the sphere
 	Vec3 position;
+	// Sphere radius in world-space units
 	float radius;
 
+	// Material used when a ray intersects the sphere
 	std::shared_ptr<Material> material;
 };
 

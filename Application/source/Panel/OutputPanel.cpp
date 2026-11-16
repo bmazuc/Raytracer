@@ -66,9 +66,9 @@ void OutputPanel::BrowseDirectory()
 	}
 }
 
-OutputConfig OutputPanel::GenerateOutputConfig()
+OutputConfiguration OutputPanel::GenerateOutputConfig()
 {
-	OutputConfig config;
+	OutputConfiguration config;
 	config.directory = directoryEdit->text().toStdString();
 	config.filename = fileEdit->text().toStdString();
 	return config;

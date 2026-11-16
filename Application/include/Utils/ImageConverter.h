@@ -7,8 +7,11 @@
 namespace ImageConverter
 {
     /**
-     * Converts ImageBuffer instances into QImage objects
-     * for graphical display.
+     * Convers the internal RGB pixel representation into a QImage
+     * suitable for display in the graphical interface.
+     *
+     * @param buffer Source image buffer.
+     * @return Converted Qt image.
      */
     QImage ToQImage(const ImageBuffer& buffer);
 }

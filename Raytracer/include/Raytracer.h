@@ -9,7 +9,7 @@
 
 class Scene;
 struct CameraConfiguration;
-struct RendererConfig;
+struct RendererConfiguration;
 
 /**
  * Defines the different stages of a rendering operation.
@@ -25,19 +25,32 @@ enum class OperationStatus
  * Stores the destination directory and filename
  * used to save the rendered image
  */
-struct OutputConfig
+struct OutputConfiguration
 {
 public:
+    // Destination directory for the rendered image
     std::string directory;
+    // Output filename, including its extension
     std::string filename;
 
     /**
-     * Construct the complete output file path.
+     * Combines the destination directory and filename into
+     * a single filesystem path.
+     *
+     * @return Complete output file path.
      */
     std::string GetPath() { return directory + '/' + filename; }
 };
 
+/**
+ * Progress callback allows to retrieve completion percentage
+ * and use it elsewhere.
+ */
 using ProgressCallback = std::function<void(int)>;
+/**
+ * Progress callback allows to retrieve current operation status
+ * and use it elsewhere.
+ */
 using OperationStatusCallback = std::function<void(OperationStatus)>;
 
 /**
@@ -53,7 +66,7 @@ class Raytracer
 {
 public:
     Raytracer();
-    Raytracer(const CameraConfiguration& cameraConfig, const RendererConfig& rendererConfig);
+    Raytracer(const CameraConfiguration& cameraConfig, const RendererConfiguration& rendererConfig);
 
     Camera* GetCamera() { return &camera; }
     const Camera* GetCamera() const { return &camera; }
@@ -67,19 +80,43 @@ public:
     ImageBuffer& GetImageBuffer() { return imageBuffer; }
     const ImageBuffer& GetImageBuffer() const { return imageBuffer; }
 
-    void SetOutputConfig(const OutputConfig& inOutputConfig) { outputConfig = inOutputConfig; }
+    void SetOutputConfig(const OutputConfiguration& inOutputConfig) { outputConfig = inOutputConfig; }
+    /**
+     * Replaces the current scene.
+     * Transfers ownership of the provided scene to the ray tracing engine.
+     *
+     * @param newScene Scene to be managed by the ray tracer.
+     */
     void SetScene(std::unique_ptr<Scene> newScene);
 
+    /**
+     * Executes the complete rendering and image export workflow.
+     *
+     * Reports operation status changes and rendering progress through
+     * the provided callbacks.
+     *
+     * Supports cancellation and handles the transition between
+     * scene loading, rendering and image writing.
+     *
+     * @param operationStatusCallback Callback used to report operation stages.
+     * @param progressCallback Callback used to report rendering progress.
+     * @param cancelRequested Atomic cancellation flag.
+     */
     void RenderToFile(const OperationStatusCallback& operationStatusCallback, const ProgressCallback& progressCallback, const std::atomic_bool& cancelRequested);
 
 private:
+    // Rendering engine responsible for tracing image tiles
     Renderer renderer;
+    // Camera used to generate primary rays
     Camera camera;
 
+    // Pixel buffer produced by the current render operation
     ImageBuffer imageBuffer;
 
-    OutputConfig outputConfig;
+    // Destination settings used by the image export stage
+    OutputConfiguration outputConfig;
 
+    // Scene owned by this ray tracing instance
     std::unique_ptr<Scene> scene;
 };
 

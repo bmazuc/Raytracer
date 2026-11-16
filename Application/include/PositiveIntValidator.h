@@ -14,6 +14,13 @@ class PositiveIntValidator : public QIntValidator
 public:
     explicit PositiveIntValidator(unsigned int inMin, QObject* parent = nullptr);
 
+    /**
+     *  Extends QIntValidator to reject values below the specified minimum.
+     *
+     * @param input Input string being validated.
+     * @param pos Current cursor position in the input string.
+     * @return Validation state indicating whether the input is acceptable.
+     */
     QValidator::State validate(QString& input, int& pos) const override;
 
 private:

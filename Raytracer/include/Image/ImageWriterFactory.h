@@ -9,8 +9,12 @@ class ImageWriter;
 namespace ImageWriterFactory
 {
 	/**
-	* Selects the appropriate image writer according 
-	* to the requested file extension.
+	* Selects the appropriate writer according to the provided
+	 * file extension.
+	 *
+	 * @param extension File extension identifying the image format.
+	 * @return An instance of the corresponding image writer,
+	 * or nullptr if the format is unsupported.
 	*/
 	std::unique_ptr<ImageWriter> CreateImageWriter(const std::string& extension);
 }

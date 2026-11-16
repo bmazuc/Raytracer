@@ -11,7 +11,7 @@ Interval::Interval(float inMin, float inMax)
 {
 }
 
-float Interval::Size() const
+float Interval::Length() const
 {
 	return max - min;
 }

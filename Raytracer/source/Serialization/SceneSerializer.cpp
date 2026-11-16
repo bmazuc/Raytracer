@@ -83,7 +83,7 @@ void SceneSerializer::Load(const std::string& filepath, Camera& camera, std::uni
     }
 
     // Apply everything only after successful reconstruction
-    camera.SetConfiguration(cameraConfig);
+    camera.SetCameraConfiguration(cameraConfig);
     scene = std::move(loadedScene);
 }
 

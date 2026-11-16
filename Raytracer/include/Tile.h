@@ -12,16 +12,28 @@
 struct Tile
 {
 public:
+	// Left coordinate of the tile in image pixels
 	int x;
+	// Top coordinate of the tile in image pixels
 	int y;
 
+	// Tile width in pixels, clipped at the image's right edge
 	size_t width;
+	// Tile height in pixels, clipped at the image's bottom edge
 	size_t height;
 };
 
 /**
- * Generates a collection of tiles covering the entire image,
- * using independent width and height.
+ * Generates a collection of tiles covering the complete image.
+ * Edge tiles are automatically adjusted when image dimensions
+ * are not multiples of the requested tile dimensions.
+ *
+ * @param imageWidth Image width in pixels.
+ * @param imageHeight Image height in pixels.
+ * @param tileSizeX Tile width.
+ * @param tileSizeY Tile height.
+ * @return Collection of generated image tiles.
+
  */
 static std::vector<Tile> GenerateTiles(size_t imageWidth, size_t imageHeight,
 	size_t tileSizeX, size_t tileSizeY)
@@ -45,8 +57,14 @@ static std::vector<Tile> GenerateTiles(size_t imageWidth, size_t imageHeight,
 }
 
 /**
- * Generates a collection of tiles covering the entire image,
- * using square dimensions.
+ * Uses the same tile dimension for both horizontal
+ * and vertical directions (Square tiles).
+ *
+ * @param imageWidth Image width in pixels.
+ * @param imageHeight Image height in pixels.
+ * @param tileSize Width and height of each tile.
+ * @return Collection of generated image tiles.
+
  */
 static std::vector<Tile> GenerateTiles(size_t imageWidth, size_t imageHeight,
 	size_t tileSize)

@@ -12,8 +12,13 @@ public:
 	Metal(const Color& inAlbedo = Color::white, float inRoughness = 1.0f);
 	
 	/**
-	 * Reflects incoming rays according to the surface normal
-	 * and applies configurable roughness to simulate imperfect reflections.
+	 *Computes reflective light scattering for a metallic surface.
+	 *
+	 * @param rayIn Incoming ray.
+	 * @param hitInfo Surface intersection information.
+	 * @param attenuation Output metallic color attenuation.
+	 * @param scattered Output reflected ray.
+	 * @return True if the resulting ray points above the surface.
 	 */
 	bool Scatter(const Ray& rayIn, const HitInfo& hitInfo, Color& attenuation, Ray& scattered) const override;
 
@@ -21,7 +26,9 @@ public:
 	float GetRoughness() const { return roughness; }
 
 private:
+	// Base color tint applied to reflected rays
 	Color albedo;
+	// Amount of perturbation applied to the ideal reflection direction
 	float roughness;
 };
 

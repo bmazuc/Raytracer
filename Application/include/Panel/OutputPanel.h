@@ -5,7 +5,7 @@
 
 class QLineEdit;
 class QPushButton;
-struct OutputConfig;
+struct OutputConfiguration;
 
 /**
  * Provides controls for configuring the rendered image destination.
@@ -18,10 +18,12 @@ public:
 	using GroupBoxPanel::GroupBoxPanel;
 
 	/**
-	 * Generates the OutputConfig from the selected
-	 * output directory and filename.
+	 * Retrieves the selected output directory and filename 
+	 * and converts them into a OutputConfiguration instance.
+	 *
+	 * @return Output configuration generated from the panel values.
 	 */
-	OutputConfig GenerateOutputConfig();
+	OutputConfiguration GenerateOutputConfig();
 
 private:
 	QString GetGroupTitle() const override;
@@ -29,10 +31,17 @@ private:
 	void SetupUI() override;
 	void SetupConnections() override;
 
+	/**
+	 * Opens a directory selection dialog
+	 * and updates the corresponding input field.
+	 */
 	void BrowseDirectory();
 
+	// Input field containing the output directory
 	QLineEdit* directoryEdit;
+	// Input field containing the output filename
 	QLineEdit* fileEdit;
+	// Opens the directory selection dialog
 	QPushButton* browseButton;
 };
 

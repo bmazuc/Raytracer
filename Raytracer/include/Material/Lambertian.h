@@ -10,8 +10,13 @@ class Lambertian : public Material
 {
 public:
 	/**
-	 * Scatters incoming rays in randomized directions over the
-	 * surface hemisphere to approximate diffuse light reflection.
+	 * Computes diffuse light scattering using a Lambertian model.
+	 * 
+	 * @param rayIn Incoming ray.
+	 * @param hitInfo Surface intersection information.
+	 * @param attenuation Output diffuse color attenuation.
+	 * @param scattered Output scattered ray.
+	 * @return True if a scattered ray is generated.
 	 */
 	Lambertian(const Color& inAlbedo = Color::white);
 
@@ -20,6 +25,7 @@ public:
 	Color GetAlbedo() const { return albedo; }
 
 protected:
+	// Base color tint applied to reflected rays
 	Color albedo;
 };
 

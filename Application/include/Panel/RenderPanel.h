@@ -16,7 +16,14 @@ class RenderPanel : public Panel
 public:
 	using Panel::Panel;
 
+	/**
+	 * Disables the render button and enables the cancellation button
+	 * to reflect the current rendering state.
+	 */
 	void OnRenderStart();
+	/**
+	 * Re-enables the render button and disables the cancellation button.
+	 */
 	void OnRenderEnded();
 
 signals:
@@ -27,7 +34,9 @@ private:
 	void SetupUI() override;
 	void SetupConnections() override;
 	
+	// Starts a new rendering operation
 	QPushButton* renderButton;
+	// Requests cancellation of the active rendering operation
 	QPushButton* cancelButton;
 };
 

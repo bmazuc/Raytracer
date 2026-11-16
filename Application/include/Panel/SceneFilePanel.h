@@ -17,6 +17,11 @@ class SceneFilePanel : public GroupBoxPanel
 public:
     using GroupBoxPanel::GroupBoxPanel;
 
+    /**
+     * Returns the path of the currently selected scene file.
+     *
+     * @return Selected scene file path.
+     */
     QString GetScenePath() const;
 
 private:
@@ -25,9 +30,15 @@ private:
     void SetupUI() override;
     void SetupConnections() override;
 
+    /**
+     * Opens a json file selection dialog 
+     * and updates the corresponding input field.
+     */
     void BrowseFile();
 
+    // Input field containing the JSON scene file path
     QLineEdit* fileEdit = nullptr;
+    // Opens the JSON scene file selection dialog
     QPushButton* browseButton = nullptr;
 };
 

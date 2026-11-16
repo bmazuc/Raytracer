@@ -13,6 +13,12 @@ public:
 	Ray() = default;
 	Ray(const Vec3& inOrigin, const Vec3& inDirection);
 
+	/**
+	 * Evaluates a position along the ray.
+	 * 
+	 * @param t Distance parameter along the ray.
+	 * @return Position corresponding to the given parameter.
+	 */
 	Vec3 At(float t) const;
 
 	Vec3 origin;

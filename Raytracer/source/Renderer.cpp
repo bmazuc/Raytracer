@@ -14,7 +14,7 @@
 #include <future>
 #include <iomanip>
 
-void RendererConfig::Sanitize()
+void RendererConfiguration::Sanitize()
 {
     if (!std::isfinite(tileSize) || tileSize == 0)
     {
@@ -29,12 +29,12 @@ void RendererConfig::Sanitize()
     }
 }
 
-Renderer::Renderer(const RendererConfig& config)
+Renderer::Renderer(const RendererConfiguration& config)
 {
-    SetRendererConfig(config);
+    SetRendererConfiguration(config);
 }
 
-void Renderer::SetRendererConfig(const RendererConfig& config)
+void Renderer::SetRendererConfiguration(const RendererConfiguration& config)
 {
     configuration = config;
     configuration.Sanitize();

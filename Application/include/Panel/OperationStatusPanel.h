@@ -20,17 +20,37 @@ class OperationStatusPanel : public GroupBoxPanel
 public:
 	using GroupBoxPanel::GroupBoxPanel;
 
+	/**
+	 * Sets the progress bar to reflect the percentage
+	 * of completed rendering work.
+	 *
+	 * @param percentage Current progress percentage.
+	 */
 	void UpdateProgressBar(int percentage);
+	/**
+	 * Converts the current operation state into a user-friendly
+	 * description displayed in the panel.
+	 *
+	 * @param status Current application operation status.
+	 */
 	void HandleOperationStatus(OperationStatus status);
 
 protected:
+	/**
+	 * Performs any initialization required when the panel
+	 * becomes visible.
+	 *
+	 * @param event Widget show event.
+	 */
 	void showEvent(QShowEvent* event) override;
 
 private:
 	QString GetGroupTitle() const override;
 	void SetupUI() override;
 
+	// Label displaying the current rendering operation state
 	QLabel* operationStatusLabel;
+	// Progress indicator updated as rendering tiles are completed
 	QProgressBar* progressBar;
 };
 

@@ -27,7 +27,7 @@ void CameraConfiguration::Sanitize()
 
 Camera::Camera(const CameraConfiguration& config)
 {
-	SetConfiguration(config);
+	SetCameraConfiguration(config);
 }
 
 CameraConfiguration Camera::GetConfiguration() const
@@ -35,7 +35,7 @@ CameraConfiguration Camera::GetConfiguration() const
 	return configuration;
 }
 
-void Camera::SetConfiguration(const CameraConfiguration& config)
+void Camera::SetCameraConfiguration(const CameraConfiguration& config)
 {
 	configuration = config;
 	configuration.Sanitize();

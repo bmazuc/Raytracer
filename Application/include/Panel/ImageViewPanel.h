@@ -27,6 +27,7 @@ private:
 	void SetupUI() override;
 	void SetupConnections() override;
 
+	// Image display widget embedded in this panel
 	ImageView* imageView;
 };
 

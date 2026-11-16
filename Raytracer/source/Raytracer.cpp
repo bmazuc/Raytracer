@@ -4,11 +4,11 @@
 #include "Image/ImageWriter.h"
 
 Raytracer::Raytracer()
-    : camera(CameraConfiguration()), renderer(RendererConfig()), outputConfig(OutputConfig())
+    : camera(CameraConfiguration()), renderer(RendererConfiguration()), outputConfig(OutputConfiguration())
 {
 }
 
-Raytracer::Raytracer(const CameraConfiguration& cameraConfig, const RendererConfig& rendererConfig)
+Raytracer::Raytracer(const CameraConfiguration& cameraConfig, const RendererConfiguration& rendererConfig)
 	: camera(cameraConfig), renderer(rendererConfig)
 {
 }

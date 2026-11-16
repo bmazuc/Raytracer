@@ -67,14 +67,14 @@ void RenderWorker::LoadScene(std::string jsonpath)
 	SceneSerializer::Load(jsonpath, raytracer);
 }
 
-void RenderWorker::SetRendererConfig(const RendererConfig& config)
+void RenderWorker::SetRendererConfiguration(const RendererConfiguration& config)
 {
-	raytracer->GetRenderer()->SetRendererConfig(config);
+	raytracer->GetRenderer()->SetRendererConfiguration(config);
 }
 
-void RenderWorker::SetConfiguration(const CameraConfiguration& config)
+void RenderWorker::SetCameraConfiguration(const CameraConfiguration& config)
 {
-	raytracer->GetCamera()->SetConfiguration(config);
+	raytracer->GetCamera()->SetCameraConfiguration(config);
 }
 
 void RenderWorker::SetScene(std::unique_ptr<Scene> scene)
@@ -82,7 +82,7 @@ void RenderWorker::SetScene(std::unique_ptr<Scene> scene)
 	raytracer->SetScene(std::move(scene));
 }
 
-void RenderWorker::SetOutputConfig(const OutputConfig& outputConfig)
+void RenderWorker::SetOutputConfig(const OutputConfiguration& outputConfig)
 {
 	raytracer->SetOutputConfig(outputConfig);
 }

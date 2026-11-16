@@ -19,13 +19,26 @@ public:
 	using Panel::Panel;
 
 protected:
+	/**
+	 * Configure the section title.
+	 */
 	virtual QString GetGroupTitle() const = 0;
+	/**
+	 * Specifie which QBoxLayout class are used by group layout.
+	 * Default are QVBoxLayout.
+	 */
 	virtual QBoxLayout* CreateGroupLayout();
 
+	// Group box providing the panel's titled container.
 	QGroupBox* groupBox;
+	// Layout containing the widgets inside the group box.
 	QBoxLayout* groupLayout;
 
 private:
+	/**
+	 * Creates the group box, configures its title and layout,
+	 * and integrates it into the panel's main layout
+	 */
 	void SetupContainer() override;
 };
 

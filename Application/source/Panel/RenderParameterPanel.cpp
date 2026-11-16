@@ -56,7 +56,7 @@ void RenderParameterPanel::SetupUI()
 	tileSizeEdit->setText("32");
 	tileSizeEdit->setMinimumWidth(90);
 
-	formLayout->addRow("Tile Size", tileSizeEdit);
+	formLayout->addRow("Tile Length", tileSizeEdit);
 	
 	groupLayout->addLayout(formLayout);
 }
@@ -70,9 +70,9 @@ void RenderParameterPanel::SetupConnections()
 		});
 }
 
-RendererConfig RenderParameterPanel::GenerateRendererConfig()
+RendererConfiguration RenderParameterPanel::GenerateRendererConfig()
 {
-	RendererConfig config;
+	RendererConfiguration config;
 	config.tileSize = tileSizeEdit->text().toInt();
 	config.progressMonitorFrequency = progressMonitorFrequencyEdit->text().toInt();
 	config.threadCount = threadCountSlider->value();

@@ -17,9 +17,33 @@ public:
 	float Min() const { return min; }
 	float Max() const { return max; }
 
-	float Size() const;
+	/**
+	 * Returns the length of the interval.
+	 * @return Difference between the maximum and minimum bounds.
+	 */
+	float Length() const;
+	/**
+	 * Checks whether a value belongs to the interval,
+	 * including its boundaries.
+	 *
+	 * @param x Value to test.
+	 * @return True if min <= x <= max.
+	 */
 	bool Contains(float x) const;
+	/**
+	 * Checks whether a value belongs strictly inside the interval.
+	 * Excludes both boundary values.
+	 *
+	 * @param x Value to test.
+	 * @return True if min < x < max.
+	 */
 	bool Surrounds(float x) const;
+	/**
+	 * Restricts a value to the interval boundaries.
+	 *
+	 * @param x Value to clamp.
+	 * @return The clamped value.
+	 */
 	float Clamp(float x) const;
 
 private:

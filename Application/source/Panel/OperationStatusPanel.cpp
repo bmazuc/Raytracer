@@ -35,6 +35,8 @@ void OperationStatusPanel::SetupUI()
 	// LowerLayout
 	QHBoxLayout* lowerLayout = new QHBoxLayout();
 
+	// We create a busy progress bar to have a pseudo animate widget to 
+	// indicate to the user that the program are running and is not freezing.
 	QProgressBar* busyBar = new QProgressBar(groupBox);
 	busyBar->setRange(0, 0);
 	busyBar->setFixedWidth(100);
