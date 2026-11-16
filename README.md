@@ -28,6 +28,12 @@ Scenes are loaded from JSON through the scene serialization system. The serializ
 
 2 scene examples are present into "Scenes" folder.
 
+## Example scenes
+
+  ### Basic scene
+
 ![Basic Scene](RenderedScenes/BasicScene.png)
+
+  ### Complex scene
 
 ![Complex Scene](RenderedScenes/ComplexScene.png)
